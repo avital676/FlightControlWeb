@@ -7,6 +7,7 @@ namespace FlightControlWeb
 {
     public class Class
     {
+        int avital;
         int diufuihfd;
     }
 }
