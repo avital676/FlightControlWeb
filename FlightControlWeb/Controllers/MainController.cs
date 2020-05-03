@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using FlightControlWeb.DataBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace FlightControlWeb.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class MainController : ControllerBase
     {
         private readonly ILogger<MainController> _logger;
@@ -20,10 +21,10 @@ namespace FlightControlWeb.Controllers
         public MainController(ILogger<MainController> logger)
         {
             _logger = logger;
+            MyFlights myFlights = MyFlights.Instance;
         }
 
         [HttpGet]
-
        /* public HttpResponseMessage Get()
         {
             var fileContents = HttpContent(System.IO.File.ReadAllText("wwwroot/index.html"));
