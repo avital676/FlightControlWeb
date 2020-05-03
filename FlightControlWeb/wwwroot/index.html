@@ -1,11 +1,46 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8" />
     <title></title>
 </head>
+
 <body>
     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d13522.547023829908!2d34.85136865!3d32.0790721!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1siw!2sil!4v1588495992877!5m2!1siw!2sil" width="600" height="400" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
     HI NOA
+
+    <div class="wrapper">
+        <div class="profile">
+            <table id="userdata" border="2">
+                <thead>
+                <th>flight_id</th>
+                <th>Last Name</th>
+                <th>Email Address</th>
+                <th>City</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script>
+        $(function () {
+            var flight = [];
+
+            $.getJSON('Flight.json', function (data) {
+                $.each(data.person, function (i, f) {
+                    var tblRow = "<tr>" + "<td>" + f.flight_id + "</td>" +
+                        "<td>" + f.longitude + "</td>" + "<td>" + f.latitude + "</td>" + "<td>" + f.passengers + "</td>" + "</tr>"
+                    $(tblRow).appendTo("#userdata tbody");
+                });
+
+            });
+
+        });
+    </script>
 </body>
 </html>
