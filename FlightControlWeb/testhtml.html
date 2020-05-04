@@ -5,6 +5,21 @@
     <title></title>
 </head>
 <body>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1673.630429806257!2d35.5334383!3d32.9705189!3m2!1i1024!2i768!4f13.1!5e0!3m2!1siw!2sil!4v1588347460857!5m2!1siw!2sil" width="600" height="400" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    <form id="dropFileForm" action="http://localhost/upload.php" method="post" onsubmit="uploadFiles(event)">
+        <input type="file" name="files[]" id="fileInput" multiple onchange="addFiles(event)">
+
+        <label for="fileInput" id="fileLabel" ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();
+        addFiles(event);">
+            <i class="fa fa-download fa-5x"></i>
+            <br>
+            <span id="fileLabelText">
+                Choose a file or drag it here
+            </span>
+            <br>
+            <span id="uploadStatus"></span>
+        </label>
+
+        <input type="submit" value="Upload" class="uploadButton">
+    </form>
 </body>
 </html>
