@@ -11,10 +11,28 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
+        // GET: api/Flights
         [HttpGet]
-        public void Get(string id)
+        public IEnumerable<string> GetInternal()
         {
-            // delete flight with id
+            //get relative;
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET: api/Flights/5
+        [HttpGet]
+        public IEnumerable<string> GetAll()
+        {
+            //get relative;
+            return new string[] { "value1", "value2" };
+        }
+
+
+        // Delete: api/Flights/5
+        [HttpDelete("{id}")]
+        public void Delete(string id)
+        {
+            //delete flight with this id
         }
 
     }

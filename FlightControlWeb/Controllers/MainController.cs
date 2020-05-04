@@ -21,7 +21,7 @@ namespace FlightControlWeb.Controllers
         public MainController(ILogger<MainController> logger)
         {
             _logger = logger;
-            MyFlights myFlights = MyFlights.Instance;
+            //MyFlights myFlights = MyFlights.Instance;
         }
 
         [HttpGet]
@@ -50,6 +50,7 @@ namespace FlightControlWeb.Controllers
                return response;
 
         }
+
         /*public string Get()
         {
             //'C:\Users\avita\source\repos\FlightControl\FlightControlWeb\testhtml.htm'
@@ -59,6 +60,13 @@ namespace FlightControlWeb.Controllers
           //  return readFile;
             return "This is a test";
         }*/
+        private MyFlights myFlights = new MyFlights();
+        // GET: api/allFlights
+        [HttpGet]
+        public IEnumerable<Flight> GetAllFlights()
+        {
+            return myFlights.gatAllFlights();
+        }
 
         public List<string> Get(int Id)
         {
