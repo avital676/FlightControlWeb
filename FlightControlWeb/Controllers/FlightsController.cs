@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FlightControlWeb.DataBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FlightControlWeb.DataBase;
 
 namespace FlightControlWeb.Controllers
 {
@@ -12,31 +12,39 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        private MyFlights myFlights = new MyFlights();
+
+        private MyFlights m = new MyFlights();
 
         // GET: api/Flights
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights()
         {
-            return myFlights.gatAllFlights();
-            
+            return m.getAllFlights();
         }
 
         // GET: api/Flights/5
-        [HttpGet]
-        public IEnumerable<string> GetAll()
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
         {
-            //get relative;
-            return new string[] { "value1", "value2" };
+            return "value";
         }
 
+        // POST: api/Flights
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
 
-        // Delete: api/Flights/5
+        // PUT: api/Flights/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public void Delete(int id)
         {
-            //delete flight with this id
         }
-
     }
 }

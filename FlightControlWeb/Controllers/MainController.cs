@@ -65,7 +65,7 @@ namespace FlightControlWeb.Controllers
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights()
         {
-            return myFlights.gatAllFlights();
+            return myFlights.getAllFlights();
         }
 
         public List<string> Get(int Id)

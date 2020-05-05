@@ -11,7 +11,7 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightPlanController : ControllerBase
     { 
-
+/*
         // GET: api/FlightPlan/5
         [HttpGet("{id}", Name = "Get")]
         public string GetPlan(int id)
@@ -19,7 +19,7 @@ namespace FlightControlWeb.Controllers
             // return the flight with this id
             return "value";
         }
-
+*/
         // POST: api/FlightPlan
         [HttpPost]
         public void Post([FromBody] string value)
