@@ -18,8 +18,8 @@ namespace FlightControlWeb.Controllers
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights()
         {
-            //get relative;
             return myFlights.gatAllFlights();
+            
         }
 
         // GET: api/Flights/5
