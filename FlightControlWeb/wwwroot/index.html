@@ -39,11 +39,11 @@
 
                             addMarker({
                                 coords: { lat: 42.4668, lng: -70.9495 },
-                                content: '<h1>  Lynn MA </h1>'
+                                content: '<h1>  flight num 1 </h1>'
                             });
                             addMarker({
                                 coords: { lat: 42.7762, lng: -71.0773 },
-                                content: '<h1>  Lynn MA </h1>'
+                                content: '<h1>  flight num 2 </h1>'
                             });
                             //add marker function
                             function addMarker(props) {
@@ -56,11 +56,18 @@
                                 if (props.content) {
                                     //add info window
                                     var infoWindow = new google.maps.InfoWindow({
-                                        content: prop.content
-                                  });
-                                      marker.addListener('click', function () {
-                                      infoWindow.open(map, marker);
-                            });
+                                        content: props.content
+                                    });
+                                    marker.addListener('click', function () {
+                                        var x = document.getElementById("detailes");
+                                        if (x.style.display === "none") {
+                                        } else {
+                                            x.innerHTML = props.content;
+                                        }
+
+                                        // document.getElementById("FlightDetails").style.display = "none";
+                                        //  infoWindow.open(map, marker);
+                                    });
                                 }
                             }
                         }
@@ -70,7 +77,9 @@
                     </script>
                 </div>
                 <div class="row">
-                    Flight Details
+                    <div id="detailes">
+                        here is flight detailes.
+                    </div>
                 </div>
             </div>
             <div class="col-sm">
