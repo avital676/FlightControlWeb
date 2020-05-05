@@ -79,7 +79,6 @@
     var flighturl = "../api/Flights";
     $.getJSON(flighturl, function (data) {
         document.getElementById("detailes").innerHTML = "kkkkkkkkkkkkkkkkkkkk";
-        //console.log(data);
          data.forEach(function (flight) { 
          $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
          "<td>" + flight.company_name + "</tr></td>");
