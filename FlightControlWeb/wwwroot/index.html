@@ -4,21 +4,31 @@
     <meta charset="utf-8" />
     <meta name=" viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="test.js"></script>
+    <script src="MapScript.js"></script>
+    <script src="FlightLists.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-
     <title></title>
     <style>
+
         #map {
             height: 400px;
             width: 100%;
         }
+
+        #div1 {
+          width: 35px;
+          height: 35px;
+          padding: 10px;
+          border: 1px solid #aaaaaa;
+        }
+
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -27,51 +37,6 @@
                 <div class="row">
                     <h1> my google map</h1>
                     <div id="map"></div>
-                    <script>
-                        function initMap() {
-                            //map options
-                            var options = {
-                                zoom: 2,
-                                center: { lat: 42.3601, lng: -70.0589 }
-                            }
-                            //creating new map
-                            var map = new google.maps.Map(document.getElementById('map'), options);
-
-                            addMarker({
-                                coords: { lat: 42.4668, lng: -70.9495 },
-                                content: '<h1>  flight num 1 </h1>'
-                            });
-                            addMarker({
-                                coords: { lat: 42.7762, lng: -71.0773 },
-                                content: '<h1>  flight num 2 </h1>'
-                            });
-                            //add marker function
-                            function addMarker(props) {
-                                var marker = new google.maps.Marker({
-                                    position: props.coords,
-                                    map: map,
-                                    icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
-                                });
-                                //check info window
-                                if (props.content) {
-                                    //add info window
-                                    var infoWindow = new google.maps.InfoWindow({
-                                        content: props.content
-                                    });
-                                    marker.addListener('click', function () {
-                                        var x = document.getElementById("detailes");
-                                        if (x.style.display === "none") {
-                                        } else {
-                                            x.innerHTML = props.content;
-                                        }
-
-                                        // document.getElementById("FlightDetails").style.display = "none";
-                                        //  infoWindow.open(map, marker);
-                                    });
-                                }
-                            }
-                        }
-                    </script>
                     <script async defer
                             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYRuCXSwOYf9EMT6RP5AtWpe6beY9BRrU&callback=initMap">
                     </script>
@@ -82,7 +47,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm">
+            <div class="col-sm" ondrop="dragFlight">
+                <p id="demo">A Paragraph</p>
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action active">
                         My Flights
@@ -97,6 +63,24 @@
                     <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
                     <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
                 </div>
+                <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <br>
+                <img id="drag1" src="airplane.jpeg" draggable="true" ondragstart="drag(event)" width="336" height="69">
+                <script>
+                    function allowDrop(ev) {
+                        ev.preventDefault();
+                    }
+
+                    function drag(ev) {
+                        ev.dataTransfer.setData("text", ev.target.id);
+                    }
+
+                    function drop(ev) {
+                        ev.preventDefault();
+                        var data = ev.dataTransfer.getData("text");
+                        ev.target.appendChild(document.getElementById(data));
+                    }
+                </script>
             </div>
         </div>
     </div>
