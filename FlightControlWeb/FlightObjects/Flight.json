@@ -1,5 +1,4 @@
 {
-
   "flight": [
     {
       "flight_id": "12345",
@@ -10,8 +9,6 @@
       "date_time": "2020-12-26T23:56:21Z",
       "is_external": false
     }
-
   ]
-
 }
 
