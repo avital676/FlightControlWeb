@@ -10,7 +10,7 @@
         coords: { lat: 42.4668, lng: -70.9495 },
         content: '<h1>  flight num 1 </h1>'
     });
-
+    
 
     function addMarker(props) {
         var marker = new google.maps.Marker({
