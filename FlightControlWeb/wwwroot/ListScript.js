@@ -12,3 +12,14 @@ function onDrop(ev) {
     $("#listsArea").show();
     ev.preventDefault();
 }
+
+function f() {
+    Document.getElementById("detailes").innerHTML = "f f f f f f f f";
+    var flighturl = "../api/Flights";
+    $.getJSON(flighturl, function (data) {
+        data.forEach(function (flight) {
+            $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
+                "<td>" + flight.company_name + "</tr></td>");
+        });
+    });
+}

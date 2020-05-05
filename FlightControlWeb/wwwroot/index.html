@@ -45,10 +45,18 @@
             <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)">
                 <div class="jumbotron" id="listsArea">
                     <h1 class="display-4">My Flights</h1>
-                    <div class="list-group" id="list1">
-                        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                    </div>
+                    <table class="table" id="list1" onload="f()">
+                        <thead>
+                            <tr>
+
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+
+
                     <hr class="my-4">
                     <h2 class="display-4">External Flights</h2>
                     <div class="list-group" id="list2">
@@ -56,7 +64,7 @@
                         <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
                     </div>
                 </div>
-                <img id="dragAndDrop" src="dragAndDrop.jpg"  />
+                <img id="dragAndDrop" src="dragAndDrop.jpg" />
             </div>
 
         </div>
@@ -64,6 +72,16 @@
         <br>
         <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
     </div>
+    <script>
+    document.getElementById("detailes").innerHTML = "ffffffffffffffffffffffffffffff";
+        var flighturl = "..api/Flights";
+        $.getJSON(flighturl, function (data) {
+            data.forEach(function (flight) {
+                $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
+                    "<td>" + flight.company_name + "</tr></td>");
+            });
+        });
+    </script>
 
 
 </body>

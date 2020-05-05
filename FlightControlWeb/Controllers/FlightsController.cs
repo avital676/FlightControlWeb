@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlightControlWeb.DataBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,14 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
+        private MyFlights myFlights = new MyFlights();
+
         // GET: api/Flights
         [HttpGet]
-        public IEnumerable<string> GetInternal()
+        public IEnumerable<Flight> GetAllFlights()
         {
             //get relative;
-            return new string[] { "value1", "value2" };
+            return myFlights.gatAllFlights();
         }
 
         // GET: api/Flights/5
