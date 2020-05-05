@@ -12,3 +12,57 @@
 
 </body>
 </html>
+
+<script src="test.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<p id="demo">A Paragraph</p>
+<button type="button" onclick="myFunction()">Try it</button>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="row">
+                here to put map
+            </div>
+            <div class="row">
+                Flight Details
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">
+                    My Flights
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+            </div>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">
+                    External Flights
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1> my google map</h1>
+<div id="map"></div>
+<script>
+    function initMap() {
+        var options = {
+            zoom: 8,
+            center: { lat: 31.771959, lng: -35.217018 }
+        }
+        var map = new google.maps.Map(document.getElementById('map'), options);
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYRuCXSwOYf9EMT6RP5AtWpe6beY9BRrU&callback=initMap">
+</script>
