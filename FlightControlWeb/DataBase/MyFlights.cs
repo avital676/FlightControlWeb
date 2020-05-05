@@ -13,8 +13,7 @@ namespace FlightControlWeb.DataBase
         };
     
         public IEnumerable<Flight> getAllFlights(){
-            Console.WriteLine("\n\n" + myFlights[0].company_name+"\n\n");
-           return myFlights;
+            return myFlights;
         }
 
         public void addFlight(Flight f)

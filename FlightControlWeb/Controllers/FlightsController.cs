@@ -13,13 +13,13 @@ namespace FlightControlWeb.Controllers
     public class FlightsController : ControllerBase
     {
 
-        private MyFlights m = new MyFlights();
+        private MyFlights myFlights = new MyFlights();
 
         // GET: api/Flights
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights()
         {
-            return m.getAllFlights();
+            return myFlights.getAllFlights();
         }
 
         // GET: api/Flights/5
@@ -32,12 +32,6 @@ namespace FlightControlWeb.Controllers
         // POST: api/Flights
         [HttpPost]
         public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Flights/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
         {
         }
 

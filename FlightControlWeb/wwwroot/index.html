@@ -75,10 +75,8 @@
         <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
     </div>
     <script>
-    document.getElementById("detailes").innerHTML = "ffffffffffffffffffffffffffffff";
     var flighturl = "../api/Flights";
     $.getJSON(flighturl, function (data) {
-        document.getElementById("detailes").innerHTML = "kkkkkkkkkkkkkkkkkkkk";
          data.forEach(function (flight) { 
          $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
          "<td>" + flight.company_name + "</tr></td>");
