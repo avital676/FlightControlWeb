@@ -20,10 +20,14 @@
         }
 
         #div1 {
-          width: 35px;
+          width: 450px;
           height: 35px;
           padding: 10px;
           border: 1px solid #aaaaaa;
+        }
+        #dragAndDrop{
+          width: 350px;
+          height: 350px;
         }
 
     </style>
@@ -47,16 +51,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm" ondrop="dragFlight">
+            <div class="col-sm" id="div1">
                 <p id="demo">A Paragraph</p>
-                <div class="list-group">
+                <img id="dragAndDrop" src="dragAndDrop.jpg" />
+                <div class="list-group" id="list1">
                     <a href="#" class="list-group-item list-group-item-action active">
                         My Flights
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
                     <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
                 </div>
-                <div class="list-group">
+                <div class="list-group" id="list2">
                     <a href="#" class="list-group-item list-group-item-action active">
                         External Flights
                     </a>
@@ -65,20 +70,31 @@
                 </div>
                 <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
                 <br>
-                <img id="drag1" src="airplane.jpeg" draggable="true" ondragstart="drag(event)" width="336" height="69">
+                <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
                 <script>
                     function allowDrop(ev) {
-                        ev.preventDefault();
+                        $("#list1").hide();
+                        $("#list2").hide();
+                        $("#dragAndDrop").show();
+                        //  document.getElementById("div1").style.display
+                        //ev.preventDefault();
                     }
 
                     function drag(ev) {
-                        ev.dataTransfer.setData("text", ev.target.id);
+                        // if (on)
+                        document.getElementById("detailes").innerHTML = "drag";
+                        // ev.dataTransfer.setData("text", ev.target.id);
                     }
 
                     function drop(ev) {
-                        ev.preventDefault();
-                        var data = ev.dataTransfer.getData("text");
-                        ev.target.appendChild(document.getElementById(data));
+                         $("#dragAndDrop").hide();
+                        $("#list1").show();
+                        $("#list2").show();
+                      // $("#dragAndDrop").hide();
+ //                       ev.preventDefault();
+ //                       var data = ev.dataTransfer.getData("text");
+  //                      document.getElementById("detailes").innerHTML = data;
+  //                      ev.target.appendChild(document.getElementById(data));
                     }
                 </script>
             </div>
