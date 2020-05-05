@@ -51,54 +51,54 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm" id="div1">
-                <p id="demo">A Paragraph</p>
-                <img id="dragAndDrop" src="dragAndDrop.jpg" />
-                <div class="list-group" id="list1">
-                    <a href="#" class="list-group-item list-group-item-action active">
-                        My Flights
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+            <div class="col-sm">
+                <div class="jumbotron" id="listsArea">
+                    <h1 class="display-4">My Flights</h1>
+                    <div class="list-group" id="list1">
+                        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    </div>
+                    <hr class="my-4">
+                    <h2 class="display-4">External Flights</h2>
+                    <div class="list-group" id="list2">
+                        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    </div>
                 </div>
-                <div class="list-group" id="list2">
-                    <a href="#" class="list-group-item list-group-item-action active">
-                        External Flights
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                </div>
-                <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <br>
-                <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
-                <script>
-                    function allowDrop(ev) {
-                        $("#list1").hide();
-                        $("#list2").hide();
-                        $("#dragAndDrop").show();
-                        //  document.getElementById("div1").style.display
-                        //ev.preventDefault();
-                    }
-
-                    function drag(ev) {
-                        // if (on)
-                        document.getElementById("detailes").innerHTML = "drag";
-                        // ev.dataTransfer.setData("text", ev.target.id);
-                    }
-
-                    function drop(ev) {
-                         $("#dragAndDrop").hide();
-                        $("#list1").show();
-                        $("#list2").show();
-                      // $("#dragAndDrop").hide();
- //                       ev.preventDefault();
- //                       var data = ev.dataTransfer.getData("text");
-  //                      document.getElementById("detailes").innerHTML = data;
-  //                      ev.target.appendChild(document.getElementById(data));
-                    }
-                </script>
+                <img id="dragAndDrop" src="dragAndDrop.jpg" style="display: none;" />
             </div>
+
         </div>
+        <p id="demo">A Paragraph</p>
+        <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <br>
+        <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
+        <script>
+            function allowDrop(ev) {
+                $("#listsArea").hide();
+               // $("#list2").hide();
+                $("#dragAndDrop").show();
+                //  document.getElementById("div1").style.display
+                //ev.preventDefault();
+            }
+
+            function drag(ev) {
+                // if (on)
+                document.getElementById("detailes").innerHTML = "drag";
+                // ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            function drop(ev) {
+                $("#dragAndDrop").hide();
+                $("#list1").show();
+                $("#list2").show();
+                // $("#dragAndDrop").hide();
+                //                       ev.preventDefault();
+                //                       var data = ev.dataTransfer.getData("text");
+                //                      document.getElementById("detailes").innerHTML = data;
+                //                      ev.target.appendChild(document.getElementById(data));
+            }
+        </script>
     </div>
 
 

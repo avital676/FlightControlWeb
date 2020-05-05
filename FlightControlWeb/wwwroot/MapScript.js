@@ -5,7 +5,7 @@ function initMap() {
         zoom: 2,
         center: { lat: 42.3601, lng: -70.0589 }
     }
-    $("#dragAndDrop").hide();
+    //$("#dragAndDrop").hide();
     //creating new map
     googleMap = new google.maps.Map(document.getElementById('map'), options);
     addMarker({
