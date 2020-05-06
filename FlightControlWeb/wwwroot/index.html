@@ -54,28 +54,44 @@
                     <div id="detailes">
                         here is flight detailes.
                     </div>
+                    <table class="table" id="listD">
+                    <thead>
+                        <tr>
+                            <th scope="col">flight number</th>
+                            <th scope="col">longitude </th>
+                            <th scope="col">latitude </th>
+                            <th scope="col">pasenger</th>
+                            <th scope="col">company name </th>
+                            <th scope="col">date </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    </table>
                 </div>
             </div>
             <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)">
                 <div class="jumbotron" id="listsArea">
                     <h1 class="display-4">My Flights</h1>
-                    <table class="table" id="list1">
+                    <table class="table table-hover" id="list1">
                         <thead>
                             <tr>
                                 <th scope="col">company name</th>
                                 <th scope="col">date </th>
                             </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                     <hr class="my-4">
                     <h2 class="display-4">External Flights</h2>
-                    <table class="table" id="list2">
-                        <tr>
-                            <th scope="col">company name</th>
-                            <th scope="col">date </th>
-                        </tr>
+                    <table class="table table-hover" id="list2">
+                        <thead>
+                            <tr>
+                                <th scope="col">company name</th>
+                                <th scope="col">date </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -86,12 +102,14 @@
     <p id="demo">A Paragraph</p>
     <br>
     <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
+
     <script>
         var flighturl = "../api/Flights";
         $.getJSON(flighturl, function (data) {
             data.forEach(function (flight) {
-                var i = flight.flight_id;
                 $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flight_id + "</td>" +
+                    "<td>" + flight.company_name + "</td></tr>");
+                $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flight_id + "</td>" +
                     "<td>" + flight.company_name + "</td></tr>");
             });
         });

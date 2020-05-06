@@ -55,5 +55,43 @@ function f() {
 
 function flightClick(ev) {
     document.getElementById("detailes").innerHTML = ev.target.innerHTML;
-}
+    // get selected row and tables:
+    var rowId = ev.target.parentNode.rowIndex;
+    var fList = ev.target.offsetParent.attributes.id.nodeValue;
+    var rowsNotSelected;
+    var table = document.getElementById(fList);
+    var list1 = document.getElementById("list1");
+    var list2 = document.getElementById("list2");
+    // uncolor all rows in both tables:
+    rowsNotSelected = list1.getElementsByTagName('tr');
+    for (var row = 0; row < rowsNotSelected.length; row++) {
+        rowsNotSelected[row].style.backgroundColor = "";
+    }
+    rowsNotSelected = list2.getElementsByTagName('tr');
+    for (var row = 0; row < rowsNotSelected.length; row++) {
+        rowsNotSelected[row].style.backgroundColor = "";
+    }
+    // color selected row:
+    var rowSelected = table.getElementsByTagName('tr')[rowId];
+    rowSelected.style.backgroundColor = "yellow";
 
+    // delete previous details:
+    if (document.getElementById("listD").rows.length > 1) {
+        document.getElementById("listD").deleteRow(1);
+    }
+    document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
+    var flighturl = "../api/Flights";
+    // add details:
+    $.getJSON(flighturl, function (data) {
+        data.forEach(function (flight) {
+            if (flight.flight_id == ev.target.innerHTML) {
+                $("#listD").append("<tr><td>" + flight.flight_id + "</td>" +
+                    "<td>" + flight.longitude + "</td>" +
+                    "<td>" + flight.latitude + "</td>" +
+                    "<td>" + flight.passengers + "</td>" +
+                    "<td>" + flight.company_name + "</td>" +
+                    "<td>" + flight.date_time + "</tr></td>");
+            }
+        });
+    });
+}
