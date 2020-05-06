@@ -34,7 +34,7 @@ function onDrop(ev) {
                 "<td>" + flight.date_time + "</tr></td>");
         });
     });*/
-    document.getElementById("detailes").innerHTML = "afterrrrrrrrrrrrrrrrrrrrrrrrr";
+    //document.getElementById("detailes").innerHTML = "afterrrrrrrrrrrrrrrrrrrrrrrrr";
 
 
        // var fileurl = "../api/FlightPlan";
@@ -51,3 +51,9 @@ function f() {
         });
     });
 }
+
+
+function flightClick(ev) {
+    document.getElementById("detailes").innerHTML = ev.target.innerHTML;
+}
+

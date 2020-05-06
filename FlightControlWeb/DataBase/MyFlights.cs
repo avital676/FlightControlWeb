@@ -31,20 +31,19 @@ namespace FlightControlWeb.DataBase
         {
              new Flight{ flight_id="1234",longitude= 98,latitude = 70,passengers= 90, company_name ="elal", date_time="04.05.20",is_external = true },
              new Flight{ flight_id="5678",longitude= 93,latitude = 60,passengers= 100, company_name ="arkia", date_time="09.10.20",is_external = true },
-            new Flight{ flight_id="9012",longitude= 90,latitude = 50,passengers= 80, company_name ="Tailand", date_time="18.09.20",is_external = true }
+             new Flight{ flight_id="9012",longitude= 90,latitude = 50,passengers= 80, company_name ="Tailand", date_time="18.09.20",is_external = true }
         };
 
-        private static List<KeyValuePair<string, FlightPlan>> IdPlanList = new List<KeyValuePair<string, FlightPlan>>() { };
-        private static List<FlightPlan> flightPlans = new List<FlightPlan>() { };
-
+        private static List<IdPlan> idPlanList = new List<IdPlan>() { };
+        
         public IEnumerable<Flight> getAllFlights()
         {
             return myFlights;
         }
 
-        public IEnumerable<FlightPlan> getPlans()
+        public IEnumerable<IdPlan> getPlans()
         {
-            return flightPlans;
+            return idPlanList;
         }
 
         public void addFlight(Flight f)
@@ -54,10 +53,9 @@ namespace FlightControlWeb.DataBase
 
         public void addFlightPlan(FlightPlan fp)
         {
-            flightPlans.Add(fp);
             Flight f = PlanConverter(fp);
             myFlights.Add(f);
-            IdPlanList.Add(new KeyValuePair<string, FlightPlan>(f.flight_id, fp));
+            idPlanList.Add(new IdPlan { flight_id = f.flight_id, plan = fp });
         }
 
         private Flight PlanConverter(FlightPlan fp)
