@@ -27,13 +27,13 @@ function onDrop(ev) {
      //  $.post("../api/FlightPlan", file);
     }
     //not here
-    var flighturl = "../api/Flights";
+ /*   var flighturl = "../api/Flights";
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
             $("#list2").append("<tr><td>" + flight.company_name + "</td>" +
                 "<td>" + flight.date_time + "</tr></td>");
         });
-    });
+    });*/
     document.getElementById("detailes").innerHTML = "afterrrrrrrrrrrrrrrrrrrrrrrrr";
 
 

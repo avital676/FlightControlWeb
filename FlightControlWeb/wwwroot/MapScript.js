@@ -8,7 +8,11 @@ function initMap() {
     $("#dragAndDrop").hide();
     //creating new map
     googleMap = new google.maps.Map(document.getElementById('map'), options);
-
+    var a = [41.4668, -71.9495];
+    addMarker({
+        coords: a,
+        content: '<h1>  flight num 1 </h1>'
+    })
 
     addMarker({
         coords: { lat: 42.4668, lng: -70.9495 },

@@ -14,16 +14,16 @@ namespace FlightControlWeb.DataBase
 
         public static MyFlights Instance
         {
-            get 
+            get
             {
-                lock(padlock)
+                lock (padlock)
                 {
                     if (instance == null)
                     {
                         instance = new MyFlights();
                     }
                 }
-                return instance; 
+                return instance;
             }
         }
 
@@ -31,14 +31,14 @@ namespace FlightControlWeb.DataBase
         {
              new Flight{ flight_id="1234",longitude= 98,latitude = 70,passengers= 90, company_name ="elal", date_time="04.05.20",is_external = true },
              new Flight{ flight_id="5678",longitude= 93,latitude = 60,passengers= 100, company_name ="arkia", date_time="09.10.20",is_external = true },
-            new Flight{ flight_id="9012",longitude= 90,latitude = 50,passengers= 80, company_name ="Tailand", date_time="18.09.20",is_external = true } 
+            new Flight{ flight_id="9012",longitude= 90,latitude = 50,passengers= 80, company_name ="Tailand", date_time="18.09.20",is_external = true }
         };
 
+        private static List<KeyValuePair<string, FlightPlan>> IdPlanList = new List<KeyValuePair<string, FlightPlan>>() { };
         private static List<FlightPlan> flightPlans = new List<FlightPlan>() { };
 
-
-
-        public IEnumerable<Flight> getAllFlights(){
+        public IEnumerable<Flight> getAllFlights()
+        {
             return myFlights;
         }
 
@@ -49,15 +49,35 @@ namespace FlightControlWeb.DataBase
 
         public void addFlight(Flight f)
         {
-           // myFlights.Add(f);
+            myFlights.Add(f);
         }
+
         public void addFlightPlan(FlightPlan fp)
         {
-            flightPlans.Add(new FlightPlan { passengers = 90, company_name = "aa", longitude = 9, latitude = 9, date_time = "0", segments = null });
+            flightPlans.Add(fp);
+            Flight f = PlanConverter(fp);
+            myFlights.Add(f);
+            IdPlanList.Add(new KeyValuePair<string, FlightPlan>(f.flight_id, fp));
+        }
 
-    }
-            //Console.WriteLine("\n\n"+fp.company_name+"\n\n");
-        
+        private Flight PlanConverter(FlightPlan fp)
+        {
+            Flight f = new Flight();
+            f.flight_id = createID();
+            f.longitude = fp.longitude;
+            f.latitude = fp.latitude;
+            f.passengers = fp.passengers;
+            f.company_name = fp.company_name;
+            f.date_time = fp.date_time;
+            f.is_external = false;
+            return f;
+        }
+
+        private int i = 0;
+        private String createID()
+        {
+            return (++i).ToString();
+        }
 
         public void deleteFlight(string id)
         {
