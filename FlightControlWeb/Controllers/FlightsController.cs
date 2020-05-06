@@ -16,10 +16,10 @@ namespace FlightControlWeb.Controllers
 
         // GET: api/Flights
         [HttpGet]
-        public IEnumerable<FlightPlan> GetAllFlights()
+        public IEnumerable<Flight> GetAllFlights()
         {
-            return MyFlights.Instance.getPlans();
-            //return MyFlights.Instance.getAllFlights();
+            //return MyFlights.Instance.getPlans();
+            return MyFlights.Instance.getAllFlights();
         }
 
         // GET: api/Flights/5

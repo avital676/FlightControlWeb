@@ -14,16 +14,28 @@ function onDrop(ev) {
     if (ev.dataTransfer.items[0].kind === 'file') {
         var file = ev.dataTransfer.items[0].getAsFile();
         document.getElementById("detailes").innerHTML = file.name;
-        $.post("../api/FlightPlan", file);
+        var flighturl = "../api/FlightPlan";
+        $.ajax({
+            url: flighturl,
+            type: 'POST',
+           // dataType: 'json',
+            dsta: file[0]
+        });
+        document.getElementById("detailes").innerHTML = "after";
+
+
+     //  $.post("../api/FlightPlan", file);
     }
     //not here
     var flighturl = "../api/Flights";
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
-            $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
+            $("#list2").append("<tr><td>" + flight.company_name + "</td>" +
                 "<td>" + flight.date_time + "</tr></td>");
         });
     });
+    document.getElementById("detailes").innerHTML = "afterrrrrrrrrrrrrrrrrrrrrrrrr";
+
 
        // var fileurl = "../api/FlightPlan";
        // $.getJSON(fileurl)

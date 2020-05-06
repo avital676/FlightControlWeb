@@ -53,9 +53,11 @@ namespace FlightControlWeb.DataBase
         }
         public void addFlightPlan(FlightPlan fp)
         {
-            flightPlans.Add(fp);
-            Console.WriteLine("\n\n"+fp.company_name+"\n\n");
-        }
+            flightPlans.Add(new FlightPlan { passengers = 90, company_name = "aa", longitude = 9, latitude = 9, date_time = "0", segments = null });
+
+    }
+            //Console.WriteLine("\n\n"+fp.company_name+"\n\n");
+        
 
         public void deleteFlight(string id)
         {
