@@ -29,60 +29,67 @@
             width: 350px;
             height: 350px;
         }
-    </style>
+
+        body {
+        background-image: url('back.jpg');
+     }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <div class="row">
-                    <h1> my google map</h1>
-                    <div id="map"></div>
-                    <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYRuCXSwOYf9EMT6RP5AtWpe6beY9BRrU&callback=initMap">
-                    </script>
-                </div>
-                <div class="row">
-                    <div id="detailes">
-                        here is flight detailes.
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="row">
+                        <h1> Flights Controler:</h1>
+                        <div id="map"></div>
+                        <script async defer
+                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYRuCXSwOYf9EMT6RP5AtWpe6beY9BRrU&callback=initMap">
+                        </script>
+                    </div>
+                    <div class="row">
+                        <div id="detailes">
+                            here is flight detailes.
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)">
-                <div class="jumbotron" id="listsArea">
-                    <h1 class="display-4">My Flights</h1>
-                    <table class="table" id="list1" >
+                <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)">
+                    <div class="jumbotron" id="listsArea">
+                        <h1 class="display-4">My Flights</h1>
+                        <table class="table" id="list1">
                             <tr>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
+                                <th scope="col">compomy name</th>
+                                <th scope="col">date </th>
                             </tr>
-                    </table>
+                        </table>
 
 
-                    <hr class="my-4">
-                    <h2 class="display-4">External Flights</h2>
-                    <div class="list-group" id="list2">
-                        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                        <hr class="my-4">
+                        <h2 class="display-4">External Flights</h2>
+                            <table class="table" id="list2">
+                                <tr>
+                                    <th scope="col">compomy name</th>
+                                    <th scope="col">date </th>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
+                    <img id="dragAndDrop" src="dragAndDrop.jpg" />
                 </div>
-                <img id="dragAndDrop" src="dragAndDrop.jpg" />
-            </div>
 
-        </div>
-        <p id="demo">A Paragraph</p>
-        <br>
-        <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
-    </div>
-    <script>
-    var flighturl = "../api/Flights";
-    $.getJSON(flighturl, function (data) {
-         data.forEach(function (flight) { 
-         $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
-         "<td>" + flight.company_name + "</tr></td>");
-        });
-    });
-    </script>
+            </div>
+            <p id="demo">A Paragraph</p>
+            <br>
+            <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
+        <script>
+            var flighturl = "../api/Flights";
+            $.getJSON(flighturl, function (data) {
+                data.forEach(function (flight) {
+                    $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
+                        "<td>" + flight.date_time + "</tr></td>");
+                });
+            });
+        </script>
 
 
 </body>
