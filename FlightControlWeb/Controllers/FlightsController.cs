@@ -13,13 +13,12 @@ namespace FlightControlWeb.Controllers
     public class FlightsController : ControllerBase
     {
 
-        private MyFlights myFlights = new MyFlights();
 
         // GET: api/Flights
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights()
         {
-            return myFlights.getAllFlights();
+            return MyFlights.Instance.getAllFlights();
         }
 
         // GET: api/Flights/5
@@ -39,6 +38,10 @@ namespace FlightControlWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+        public void add(FlightPlan f)
+        {
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlightControlWeb.DataBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,9 +23,9 @@ namespace FlightControlWeb.Controllers
 */
         // POST: api/FlightPlan
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] FlightPlan value)
         {
-            //get new flight
+            MyFlights.Instance.addFlightPlan(value);
         }
 
         

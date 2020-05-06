@@ -8,6 +8,8 @@ function initMap() {
     $("#dragAndDrop").hide();
     //creating new map
     googleMap = new google.maps.Map(document.getElementById('map'), options);
+
+
     addMarker({
         coords: { lat: 42.4668, lng: -70.9495 },
         content: '<h1>  flight num 1 </h1>'
@@ -23,9 +25,8 @@ function initMap() {
         //check info window
         if (props.content) {
             //add info window
-            var infoWindow = new google.maps.InfoWindow({
                 content: props.content
-            });
+            };
             marker.addListener('click', function () {
                 var x = document.getElementById("detailes");
                 if (x.style.display === "none") {
@@ -37,7 +38,7 @@ function initMap() {
                 //  infoWindow.open(map, marker);
             });
         }
-    }
+    
 
 
 

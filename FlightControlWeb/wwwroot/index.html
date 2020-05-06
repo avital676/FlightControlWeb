@@ -89,7 +89,22 @@
                         "<td>" + flight.date_time + "</tr></td>");
                 });
             });
-        </script>
+            </script>
+            <script>
+
+           var flighturl = "../api/Flights";
+                $.getJSON(flighturl, function (data) {
+                    data.forEach(function (flight) {
+                        var x = flight.flight_id;
+                        addMarker({
+                            coords: { lat: flight.latitude, lng: flight.longitude },
+                            content: '<h1> flight</h1>'
+                        
+                        });
+                    });
+                });
+
+            </script>
 
 
 </body>
