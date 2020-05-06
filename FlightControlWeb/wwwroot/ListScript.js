@@ -11,6 +11,22 @@ function onDrop(ev) {
     document.getElementById("dragAndDrop").style.display = "none"
     $("#listsArea").show();
     ev.preventDefault();
+    if (ev.dataTransfer.items[0].kind === 'file') {
+        var file = ev.dataTransfer.items[0].getAsFile();
+        document.getElementById("detailes").innerHTML = file.name;
+        $.post("../api/FlightPlan", file);
+    }
+    //not here
+    var flighturl = "../api/Flights";
+    $.getJSON(flighturl, function (data) {
+        data.forEach(function (flight) {
+            $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
+                "<td>" + flight.date_time + "</tr></td>");
+        });
+    });
+
+       // var fileurl = "../api/FlightPlan";
+       // $.getJSON(fileurl)
 }
 
 function f() {

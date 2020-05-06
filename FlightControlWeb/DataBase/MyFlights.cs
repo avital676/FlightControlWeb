@@ -42,6 +42,11 @@ namespace FlightControlWeb.DataBase
             return myFlights;
         }
 
+        public IEnumerable<FlightPlan> getPlans()
+        {
+            return flightPlans;
+        }
+
         public void addFlight(Flight f)
         {
            // myFlights.Add(f);
@@ -49,6 +54,7 @@ namespace FlightControlWeb.DataBase
         public void addFlightPlan(FlightPlan fp)
         {
             flightPlans.Add(fp);
+            Console.WriteLine("\n\n"+fp.company_name+"\n\n");
         }
 
         public void deleteFlight(string id)
