@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlightControlWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,10 +30,16 @@ namespace FlightControlWeb.DataBase
 
         private static List<Flight> myFlights = new List<Flight>()
         {
-             new Flight{ flight_id="1234",longitude= 98,latitude = 70,passengers= 90, company_name ="elal", date_time="04.05.20",is_external = true },
-             new Flight{ flight_id="5678",longitude= 93,latitude = 60,passengers= 100, company_name ="arkia", date_time="09.10.20",is_external = true },
-             new Flight{ flight_id="9012",longitude= 90,latitude = 50,passengers= 80, company_name ="Tailand", date_time="18.09.20",is_external = true }
+        
+             new Flight{ FlightId="1234",Longitude= 98,Latitude = 70,Passengers= 90, CompanyName ="elal", DateTime="04.05.20",IsExternal = true },
+             new Flight{ FlightId="5678",Longitude= 93,Latitude = 60,Passengers= 100, CompanyName ="arkia", DateTime="09.10.20",IsExternal = true },
+             new Flight{ FlightId="9012",Longitude= 90,Latitude = 50,Passengers= 80, CompanyName ="Tailand", DateTime="18.09.20",IsExternal = true }
         };
+
+        internal void addFlightPlan(FlightPlan value)
+        {
+            throw new NotImplementedException();
+        }
 
         private static List<IdPlan> idPlanList = new List<IdPlan>() { };
         
@@ -51,23 +58,23 @@ namespace FlightControlWeb.DataBase
             myFlights.Add(f);
         }
 
-        public void addFlightPlan(FlightPlan fp)
+        public void AddFlightPlan(FlightPlan fp)
         {
             Flight f = PlanConverter(fp);
             myFlights.Add(f);
-            idPlanList.Add(new IdPlan { flight_id = f.flight_id, plan = fp });
+         //   idPlanList.Add(new IdPlan { flight_id = f.FlightId, plan = fp });
         }
 
         private Flight PlanConverter(FlightPlan fp)
         {
             Flight f = new Flight();
-            f.flight_id = createID();
-            f.longitude = fp.longitude;
-            f.latitude = fp.latitude;
-            f.passengers = fp.passengers;
-            f.company_name = fp.company_name;
-            f.date_time = fp.date_time;
-            f.is_external = false;
+            f.FlightId = createID();
+            f.Longitude = fp.Longitude;
+            f.Latitude = fp.Latitude;
+            f.Passengers = fp.Passengers;
+            f.CompanyName = fp.CompanyName;
+            f.DateTime = fp.DateTime;
+            f.IsExternal = false;
             return f;
         }
 
@@ -77,11 +84,21 @@ namespace FlightControlWeb.DataBase
             return (++i).ToString();
         }
 
-        public void deleteFlight(string id)
+        public void DeleteFlight(string id)
         {
+            Flight flight = MyFlights.Instance.getAllFlights().Where(x => x.FlightId == id).FirstOrDefault();
+            if (flight == null)
+                throw new Exception("Flight not found");
+            MyFlights.Instance.getAllFlights().ToList().Remove(flight);        }
 
+
+        public Flight GetFlightById(string id)
+        {
+            Flight flight = getAllFlights().Where(x => x.FlightId == id).FirstOrDefault();
+            if (flight == null)
+                throw new Exception("Flight not found");
+            return flight;
         }
-
 
 
     }

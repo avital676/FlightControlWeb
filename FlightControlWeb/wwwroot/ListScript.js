@@ -85,12 +85,12 @@ function flightClick(ev) {
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
             if (flight.flight_id == ev.target.innerHTML) {
-                $("#listD").append("<tr><td>" + flight.flight_id + "</td>" +
-                    "<td>" + flight.longitude + "</td>" +
-                    "<td>" + flight.latitude + "</td>" +
-                    "<td>" + flight.passengers + "</td>" +
-                    "<td>" + flight.company_name + "</td>" +
-                    "<td>" + flight.date_time + "</tr></td>");
+                $("#listD").append("<tr><td>" + flight.FlightId + "</td>" +
+                    "<td>" + flight.Longitude + "</td>" +
+                    "<td>" + flight.Latitude + "</td>" +
+                    "<td>" + flight.Passengers + "</td>" +
+                    "<td>" + flight.CompanyName + "</td>" +
+                    "<td>" + flight.DateTime + "</tr></td>");
             }
         });
     });

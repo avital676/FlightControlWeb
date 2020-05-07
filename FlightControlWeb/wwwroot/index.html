@@ -47,7 +47,7 @@
                     <h1> Flights Controler:</h1>
                     <div id="map"></div>
                     <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYRuCXSwOYf9EMT6RP5AtWpe6beY9BRrU&callback=initMap">
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap">
                     </script>
                 </div>
                 <div class="row">
@@ -107,10 +107,10 @@
         var flighturl = "../api/Flights";
         $.getJSON(flighturl, function (data) {
             data.forEach(function (flight) {
-                $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flight_id + "</td>" +
-                    "<td>" + flight.company_name + "</td></tr>");
-                $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flight_id + "</td>" +
-                    "<td>" + flight.company_name + "</td></tr>");
+                $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.FlightId + "</td>" +
+                    "<td>" + flight.CompanyName + "</td></tr>");
+                $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.FlightId + "</td>" +
+                    "<td>" + flight.CompanyName + "</td></tr>");
             });
         });
     </script>
@@ -119,9 +119,9 @@
         var flighturl = "../api/Flights";
         $.getJSON(flighturl, function (data) {
             data.forEach(function (flight) {
-                var x = flight.flight_id;
+                var x = flight.FlightId;
                 addMarker({
-                    coords: { lat: flight.latitude, lng: flight.longitude },
+                    coords: { lat: flight.Latitude, lng: flight.Longitude },
                     content: '<h1> flight</h1>'
 
                 });

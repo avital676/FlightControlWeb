@@ -30,6 +30,7 @@ function addMarker(props) {
         map: googleMap,
         icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
     });
+    
     //check info window
     if (props.content) {
         //add info window
