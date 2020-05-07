@@ -46,6 +46,7 @@ namespace FlightControlWeb.DataBase
         
         public IEnumerable<Flight> getAllFlights()
         {
+            createID();
             return myFlights;
         }
 
@@ -79,10 +80,9 @@ namespace FlightControlWeb.DataBase
             return f;
         }
 
-        private int i = 0;
         private String createID()
         {
-            return (++i).ToString();
+            return System.Guid.NewGuid().ToString().Substring(0, 6);
         }
 
         public void DeleteFlight(string id)
