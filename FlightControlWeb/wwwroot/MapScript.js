@@ -1,4 +1,6 @@
 ﻿var googleMap;
+var markers = [];
+
 function initMap() {
     //map options
     var options = {
@@ -22,9 +24,11 @@ function addMarker(props) {
     var marker = new google.maps.Marker({
         position: props.coords,
         map: googleMap,
-        icon: icon
+        icon: icon,
+        id: props.content.id,
     });
-    
+    markers.push(marker);
+
     //check info window
     if (props.content) {
         //add info window
@@ -34,19 +38,12 @@ function addMarker(props) {
         var x = document.getElementById("detailes");
         if (x.style.display === "none") {
         } else {
-            x.innerHTML = "Company Name:" + props.content.companyName;
-            $("#listD").append("<tr><td>" + props.content.flightId + "</td>" +
-                "<td>" + props.content.longitude + "</td>" +
-                "<td>" + props.content.latitude + "</td>" +
-                "<td>" + props.content.passengers + "</td>" +
-                "<td>" + props.content.companyName + "</td>" +
-                "<td>" + props.content.dateTime + "</tr></td>");
+            selectFlight(props.content.flightId);
         }
-
-        // document.getElementById("FlightDetails").style.display = "none";
-        //  infoWindow.open(map, marker);
     });
 }
+
+
 
 function showLine(a, b, c, d) {
     var flightPlanCoordinates = [

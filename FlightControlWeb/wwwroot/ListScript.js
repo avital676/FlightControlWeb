@@ -18,45 +18,36 @@ function onDrop(ev) {
         $.ajax({
             url: flighturl,
             type: 'POST',
-           // dataType: 'json',
+            // dataType: 'json',
             dsta: file[0]
         });
         document.getElementById("detailes").innerHTML = "after";
 
 
-     //  $.post("../api/FlightPlan", file);
+        //  $.post("../api/FlightPlan", file);
     }
     //not here
- /*   var flighturl = "../api/Flights";
-    $.getJSON(flighturl, function (data) {
-        data.forEach(function (flight) {
-            $("#list2").append("<tr><td>" + flight.company_name + "</td>" +
-                "<td>" + flight.date_time + "</tr></td>");
-        });
-    });*/
+    /*   var flighturl = "../api/Flights";
+       $.getJSON(flighturl, function (data) {
+           data.forEach(function (flight) {
+               $("#list2").append("<tr><td>" + flight.company_name + "</td>" +
+                   "<td>" + flight.date_time + "</tr></td>");
+           });
+       });*/
     //document.getElementById("detailes").innerHTML = "afterrrrrrrrrrrrrrrrrrrrrrrrr";
 
 
-       // var fileurl = "../api/FlightPlan";
-       // $.getJSON(fileurl)
+    // var fileurl = "../api/FlightPlan";
+    // $.getJSON(fileurl)
 }
-
-function f() {
-    Document.getElementById("detailes").innerHTML = "f f f f f f f f";
-    var flighturl = "../api/Flights";
-    $.getJSON(flighturl, function (data) {
-        data.forEach(function (flight) {
-            $("#list1").append("<tr><td>" + flight.company_name + "</td>" +
-                "<td>" + flight.company_name + "</tr></td>");
-        });
-    });
-}
-
 
 function flightClick(ev) {
     document.getElementById("detailes").innerHTML = ev.target.innerHTML;
+    selectFlight(ev.target.innerHTML);
+}
+/*
     // get selected row and tables:
-    var rowId = ev.target.parentNode.rowIndex;
+    var rowNum = ev.target.parentNode.rowIndex;
     var fList = ev.target.offsetParent.attributes.id.nodeValue;
     var rowsNotSelected;
     var table = document.getElementById(fList);
@@ -72,26 +63,27 @@ function flightClick(ev) {
         rowsNotSelected[row].style.backgroundColor = "";
     }
     // color selected row:
-    var rowSelected = table.getElementsByTagName('tr')[rowId];
+    var rowSelected = table.getElementsByTagName('tr')[rowNum];
     rowSelected.style.backgroundColor = "yellow";
+    */
 
-    // delete previous details:
-    if (document.getElementById("listD").rows.length > 1) {
-        document.getElementById("listD").deleteRow(1);
-    }
-    document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
-    var flighturl = "../api/Flights";
-    // add details:
-    $.getJSON(flighturl, function (data) {
-        data.forEach(function (flight) {
-            if (flight.flight_id == ev.target.innerHTML) {
-                $("#listD").append("<tr><td>" + flight.FlightId + "</td>" +
-                    "<td>" + flight.longitude + "</td>" +
-                    "<td>" + flight.latitude + "</td>" +
-                    "<td>" + flight.passengers + "</td>" +
-                    "<td>" + flight.companyName + "</td>" +
-                    "<td>" + flight.dateTime + "</tr></td>");
-            }
-        });
-    });
-}
+//    // delete previous details:
+//    if (document.getElementById("listD").rows.length > 1) {
+//        document.getElementById("listD").deleteRow(1);
+//    }
+//    document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
+//    var flighturl = "../api/Flights";
+//    // add details:
+//    $.getJSON(flighturl, function (data) {
+//        data.forEach(function (flight) {
+//            if (flight.flight_id == ev.target.innerHTML) {
+//                $("#listD").append("<tr><td>" + flight.FlightId + "</td>" +
+//                    "<td>" + flight.longitude + "</td>" +
+//                    "<td>" + flight.latitude + "</td>" +
+//                    "<td>" + flight.passengers + "</td>" +
+//                    "<td>" + flight.companyName + "</td>" +
+//                    "<td>" + flight.dateTime + "</tr></td>");
+//            }
+//        });
+//    });
+//}

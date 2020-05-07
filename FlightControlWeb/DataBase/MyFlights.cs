@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlightControlWeb.DataBase
@@ -84,5 +85,15 @@ namespace FlightControlWeb.DataBase
             Flight flight4 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "5/7/2020" });
             myFlights.Add(flight4);
         }
+
+       /** public void start()
+        {
+            string buffer;
+            double tempDouble;
+            /**new Thread(delegate () {
+                while (!stop)
+                { }).Start();
+
+        }*/
     }
 }
