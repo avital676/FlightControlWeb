@@ -26,24 +26,18 @@
         }
     }
 
-
-   /** if (markers[index].getAnimation() != google.maps.Animation.BOUNCE) {
-        markers[index].setAnimation(google.maps.Animation.BOUNCE);
-    } else {
-        markers[index].setAnimation(null);
-    }*/
-
-    
-        // animate plane:
-        for (var i = 0; i < markers.length; p++) {
-            if (markers[i].id == flightId) {
-                markers[index].setAnimation(google.maps.Animation.BOUNCE);
-            } else {
-                markers[index].setAnimation(null);
-            }  
-        }
+    // animate plane:
+    for (var i = 0; i < markers.length; i++) {
+        if (markers[i].id == flightId) {
+            if (markers[i].getAnimation() != google.maps.Animation.BOUNCE) {
+                markers[i].setAnimation(google.maps.Animation.BOUNCE);
+            }
+        } else {
+            markers[i].setAnimation(null);
+        }  
+    }
         
-    /* // draw line on map:
+     // draw line on map:
      var flighturl = "../api/Flights";
      $.getJSON(flighturl, function (data) {
          data.forEach(function (flight) {
@@ -60,8 +54,7 @@
                  }
              }
          });
-     });*/
-    //}
+     });
 
     // fill table:
     // delete previous details:

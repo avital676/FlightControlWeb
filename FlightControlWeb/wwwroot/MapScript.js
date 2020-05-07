@@ -25,10 +25,9 @@ function addMarker(props) {
         position: props.coords,
         map: googleMap,
         icon: icon,
-        id: props.content.id,
+        id: props.content.flightId,
     });
     markers.push(marker);
-
     //check info window
     if (props.content) {
         //add info window

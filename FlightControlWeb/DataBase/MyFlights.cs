@@ -78,11 +78,11 @@ namespace FlightControlWeb.DataBase
         {
             Flight flight1 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "ELAL", Latitude = -15.707663, Longitude = -49.427532, DateTime = "10", Segments = allSegments });
             myFlights.Add(flight1);
-            Flight flight2 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "5/7/2020" });
+            Flight flight2 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "5/7/2020", Segments = allSegments });
             myFlights.Add(flight2);
-            Flight flight3 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Lufthansa", Latitude = 70, Longitude = 20, DateTime = "5/7/2020" });
+            Flight flight3 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Lufthansa", Latitude = 70, Longitude = 20, DateTime = "5/7/2020", Segments = allSegments });
             myFlights.Add(flight3);
-            Flight flight4 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "5/7/2020" });
+            Flight flight4 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "5/7/2020", Segments = allSegments });
             myFlights.Add(flight4);
         }
 
