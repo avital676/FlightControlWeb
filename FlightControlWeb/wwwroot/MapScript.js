@@ -8,19 +8,6 @@ function initMap() {
     $("#dragAndDrop").hide();
     //creating new map
     googleMap = new google.maps.Map(document.getElementById('map'), options);
-
-
-    var a = [41.4668, 153.027];
-    addMarker({
-        coords: a,
-        content: '<h1>  flight num 1 </h1>'
-    })
-
-    addMarker({
-        coords: { lat: 42.4668, lng: -70.9495 },
-        content: '<h1>  flight num 1 </h1>'
-    });
-    var a = [41.4668, 153.027];
     showLine(37, -122, 41.4668, 153.027);
 }
 
@@ -47,7 +34,13 @@ function addMarker(props) {
         var x = document.getElementById("detailes");
         if (x.style.display === "none") {
         } else {
-            x.innerHTML = props.content;
+            x.innerHTML = "Company Name:" + props.content.companyName;
+            $("#listD").append("<tr><td>" + props.content.flightId + "</td>" +
+                "<td>" + props.content.longitude + "</td>" +
+                "<td>" + props.content.latitude + "</td>" +
+                "<td>" + props.content.passengers + "</td>" +
+                "<td>" + props.content.companyName + "</td>" +
+                "<td>" + props.content.dateTime + "</tr></td>");
         }
 
         // document.getElementById("FlightDetails").style.display = "none";
