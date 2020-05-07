@@ -28,62 +28,35 @@ namespace FlightControlWeb.DataBase
             }
         }
 
-        private static List<Flight> myFlights = new List<Flight>()
+        private static List<Flight> myFlights = new List<Flight>();
+        public static List<Segment> allSegments = new List<Segment>()
         {
+            new Segment{  longitude=90.0911, latitude = -70.0911,  timespan_seconds =0 },
+            new Segment{  longitude=80.0911, latitude = -65.0911,  timespan_seconds =0 },
+            new Segment{  longitude=70.0911, latitude = -60.0911,  timespan_seconds =0 },
+            new Segment{  longitude=60.0911, latitude = -55.0911,  timespan_seconds =0 },
 
-              new Flight {FlightId = "1", Passengers = 220, CompanyName = "ELAL", Latitude = -15.707663, Longitude = -49.427532, DateTime = "10", IsExternal = false },
-                new Flight {FlightId = "2", Passengers = 240, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "10", IsExternal = false},
-                new Flight {FlightId = "3", Passengers = 220, CompanyName = "Lufthansa", Latitude = 50, Longitude = 60, DateTime = "10", IsExternal = false },
-                new Flight {FlightId = "4", Passengers = 240, CompanyName = "ELAL", Latitude = 70, Longitude = 20, DateTime = "10", IsExternal = false}
         };
-
-        internal void addFlightPlan(FlightPlan value)
+        public void addFlight(FlightPlan flightPlan)
         {
-            throw new NotImplementedException();
+            Flight flight = new Flight(flightPlan);
+            myFlights.Add(flight);
         }
 
-        private static List<IdPlan> idPlanList = new List<IdPlan>() { };
-        
+        public void addFlight(Flight flight)
+        {
+            myFlights.Add(flight);   
+        }
+
         public IEnumerable<Flight> getAllFlights()
         {
-            createID();
             return myFlights;
         }
 
-        public IEnumerable<IdPlan> getPlans()
+        /**public IEnumerable<string> getPlansId()
         {
             return idPlanList;
-        }
-
-        public void addFlight(Flight f)
-        {
-            myFlights.Add(f);
-        }
-
-        public void AddFlightPlan(FlightPlan fp)
-        {
-            Flight f = PlanConverter(fp);
-            myFlights.Add(f);
-         //   idPlanList.Add(new IdPlan { flight_id = f.FlightId, plan = fp });
-        }
-
-        private Flight PlanConverter(FlightPlan fp)
-        {
-            Flight f = new Flight();
-            f.FlightId = createID();
-            f.Longitude = fp.Longitude;
-            f.Latitude = fp.Latitude;
-            f.Passengers = fp.Passengers;
-            f.CompanyName = fp.CompanyName;
-            f.DateTime = fp.DateTime;
-            f.IsExternal = false;
-            return f;
-        }
-
-        private String createID()
-        {
-            return System.Guid.NewGuid().ToString().Substring(0, 6);
-        }
+        }*/
 
         public void DeleteFlight(string id)
         {
@@ -100,7 +73,16 @@ namespace FlightControlWeb.DataBase
                 throw new Exception("Flight not found");
             return flight;
         }
-
-
+        public void AddRandomFlights()
+        {
+            Flight flight1 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "ELAL", Latitude = -15.707663, Longitude = -49.427532, DateTime = "10", Segments = allSegments });
+            myFlights.Add(flight1);
+            Flight flight2 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "5/7/2020" });
+            myFlights.Add(flight2);
+            Flight flight3 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Lufthansa", Latitude = 70, Longitude = 20, DateTime = "5/7/2020" });
+            myFlights.Add(flight3);
+            Flight flight4 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "5/7/2020" });
+            myFlights.Add(flight4);
+        }
     }
 }

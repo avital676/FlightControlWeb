@@ -18,12 +18,13 @@ namespace FlightControlWeb.Controllers
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights()
         {
+            MyFlights.Instance.AddRandomFlights();
             return MyFlights.Instance.getAllFlights();
         }
 
         // GET: api/Flights/5
         [HttpGet("{id}", Name = "Get")]
-        public Flight Get(string id)
+        public Flight flight(string id)
         {
            return MyFlights.Instance.GetFlightById(id);
         }

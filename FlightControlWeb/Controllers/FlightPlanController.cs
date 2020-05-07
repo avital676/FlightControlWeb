@@ -13,22 +13,20 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightPlanController : ControllerBase
     { 
-/*
-        // GET: api/FlightPlan/5
+/**
+        //GET: api/FlightPlan/5
         [HttpGet("{id}", Name = "Get")]
-        public string GetPlan(int id)
+        public FlightPlan Plan(string id)
         {
             // return the flight with this id
-            return "value";
-        }
-*/
+            return MyFlights.Instance.GetFlightById(id).getFlightPlan();
+        }*/
+    
         // POST: api/FlightPlan
         [HttpPost]
         public void Post([FromBody] FlightPlan value)
         {
-            MyFlights.Instance.addFlightPlan(value);
+            MyFlights.Instance.addFlight(value);
         }
-
-        
     }
 }

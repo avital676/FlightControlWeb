@@ -2,34 +2,68 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
+
 
 namespace FlightControlWeb.Models
 {
     public class Flight
     {
-        /*public Flight(FlightPlan flightPlan)
+        private FlightPlan flightPlan;
+        
+        public Flight(FlightPlan flightPlan)
         {
-            this.FlightPlan = flightPlan;
-            this.Longitude = FlightPlan.Longitude;
-            this.Latitude = FlightPlan.Latitude;
+            this.flightPlan = flightPlan;
+            this.Longitude = flightPlan.Longitude;
+            this.Latitude = flightPlan.Latitude;
             IsExternal = false;
-            //createId();
-        }*/
+            this.FlightId = CreateID();
+            this.DateTimee = DateTime.Now.ToString();
+        }
         public string FlightId { get; set; }
-        public int Passengers { get; set; }
-        public string CompanyName { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
-        public string DateTime { get; set; }
+        public string DateTimee { get; set; }
         public bool IsExternal { get; set; }
-      //  public FlightPlan FlightPlan { get; set; }
 
-        /**public void createId()
+
+        public int Passengers
         {
-            //this.FlightId - uniqueId
-        }*/
-    }
+            get { return flightPlan.Passengers; }
+            set
+            {
+                flightPlan.Passengers = value;
+            }
+        }
+        public string CompanyName
+        {
+            get { return flightPlan.CompanyName; }
+            set
+            {
+                flightPlan.CompanyName = value;
+            }
+        }
 
+        private String CreateID()
+        {
+            //return System.Guid.NewGuid().ToString().Substring(0, 6);
+            StringBuilder _builder = new StringBuilder();
+            Enumerable
+                .Range(65, 26)
+                .Select(e => ((char)e).ToString())
+                .Concat(Enumerable.Range(97, 26).Select(e => ((char)e).ToString()))
+                .Concat(Enumerable.Range(0, 10).Select(e => e.ToString()))
+                .OrderBy(e => Guid.NewGuid())
+                .Take(9)
+                .ToList().ForEach(e => _builder.Append(e));
+            return _builder.ToString();
+        }
+        public FlightPlan getFlightPlan()
+        {
+            return this.flightPlan;
+        }
+    }
 
 }
