@@ -30,10 +30,11 @@ namespace FlightControlWeb.DataBase
 
         private static List<Flight> myFlights = new List<Flight>()
         {
-        
-             new Flight{ FlightId="1234",Longitude= 98,Latitude = 70,Passengers= 90, CompanyName ="elal", DateTime="04.05.20",IsExternal = true },
-             new Flight{ FlightId="5678",Longitude= 93,Latitude = 60,Passengers= 100, CompanyName ="arkia", DateTime="09.10.20",IsExternal = true },
-             new Flight{ FlightId="9012",Longitude= 90,Latitude = 50,Passengers= 80, CompanyName ="Tailand", DateTime="18.09.20",IsExternal = true }
+
+              new Flight {FlightId = "1", Passengers = 220, CompanyName = "ELAL", Latitude = -15.707663, Longitude = -49.427532, DateTime = "10", IsExternal = false },
+                new Flight {FlightId = "2", Passengers = 240, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "10", IsExternal = false},
+                new Flight {FlightId = "3", Passengers = 220, CompanyName = "Lufthansa", Latitude = 50, Longitude = 60, DateTime = "10", IsExternal = false },
+                new Flight {FlightId = "4", Passengers = 240, CompanyName = "ELAL", Latitude = 70, Longitude = 20, DateTime = "10", IsExternal = false}
         };
 
         internal void addFlightPlan(FlightPlan value)

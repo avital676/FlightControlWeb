@@ -25,10 +25,17 @@ function initMap() {
 }
 
 function addMarker(props) {
+    var icon = {
+        url: "plane-icon.png", // url
+        scaledSize: new google.maps.Size(20, 20), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+
     var marker = new google.maps.Marker({
         position: props.coords,
         map: googleMap,
-        icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+        icon: icon
     });
     
     //check info window

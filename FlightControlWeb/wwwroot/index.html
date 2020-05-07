@@ -76,8 +76,8 @@
                     <table class="table table-hover" id="list1">
                         <thead>
                             <tr>
-                                <th scope="col">company name</th>
-                                <th scope="col">date </th>
+                                <th scope="col">Id Number</th>
+                                <th scope="col">Company Name </th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -87,8 +87,8 @@
                     <table class="table table-hover" id="list2">
                         <thead>
                             <tr>
-                                <th scope="col">company name</th>
-                                <th scope="col">date </th>
+                                <th scope="col">Id Number</th>
+                                <th scope="col">Company Name</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -107,27 +107,17 @@
         var flighturl = "../api/Flights";
         $.getJSON(flighturl, function (data) {
             data.forEach(function (flight) {
-                $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.FlightId + "</td>" +
-                    "<td>" + flight.CompanyName + "</td></tr>");
-                $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.FlightId + "</td>" +
-                    "<td>" + flight.CompanyName + "</td></tr>");
-            });
-        });
-    </script>
-
-    <script>
-        var flighturl = "../api/Flights";
-        $.getJSON(flighturl, function (data) {
-            data.forEach(function (flight) {
-                var x = flight.FlightId;
+                $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+                    "<td>" + flight.companyName + "</td></tr>");
+                $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+                    "<td>" + flight.companyName + "</td></tr>");
                 addMarker({
-                    coords: { lat: flight.Latitude, lng: flight.Longitude },
-                    content: '<h1> flight</h1>'
+                    coords: { lat: flight.latitude, lng: flight.longitude },
+                    content: flight.flightId
 
                 });
             });
         });
-
     </script>
 
 
