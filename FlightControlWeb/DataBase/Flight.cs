@@ -11,7 +11,7 @@ namespace FlightControlWeb.Models
 {
     public class Flight
     {
-        private FlightPlan flightPlan;
+        public FlightPlan flightPlan { get; set; }
         
         public Flight(FlightPlan flightPlan)
         {
@@ -27,6 +27,7 @@ namespace FlightControlWeb.Models
         public double Latitude { get; set; }
         public string DateTimee { get; set; }
         public bool IsExternal { get; set; }
+        //public FlightPlan flightPlan { get; set; }
 
 
         public int Passengers

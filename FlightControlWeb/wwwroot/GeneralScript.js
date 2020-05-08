@@ -34,8 +34,8 @@
                 }
             }
         });
-    });
-    */
+    });*/
+    
 
     // fill table:
     // delete previous details:
@@ -54,6 +54,16 @@
                     "<td>" + flight.passengers + "</td>" +
                     "<td>" + flight.companyName + "</td>" +
                     "<td>" + flight.dateTime + "</tr></td>");
+                var segments = flight.flightPlan.segments;
+                var length = flight.flightPlan.segments.length
+                var i;
+                for (i = 0; i < length - 1; i++) {
+                    var a = segments[i].longitude
+                    var b = segments[i].latitude
+                    var c = segments[i + 1].longitude
+                    var d = segments[i + 1].latitude
+                    showLine(a, b, c, d)
+                }
             }
         });
     });
