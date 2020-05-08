@@ -31,9 +31,10 @@ namespace FlightControlWeb.Controllers
 
         // POST: api/Flights
         [HttpPost]
-        public void Post([FromBody] string value)
+        public FlightPlan Post(FlightPlan value)
         {
-
+            MyFlights.Instance.addFlight(value);
+            return value;
         }
 
         // DELETE: api/ApiWithActions/5
