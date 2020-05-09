@@ -28,3 +28,60 @@ function flightClick(ev) {
     document.getElementById("detailes").innerHTML = ev.target.innerHTML;
     selectFlight(ev.target.innerHTML);
 }
+
+var flighturl = "../api/Flights";
+$.getJSON(flighturl, function (data) {
+    data.forEach(function (flight) {
+        $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+            "<td>" + flight.companyName + "</td></tr>");
+        $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+            "<td>" + flight.companyName + "</td></tr>");
+        addMarker({
+            coords: { lat: flight.latitude, lng: flight.longitude },
+            content: flight
+        });
+    });
+});
+
+
+var worker;
+
+function buttonClicked() {
+    if (typeof (Worker) !== "undefined") {
+        if (typeof (worker) == "undefined") {
+            worker = new Worker('worker.js');
+        }
+        worker.onmessage = function (event) {
+            while (document.getElementById("list1").rows.length != 1) {
+                document.getElementById("list1").deleteRow(1);
+            }
+            setMapOnAll(null);
+            markers = [];
+            var flighturl = "../api/Flights";
+            $.getJSON(flighturl, function (data) {
+                data.forEach(function (flight) {
+                    var i;
+                    $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+                        "<td>" + flight.companyName + "</td></tr>");
+                    /**$("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+                        "<td>" + flight.companyName + "</td></tr>");*/
+                    addMarker({
+                        coords: { lat: flight.latitude, lng: flight.longitude },
+                        content: flight
+                    });
+                });
+            });
+        };
+        worker.postMessage([]);
+    } else {
+        document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
+    }
+}
+
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+       markers[i].setMap(map);
+    }
+}
+

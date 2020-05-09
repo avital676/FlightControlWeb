@@ -60,3 +60,10 @@ function showLine(a, b, c, d) {
 
     flightPath.setMap(googleMap);
 }
+
+
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setMapOnAll(null);
+}

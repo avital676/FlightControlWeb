@@ -15,17 +15,15 @@ body {
 
 h1 {
     font-family: Impact;
-    padding: 20px;
+    padding: 5px;
     text-align: center;
     color: black;
     font-size: 35px;
 }
 .my-custom-scrollbar {
-    position: relative;
-    height: 200px;
-    overflow: auto;
+    
 }
 
 .table-wrapper-scroll-y {
-    display: block;
+    
 }

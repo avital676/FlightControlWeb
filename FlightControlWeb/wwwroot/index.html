@@ -4,18 +4,18 @@
     <meta charset="utf-8" />
     <meta name=" viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="MapScript.js"></script>
-    <script src="ListScript.js"></script>
-    <script src="GeneralScript.js"></script>
     <!-- Google Maps script -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap"></script>
+    <script src="MapScript.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!-- Stylesheets. -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css" type="text/css">
-
+    <script src="ListScript.js"></script>
+    <script src="GeneralScript.js"></script>
+    <script src="worker.js"></script>
     <title></title>
 </head>
 <body>
@@ -28,13 +28,13 @@
         <input type="submit" value="Submit">
     </form>
          -->
+    <input type="button" onclick="buttonClicked()" value="Refresh" />
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8">
-                
-                    <h1> Flights Controler:</h1>
-                    <div id="map"></div>
-                
+                <h1> Flights Controler:</h1>
+                <div id="map"></div>
+
                 <div class="row">
                     <div id="detailes">
                         here is flight detailes.
@@ -58,6 +58,7 @@
             <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)" ondragleave="onDragLeave(event)">
                 <div class="jumbotron" id="listsArea">
                     <h1 class="display-4">My Flights</h1>
+
                     <div class="table-wrapper-scroll-y my-custom-scrollbar">
                         <table class="table table-hover table-striped mb-0" id="list1">
                             <thead>
@@ -91,23 +92,6 @@
         <p id="demo">A Paragraph</p>
         <br>
         <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
-
-        <script>
-            var flighturl = "../api/Flights";
-            $.getJSON(flighturl, function (data) {
-                data.forEach(function (flight) {
-                    $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                        "<td>" + flight.companyName + "</td></tr>");
-                    $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                        "<td>" + flight.companyName + "</td></tr>");
-                    addMarker({
-                        coords: { lat: flight.latitude, lng: flight.longitude },
-                        content: flight
-                    });
-                });
-            });
-        </script>
-
-
-    </body>
+    </div>
+</body>
     </html>
