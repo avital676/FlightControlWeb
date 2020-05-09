@@ -5,7 +5,8 @@ function initMap() {
     //map options
     var options = {
         zoom: 2,
-        center: { lat: 32.00683, lng: 34.88533 }
+        center: { lat: 32.00683, lng: 34.88533 },
+        mapTypeId: 'terrain'
     }
     $("#dragAndDrop").hide();
     //creating new map

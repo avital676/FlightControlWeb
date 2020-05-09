@@ -16,27 +16,6 @@
         }
     }
 
-    // draw line on map:
-   /*
-    var flighturl = "../api/Flights";
-    $.getJSON(flighturl, function (data) {
-        data.forEach(function (flight) {
-            if (flight.flightId == flightId) {
-                var segments = flight.flightPlan.segments;
-                var length = flight.flightPlan.segments.length
-                var i;
-                for (i = 0; i < length - 1; i++) {
-                    var a = segments[i].longitude
-                    var b = segments[i].latitude
-                    var c = segments[i + 1].longitude
-                    var d = segments[i + 1].latitude
-                    showLine(a, b, c, d)
-                }
-            }
-        });
-    });*/
-    
-
     // fill table:
     // delete previous details:
     if (document.getElementById("listD").rows.length > 1) {
@@ -54,16 +33,7 @@
                     "<td>" + flight.passengers + "</td>" +
                     "<td>" + flight.companyName + "</td>" +
                     "<td>" + flight.dateTimee + "</tr></td>");
-                var segments = flight.flightPlan.segments;
-                var length = flight.flightPlan.segments.length
-                var i;
-                for (i = 0; i < length - 1; i++) {
-                    var a = segments[i].longitude
-                    var b = segments[i].latitude
-                    var c = segments[i + 1].longitude
-                    var d = segments[i + 1].latitude
-                    showLine(a, b, c, d)
-                }
+                drawPath(flight);
             }
         });
     });
@@ -82,4 +52,31 @@ function colorList(list, flightId) {
             row.style.backgroundColor = "";
         }
     }
+}
+
+//Drawing the Flight path 
+
+function drawPath(flight) {
+    var flightPlanCoordinates = [];
+    var segments = flight.flightPlan.segments;
+    var lng = flight.flightPlan.initial_Location.longitude;
+    var lat = flight.flightPlan.initial_Location.latitude;
+    flightPlanCoordinates.push({ lat: lat, lng: lng });
+    //showLine(a, b, c, d);
+    var length = flight.flightPlan.segments.length
+    var i;
+    for (i = 0; i < length; i++) {
+        lng = segments[i].longitude;
+        lat = segments[i].latitude;
+        flightPlanCoordinates.push({ lat: lat, lng: lng });
+    }
+
+    var flightPath = new google.maps.Polyline({
+        path: flightPlanCoordinates,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+    });
+    flightPath.setMap(googleMap);
 }
