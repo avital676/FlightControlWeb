@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- Google Maps script -->
     <script src="MapScript.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -33,8 +33,9 @@
         <div class="row">
             <div class="col-lg-8">
                 <h1> Flights Controler:</h1>
-                <div id="map"></div>
-
+                <div id="map">
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap"></script>
+                </div>
                 <div class="row">
                     <div id="detailes">
                         here is flight detailes.
@@ -56,11 +57,11 @@
                 </div>
             </div>
             <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)" ondragleave="onDragLeave(event)">
-                <div class="jumbotron" id="listsArea">
+                <div class="jumbotron" id="listsArea" style="background:#E6F2FF !important">
                     <h1 class="display-4">My Flights</h1>
 
                     <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                        <table class="table table-hover table-striped mb-0" id="list1">
+                        <table class="table table-hover" id="list1">
                             <thead>
                                 <tr>
                                     <th scope="col">Id Number</th>
@@ -94,4 +95,4 @@
         <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
     </div>
 </body>
-    </html>
+</html>

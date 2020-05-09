@@ -12,7 +12,7 @@ function onDrop(ev) {
     //document.getElementById("dragAndDrop").style.display = "none";
     $("#listsArea").show();
     $("#dragAndDrop").hide();
-    if (ev.dataTransfer.items[0].kind === 'file') {
+    if (ev.dataTransfer.items[0].kind == 'file') {
         var file = ev.dataTransfer.items[0].getAsFile();
         var xhr = new XMLHttpRequest();
         var flighturl = "../api/FlightPlan";
@@ -26,16 +26,17 @@ function onDrop(ev) {
 
 function flightClick(ev) {
     document.getElementById("detailes").innerHTML = ev.target.innerHTML;
-    selectFlight(ev.target.innerHTML);
+    selectFlight(ev.target.id);
 }
 
 var flighturl = "../api/Flights";
 $.getJSON(flighturl, function (data) {
     data.forEach(function (flight) {
-        $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-            "<td>" + flight.companyName + "</td></tr>");
-        $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-            "<td>" + flight.companyName + "</td></tr>");
+        var flightId = flight.flightId;
+        $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+            <td id=${flightId}>${flight.companyName}</td></tr>`);
+        $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+            <td id=${flightId}>${flight.companyName}</td></tr>`);
         addMarker({
             coords: { lat: flight.latitude, lng: flight.longitude },
             content: flight

@@ -47,7 +47,7 @@ function colorList(list, flightId) {
         row = tableRows[i];
         compId = row.cells[0].innerHTML;
         if (flightId == compId) {
-            row.style.backgroundColor = "yellow";
+            row.style.backgroundColor = "#80BDFF";
         } else {
             row.style.backgroundColor = "";
         }
