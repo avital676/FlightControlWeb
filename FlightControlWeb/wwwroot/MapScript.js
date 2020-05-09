@@ -5,12 +5,12 @@ function initMap() {
     //map options
     var options = {
         zoom: 2,
-        center: { lat: 42.3601, lng: -70.0589 }
+        center: { lat: 32.00683, lng: 34.88533 }
     }
     $("#dragAndDrop").hide();
     //creating new map
     googleMap = new google.maps.Map(document.getElementById('map'), options);
-    showLine(37, -122, 41.4668, 153.027);
+    //showLine(37, -122, 41.4668, 153.027);
 }
 
 function addMarker(props) {

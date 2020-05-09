@@ -7,7 +7,8 @@
     <script src="MapScript.js"></script>
     <script src="ListScript.js"></script>
     <script src="GeneralScript.js"></script>
-    
+    <!-- Google Maps script -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -16,24 +17,9 @@
     <link rel="stylesheet" href="style.css" type="text/css">
 
     <title></title>
-    <style>
-
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-
-        #dragAndDrop {
-            width: 350px;
-            height: 350px;
-        }
-
-        body {
-        background-image: url('back.jpg');
-     }
-</style>
 </head>
 <body>
+    <!--
     <form action="/action_page.php">
         <label for="port">First name:</label>
         <input type="number" id="port" name="port"><br><br>
@@ -41,85 +27,87 @@
         <input type="number" id="ip" name="ip"><br><br>
         <input type="submit" value="Submit">
     </form>
-    <div class="container">
+         -->
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-sm">
-                <div class="row">
+            <div class="col-lg-8">
+                
                     <h1> Flights Controler:</h1>
                     <div id="map"></div>
-                    <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap">
-                    </script>
-                </div>
+                
                 <div class="row">
                     <div id="detailes">
                         here is flight detailes.
                     </div>
                     <table class="table" id="listD">
-                    <thead>
-                        <tr>
-                            <th scope="col">flight number</th>
-                            <th scope="col">longitude </th>
-                            <th scope="col">latitude </th>
-                            <th scope="col">pasenger</th>
-                            <th scope="col">company name </th>
-                            <th scope="col">date </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                        <thead>
+                            <tr>
+                                <th scope="col">flight number</th>
+                                <th scope="col">longitude </th>
+                                <th scope="col">latitude </th>
+                                <th scope="col">pasenger</th>
+                                <th scope="col">company name </th>
+                                <th scope="col">date </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)">
+            <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)" ondragleave="onDragLeave(event)">
                 <div class="jumbotron" id="listsArea">
                     <h1 class="display-4">My Flights</h1>
-                    <table class="table table-hover" id="list1">
-                        <thead>
-                            <tr>
-                                <th scope="col">Id Number</th>
-                                <th scope="col">Company Name </th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-hover table-striped mb-0" id="list1">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id Number</th>
+                                    <th scope="col">Company Name </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                     <hr class="my-4">
-                    <h2 class="display-4">External Flights</h2>
-                    <table class="table table-hover" id="list2">
-                        <thead>
-                            <tr>
-                                <th scope="col">Id Number</th>
-                                <th scope="col">Company Name</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <h1 class="display-4">External Flights</h1>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-hover" id="list2">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id Number</th>
+                                    <th scope="col">Company Name</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!-- ondrop="onDrop(event)</div> <img id="dragAndDrop" src="dragAndDrop.jpg" /> -->
+
                 </div>
-                <img id="dragAndDrop" src="dragAndDrop.jpg" ondrop="onDrop(event)" />
+                <img id="dragAndDrop" src="dragAndDrop.jpg" />
             </div>
         </div>
+        <p id="demo">A Paragraph</p>
+        <br>
+        <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
 
-    </div>
-    <p id="demo">A Paragraph</p>
-    <br>
-    <img id="drag1" src="airplane.jpeg" draggable="true" width="336" height="69">
-
-    <script>
-        var flighturl = "../api/Flights";
-        $.getJSON(flighturl, function (data) {
-            data.forEach(function (flight) {
-                $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                    "<td>" + flight.companyName + "</td></tr>");
-                $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                    "<td>" + flight.companyName + "</td></tr>");
-                addMarker({
-                    coords: { lat: flight.latitude, lng: flight.longitude },
-                    content: flight
+        <script>
+            var flighturl = "../api/Flights";
+            $.getJSON(flighturl, function (data) {
+                data.forEach(function (flight) {
+                    $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+                        "<td>" + flight.companyName + "</td></tr>");
+                    $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
+                        "<td>" + flight.companyName + "</td></tr>");
+                    addMarker({
+                        coords: { lat: flight.latitude, lng: flight.longitude },
+                        content: flight
+                    });
                 });
             });
-        });
-    </script>
+        </script>
 
 
-</body>
-</html>
+    </body>
+    </html>

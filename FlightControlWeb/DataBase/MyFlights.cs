@@ -51,7 +51,7 @@ namespace FlightControlWeb.DataBase
 
         public IEnumerable<Flight> getAllFlights()
         {
-            getAllFlights("2020-12-26T23:56:41Z");
+            //getAllFlights("2020-12-26T23:56:41Z");
             return myFlights;
         }
 
@@ -85,17 +85,13 @@ namespace FlightControlWeb.DataBase
             }
             return relevantFlights;
         }
-        /**public IEnumerable<string> getPlansId()
-        {
-            return idPlanList;
-        }*/
 
         public void DeleteFlight(string id)
         {
-            Flight flight = MyFlights.Instance.getAllFlights().Where(x => x.FlightId == id).FirstOrDefault();
+            Flight flight = myFlights.Where(x => x.FlightId == id).FirstOrDefault();
             if (flight == null)
                 throw new Exception("Flight not found");
-            MyFlights.Instance.getAllFlights().ToList().Remove(flight);
+            myFlights.Remove(flight);
         }
 
 
@@ -106,35 +102,30 @@ namespace FlightControlWeb.DataBase
                 throw new Exception("Flight not found");
             return flight;
         }
+        private int i = 0;
         public void AddRandomFlights()
         {
-            Flight flight1 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "ELAL", Latitude = 50, Longitude = 50, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
-            myFlights.Add(flight1);
-            Flight flight2 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
-            myFlights.Add(flight2);
-            Flight flight3 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Lufthansa", Latitude = 70, Longitude = 20, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
-            myFlights.Add(flight3);
-            Flight flight4 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
-            myFlights.Add(flight4);
-        }
-
-        /**public void UpdateFlights()
-        {
-            new Thread(delegate ()
+            if (i == 0)
             {
-                while (true)
-                {
-                    //DateTime parsedDate = DateTime.Parse(DateTimee);
-                    DateTime currentTime = DateTime.Now;
-                    foreach (Flight flight in myFlights)
-                    {
-                        if (DateTime.Compare(currentTime, DateTime.Parse(flight.DateTimee)) > 0)
-                        {
-                            myFlights.Remove(flight);
-                        } 
-                    }
-                }
-            }).Start();
-        }*/
+                myFlights.Clear();
+                Flight flight1 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "ELAL", Latitude = 50, Longitude = 50, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight1);
+                Flight flight2 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight2);
+                Flight flight3 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Lufthansa", Latitude = 70, Longitude = 20, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight3);
+                Flight flight4 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight4);
+                Flight flight5 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight4);
+                Flight flight6 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight4);
+                Flight flight7 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight4);
+                Flight flight8 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                myFlights.Add(flight4);
+                i++;
+            }
+        }
     }
 }

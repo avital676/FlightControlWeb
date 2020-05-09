@@ -53,7 +53,7 @@
                     "<td>" + flight.latitude + "</td>" +
                     "<td>" + flight.passengers + "</td>" +
                     "<td>" + flight.companyName + "</td>" +
-                    "<td>" + flight.dateTime + "</tr></td>");
+                    "<td>" + flight.dateTimee + "</tr></td>");
                 var segments = flight.flightPlan.segments;
                 var length = flight.flightPlan.segments.length
                 var i;

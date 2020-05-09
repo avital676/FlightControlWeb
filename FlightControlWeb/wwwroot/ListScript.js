@@ -7,8 +7,9 @@
 }
 
 function onDrop(ev) {
+    ev.preventDefault();
     document.getElementById("detailes").innerHTML = "drropppopopo";
-    document.getElementById("dragAndDrop").style.display = "none"
+    //document.getElementById("dragAndDrop").style.display = "none";
     $("#listsArea").show();
     $("#dragAndDrop").hide();
     if (ev.dataTransfer.items[0].kind === 'file') {
@@ -21,9 +22,11 @@ function onDrop(ev) {
             dataType: 'json',
             data: file
         });
-         //$.post("../api/FlightPlan", file);
+        //$.post("../api/FlightPlan", file);
     }
 }
+
+
 
 function flightClick(ev) {
     document.getElementById("detailes").innerHTML = ev.target.innerHTML;
