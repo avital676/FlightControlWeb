@@ -9,11 +9,8 @@ namespace FlightControlWeb.Models
     public class FlightPlan
     {
         public int Passengers { get; set; }
-        public string CompanyName { get; set; }
-        //intialize location
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
-        public string DateTime { get; set; }
+        public string Company_Name { get; set; }
+        public InitialLocation Initial_Location { get; set;}
         public List<Segment> Segments { get; set; }
     }
 }

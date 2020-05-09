@@ -28,8 +28,8 @@ namespace FlightControlWeb.Models
         public Flight(FlightPlan flightPlan)
         {
             this.flightPlan = flightPlan;
-            this.Longitude = flightPlan.Longitude;
-            this.Latitude = flightPlan.Latitude;
+            this.Longitude = flightPlan.Initial_Location.Longitude;
+            this.Latitude = flightPlan.Initial_Location.Latitude;
             IsExternal = false;
             this.FlightId = CreateID();
         }
@@ -41,10 +41,10 @@ namespace FlightControlWeb.Models
 
         public string DateTimee
         {
-            get { return flightPlan.DateTime; }
+            get { return flightPlan.Initial_Location.Date_Time; }
             set
             {
-                flightPlan.DateTime = value;
+                flightPlan.Initial_Location.Date_Time = value;
             }
         }
         public int Passengers
@@ -57,10 +57,10 @@ namespace FlightControlWeb.Models
         }
         public string CompanyName
         {
-            get { return flightPlan.CompanyName; }
+            get { return flightPlan.Company_Name; }
             set
             {
-                flightPlan.CompanyName = value;
+                flightPlan.Company_Name = value;
             }
         }
 
@@ -93,7 +93,7 @@ namespace FlightControlWeb.Models
             if (currentSegmentNum == -1) {
                 return "Ended";
             } else if(currentSegmentNum == 0) {
-                startingLoc = new Location(flightPlan.Latitude, flightPlan.Longitude);
+                startingLoc = new Location(flightPlan.Initial_Location.Latitude, flightPlan.Initial_Location.Longitude);
             } else {
                 startingLoc = new Location(flightPlan.Segments[currentSegmentNum - 1].Latitude,
                     flightPlan.Segments[currentSegmentNum - 1].Longitude);
