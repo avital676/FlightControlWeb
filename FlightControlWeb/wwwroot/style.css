@@ -22,7 +22,7 @@ h1 {
 }
 .my-custom-scrollbar {
     position: relative;
-    height: 300px;
+    height: 200px;
     overflow: auto;
 }
 

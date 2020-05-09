@@ -19,20 +19,6 @@ function onDrop(ev) {
         xhr.open("POST", flighturl, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
-        //$.post("../api/FlightPlan", file);
-        var flighturl = "../api/Flights";
-        $.getJSON(flighturl, function (data) {
-            data.forEach(function (flight) {
-                $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                    "<td>" + flight.companyName + "</td></tr>");
-                $("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                    "<td>" + flight.companyName + "</td></tr>");
-                addMarker({
-                    coords: { lat: flight.latitude, lng: flight.longitude },
-                    content: flight
-                });
-            });
-        });
     }
 }
 

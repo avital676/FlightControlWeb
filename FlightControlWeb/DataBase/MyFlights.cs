@@ -107,15 +107,19 @@ namespace FlightControlWeb.DataBase
         {
             if (i == 0)
             {
-               // myFlights.Clear();
-                /**Flight flight1 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "ELAL", Latitude = 50, Longitude = 50, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+               myFlights.Clear();
+                InitialLocation loc = new InitialLocation { Latitude = 50, Longitude = 50, Date_Time = "2020-12-26T23:56:21Z" };
+                Flight flight1 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "ELAL", Initial_Location = loc, Segments = allSegments });
                 myFlights.Add(flight1);
-                Flight flight2 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "AirIndia", Latitude = 20.593683, Longitude = 78.962883, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                InitialLocation loc2 = new InitialLocation { Latitude = 20.593683, Longitude = 78.962883, Date_Time = "2020-12-26T23:56:21Z" };
+                Flight flight2 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "AirIndia", Initial_Location = loc2, Segments = allSegments });
                 myFlights.Add(flight2);
-                Flight flight3 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Lufthansa", Latitude = 70, Longitude = 20, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });
+                InitialLocation loc3 = new InitialLocation { Latitude = 70, Longitude = 20, Date_Time = "2020-12-26T23:56:21Z" };
+                Flight flight3 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Lufthansa", Initial_Location = loc3, Segments = allSegments });
                 myFlights.Add(flight3);
-                Flight flight4 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Ethiopian", Latitude = 50, Longitude = 60, DateTime = "2020-12-26T23:56:21Z", Segments = allSegments });*/
-                //myFlights.Add(flight4);
+                InitialLocation loc4 = new InitialLocation { Latitude = 50, Longitude = 60, Date_Time = "2020-12-26T23:56:21Z" };
+                Flight flight4 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Ethiopian",Initial_Location = loc4 , Segments = allSegments });
+                myFlights.Add(flight4);
                 i++;
             }
         }
