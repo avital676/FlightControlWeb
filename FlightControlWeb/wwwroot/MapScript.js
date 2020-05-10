@@ -1,6 +1,7 @@
 ﻿var googleMap;
 var markers = [];
 var inside = false;
+
 function initMap() {
     //map options
     var options = {
@@ -27,7 +28,7 @@ function addMarker(props) {
         position: props.coords,
         map: googleMap,
         icon: icon,
-        id: props.content.flightId,
+        id: props.content.flightId
     });
     markers.push(marker);
     //check info window
@@ -45,8 +46,6 @@ function addMarker(props) {
     });
 }
 
-
-
 function showLine(a, b, c, d) {
     var flightPlanCoordinates = [
         { lat: a, lng: b },
@@ -63,8 +62,6 @@ function showLine(a, b, c, d) {
 
     flightPath.setMap(googleMap);
 }
-
-
 
 // Removes the markers from the map, but keeps them in the array.
 function clearMarkers() {

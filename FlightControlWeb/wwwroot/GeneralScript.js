@@ -1,6 +1,7 @@
 ﻿var selected = null;
 var flightPath;
 var line = [];
+
 function selectFlight(flightId) {
     selected = flightId;
     // color list:
@@ -26,9 +27,13 @@ function selectFlight(flightId) {
         document.getElementById("listD").deleteRow(1);
     }
     document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
-   // var flighturl = "../api/Flights";
+    // var flighturl = "../api/Flights";
     var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:21Z";
-    // add details:
+    // clear existing route from map:
+    for (i = 0; i < line.length; i++) {
+        line[i].setMap(null);
+    }
+    // add details and route:
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
             if (flight.flightId == flightId) {
@@ -59,7 +64,7 @@ function colorList(list, flightId) {
     }
 }
 
-//Drawing the Flight path 
+// Drawing the Flight path 
 function drawPath(flight) {
     var flightPlanCoordinates = [];
     var segments = flight.flightPlan.segments;
@@ -112,10 +117,9 @@ function cancelClick(event) {
 
         }
 
-        // animate plane: cancel the jump
+        // un-animate plane: cancel the jump
         for (var i = 0; i < markers.length; i++) {
             markers[i].setAnimation(null);
-
         }
     }
     inside = false;

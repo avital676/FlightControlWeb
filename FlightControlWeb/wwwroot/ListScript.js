@@ -1,4 +1,6 @@
-﻿function allowDrop(ev) {
+﻿var deleted = false;
+
+function allowDrop(ev) {
     $("#listsArea").hide();
     $("#dragAndDrop").show();
     ev.preventDefault();
@@ -23,6 +25,10 @@ function onDrop(ev) {
 }
 
 function flightClick(ev) {
+    if (deleted) {
+        deleted = false;
+        return;
+    }
     document.getElementById("detailes").innerHTML = ev.target.innerHTML;
     selectFlight(ev.target.id);
 }
@@ -45,6 +51,7 @@ $.getJSON(flighturl, function (data) {
 });
 
 function deleteFlight(event) {
+    deleted = true;
     var flightId = event.target.id;
     // delete from list:
     var deleteurl = `../api/Flights/${flightId}`;
@@ -80,6 +87,7 @@ function deleteFlight(event) {
 }
 
 var worker;
+var animatedId = null;
 function buttonClicked() {
     if (typeof (Worker) !== "undefined") {
         if (typeof (worker) == "undefined") {
