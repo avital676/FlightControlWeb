@@ -1,4 +1,8 @@
-﻿function selectFlight(flightId) {
+﻿var selected = null;
+var flightPath;
+var line = [];
+function selectFlight(flightId) {
+    selected = flightId;
     // color list:
     var list1 = document.getElementById("list1");
     var list2 = document.getElementById("list2");
@@ -22,7 +26,8 @@
         document.getElementById("listD").deleteRow(1);
     }
     document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
-    var flighturl = "../api/Flights";
+   // var flighturl = "../api/Flights";
+    var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:21Z";
     // add details:
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
@@ -55,7 +60,6 @@ function colorList(list, flightId) {
 }
 
 //Drawing the Flight path 
-
 function drawPath(flight) {
     var flightPlanCoordinates = [];
     var segments = flight.flightPlan.segments;
@@ -71,12 +75,48 @@ function drawPath(flight) {
         flightPlanCoordinates.push({ lat: lat, lng: lng });
     }
 
-    var flightPath = new google.maps.Polyline({
+    flightPath = new google.maps.Polyline({
         path: flightPlanCoordinates,
         geodesic: true,
         strokeColor: '#FF0000',
         strokeOpacity: 1.0,
         strokeWeight: 2
     });
+    // save poline:
+    line.push(flightPath);
     flightPath.setMap(googleMap);
+}
+
+function cancelClick(event) {
+    if (inside != true) {
+        //document.getElementById("detailes").innerHTML = "cancel"
+        //delete line on map
+        for (i = 0; i < line.length; i++) {
+            line[i].setMap(null); //or line[i].setVisible(false);
+        }
+        //delete details
+        if (document.getElementById("listD").rows.length > 1) {
+            document.getElementById("listD").deleteRow(1);
+        }
+        //cancel the color row
+        var row;
+        var tableRows = document.getElementById("list1").getElementsByTagName('tr');
+        for (var i = 1; i < tableRows.length; i++) {
+            row = tableRows[i];
+            row.style.backgroundColor = "";
+        }
+        var tableRows = document.getElementById("list2").getElementsByTagName('tr');
+        for (var i = 1; i < tableRows.length; i++) {
+            row = tableRows[i];
+            row.style.backgroundColor = "";
+
+        }
+
+        // animate plane: cancel the jump
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setAnimation(null);
+
+        }
+    }
+    inside = false;
 }

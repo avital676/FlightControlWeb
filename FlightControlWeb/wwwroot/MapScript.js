@@ -1,12 +1,13 @@
 ﻿var googleMap;
 var markers = [];
-
+var inside = false;
 function initMap() {
     //map options
     var options = {
         zoom: 2,
         center: { lat: 32.00683, lng: 34.88533 },
-        mapTypeId: 'terrain'
+        mapTypeId: 'terrain',
+        id: 'googleMap'
     }
     $("#dragAndDrop").hide();
     //creating new map
@@ -35,6 +36,7 @@ function addMarker(props) {
         content: props.content
     };
     marker.addListener('click', function () {
+        inside = true;
         var x = document.getElementById("detailes");
         if (x.style.display === "none") {
         } else {

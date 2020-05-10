@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <h1> Flights Controler:</h1>
-                <div id="map">
+                <div id="map" onclick="cancelClick(event)">
                     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap"></script>
                 </div>
                 <div class="row">
@@ -44,11 +44,11 @@
                         <thead>
                             <tr>
                                 <th scope="col">flight number</th>
-                                <th scope="col">longitude </th>
-                                <th scope="col">latitude </th>
+                                <th scope="col">longitude</th>
+                                <th scope="col">latitude</th>
                                 <th scope="col">pasenger</th>
-                                <th scope="col">company name </th>
-                                <th scope="col">date </th>
+                                <th scope="col">company name</th>
+                                <th scope="col">date</th>
                             </tr>
                         </thead>
                         <tbody>

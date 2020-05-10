@@ -32,12 +32,14 @@ namespace FlightControlWeb.DataBase
         private static List<Flight> myFlights = new List<Flight>();
         public static List<Segment> allSegments = new List<Segment>()
         {
-            new Segment{  Longitude=40, Latitude = 40,  TimeSpanSec = 10 },
+            new Segment{  Longitude=45, Latitude = 45,  TimeSpanSec = 10 },
             new Segment{  Longitude=30, Latitude = 30,  TimeSpanSec = 10 },
             new Segment{  Longitude=20, Latitude = 20,  TimeSpanSec = 10 },
             new Segment{  Longitude=10, Latitude = 10,  TimeSpanSec = 10 },
 
         };
+
+        
         public void addFlight(FlightPlan flightPlan)
         {
             Flight flight = new Flight(flightPlan);
@@ -57,9 +59,8 @@ namespace FlightControlWeb.DataBase
 
         public IEnumerable<Flight> getAllFlights(string relativeTo)
         {
-            
+
             DateTime clientDT = DateTime.Parse(relativeTo);
-            DateTime serverDT = clientDT.AddHours(2);
             return GetRelevantFlights(clientDT);
         }
 
@@ -102,24 +103,43 @@ namespace FlightControlWeb.DataBase
                 throw new Exception("Flight not found");
             return flight;
         }
+
+        public static List<Segment> indiaSeg = new List<Segment>()
+        {
+            new Segment{  Longitude=13.948911, Latitude = 41.749457,  TimeSpanSec = 25 },
+            new Segment{  Longitude=78.962883, Latitude = 20.593683,  TimeSpanSec = 25 }
+        };
+
+        public static List<Segment> nySeg = new List<Segment>()
+        {
+            new Segment{  Longitude=-80.289, Latitude = 25.6968,  TimeSpanSec = 25 },
+            new Segment{  Longitude=-58.455, Latitude = -34.75,  TimeSpanSec = 25 }
+        };
+
+        public static List<Segment> londonSeg = new List<Segment>()
+        {
+            new Segment{  Longitude=4.895, Latitude = 52.37,  TimeSpanSec = 25 },
+            new Segment{  Longitude=-102.55, Latitude = 23.634,  TimeSpanSec = 25 }
+        };
+
         private int i = 0;
         public void AddRandomFlights()
         {
             if (i == 0)
             {
-               myFlights.Clear();
-                InitialLocation loc = new InitialLocation { Latitude = 50, Longitude = 50, Date_Time = "2020-12-26T23:56:21Z" };
-                Flight flight1 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "ELAL", Initial_Location = loc, Segments = allSegments });
+                myFlights.Clear();
+                InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, Date_Time = "2020-12-26T23:56:03Z" };
+                Flight flight1 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "New York Airlines", Initial_Location = loc1, Segments = nySeg });
                 myFlights.Add(flight1);
-                InitialLocation loc2 = new InitialLocation { Latitude = 20.593683, Longitude = 78.962883, Date_Time = "2020-12-26T23:56:21Z" };
-                Flight flight2 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "AirIndia", Initial_Location = loc2, Segments = allSegments });
+
+                InitialLocation loc2 = new InitialLocation { Latitude = 51.507, Longitude = -0.127, Date_Time = "2020-12-26T23:56:03Z" };
+                Flight flight2 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "British Airways", Initial_Location = loc2, Segments = londonSeg });
                 myFlights.Add(flight2);
-                InitialLocation loc3 = new InitialLocation { Latitude = 70, Longitude = 20, Date_Time = "2020-12-26T23:56:21Z" };
-                Flight flight3 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Lufthansa", Initial_Location = loc3, Segments = allSegments });
-                myFlights.Add(flight3);
-                InitialLocation loc4 = new InitialLocation { Latitude = 50, Longitude = 60, Date_Time = "2020-12-26T23:56:21Z" };
-                Flight flight4 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Ethiopian",Initial_Location = loc4 , Segments = allSegments });
-                myFlights.Add(flight4);
+
+                InitialLocation loc5 = new InitialLocation { Latitude = 31.912154, Longitude = 35.114953, Date_Time = "2020-12-26T23:56:03Z" };
+                Flight flight5 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Air India", Initial_Location = loc5, Segments = indiaSeg });
+                myFlights.Add(flight5);
+
                 i++;
             }
         }

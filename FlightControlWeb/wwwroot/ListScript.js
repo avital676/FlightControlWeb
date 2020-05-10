@@ -22,19 +22,19 @@ function onDrop(ev) {
     }
 }
 
-
-
 function flightClick(ev) {
     document.getElementById("detailes").innerHTML = ev.target.innerHTML;
     selectFlight(ev.target.id);
 }
 
-var flighturl = "../api/Flights";
+var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z";
 $.getJSON(flighturl, function (data) {
     data.forEach(function (flight) {
         var flightId = flight.flightId;
         $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-            <td id=${flightId}>${flight.companyName}</td></tr>`);
+            <td id=${flightId}>${flight.companyName}</td>
+            <td><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
+                id=${flightId}>X</button></td></tr>`);
         $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
             <td id=${flightId}>${flight.companyName}</td></tr>`);
         addMarker({
@@ -44,28 +44,53 @@ $.getJSON(flighturl, function (data) {
     });
 });
 
+function deleteFlight(event) {
+    var flightId = event.target.id;
+    // delete from list:
+    var deleteurl = `../api/Flights/${flightId}`;
+    $.ajax({
+        url: deleteurl,
+        type: 'DELETE'
+    });
+    var list = document.getElementById("list1");
+    var tableRows = list.getElementsByTagName('tr');
+    var row;
+    var compId;
+    for (var i = 1; i < tableRows.length; i++) {
+        row = tableRows[i];
+        compId = row.cells[0].innerHTML;
+        if (flightId == compId) {
+            document.getElementById("list1").deleteRow(i);
+        }
+    }
+    // delete from map:
+    for (var i = 0; i < markers.length; i++) {
+        if (markers[i].id == flightId) {
+            markers[i].setMap(null);
+            markers.splice(i, 1);
+            break;
+        }
+    }
+    // delete route
+    if (selected == flightId) {
+        for (i = 0; i < line.length; i++) {
+            line[i].setMap(null);
+        }
+    }
+}
 
 var worker;
-
 function buttonClicked() {
     if (typeof (Worker) !== "undefined") {
         if (typeof (worker) == "undefined") {
             worker = new Worker('worker.js');
         }
         worker.onmessage = function (event) {
-            while (document.getElementById("list1").rows.length != 1) {
-                document.getElementById("list1").deleteRow(1);
-            }
             setMapOnAll(null);
             markers = [];
-            var flighturl = "../api/Flights";
+            var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
             $.getJSON(flighturl, function (data) {
                 data.forEach(function (flight) {
-                    var i;
-                    $("#list1").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                        "<td>" + flight.companyName + "</td></tr>");
-                    /**$("#list2").append("<tr onclick=flightClick(event)><td>" + flight.flightId + "</td>" +
-                        "<td>" + flight.companyName + "</td></tr>");*/
                     addMarker({
                         coords: { lat: flight.latitude, lng: flight.longitude },
                         content: flight
@@ -82,7 +107,6 @@ function buttonClicked() {
 // Sets the map on all markers in the array.
 function setMapOnAll(map) {
     for (var i = 0; i < markers.length; i++) {
-       markers[i].setMap(map);
+        markers[i].setMap(map);
     }
 }
-

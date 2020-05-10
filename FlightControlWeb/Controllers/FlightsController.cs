@@ -15,18 +15,19 @@ namespace FlightControlWeb.Controllers
     {
         // GET: api/Flights
         [HttpGet]
-        public IEnumerable<Flight> GetAllFlights()
+        public IEnumerable<Flight> GetAllFlights(string relative_to)
         {
             MyFlights.Instance.AddRandomFlights();
-            return MyFlights.Instance.getAllFlights();
+            return MyFlights.Instance.getAllFlights(relative_to);
+            //return MyFlights.Instance.getAllFlights();
         }
 
-       /** // GET: api/Flights/5
-        [HttpGet("{id}", Name = "Get")]
-        public Flight flight(string id)
-        {
-           return MyFlights.Instance.GetFlightById(id);
-        }*/
+        /** // GET: api/Flights/5
+         [HttpGet("{id}", Name = "Get")]
+         public Flight flight(string id)
+         {
+            return MyFlights.Instance.GetFlightById(id);
+         }*/
 
         // POST: api/Flights
         [HttpPost]

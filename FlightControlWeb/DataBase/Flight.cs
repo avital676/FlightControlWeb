@@ -24,7 +24,7 @@ namespace FlightControlWeb.Models
     public class Flight
     {
         public FlightPlan flightPlan { get; set; }
-        
+
         public Flight(FlightPlan flightPlan)
         {
             this.flightPlan = flightPlan;
@@ -82,25 +82,34 @@ namespace FlightControlWeb.Models
         {
             return this.flightPlan;
         }
+
         public string UpdateLocation(DateTime relativeTo)
         {
-            Location startingLoc = new Location(0,0);
+            Location startingLoc = new Location(0, 0);
             Location latLonToMove;
             DateTime startingTime = DateTime.Parse(DateTimee);
             double secGap = (relativeTo - startingTime).TotalSeconds;
             Info currentSegment = getCurrentSegmentNum(relativeTo);
             int currentSegmentNum = currentSegment.SegmentNum;
-            if (currentSegmentNum == -1) {
+            if (currentSegmentNum == -1)
+            {
                 return "Ended";
-            } else if(currentSegmentNum == 0) {
+            }
+            else if (currentSegmentNum == 0)
+            {
                 startingLoc = new Location(flightPlan.Initial_Location.Latitude, flightPlan.Initial_Location.Longitude);
-            } else {
+                latLonToMove = flightPlan.Segments[currentSegmentNum].MovementForSec(startingLoc.Lat, startingLoc.Lon);
+                //Latitude = startingLoc.Lat + secGap * latLonToMove.Lat;
+                //Longitude = startingLoc.Lon + secGap * latLonToMove.Lon;
+            }
+            else
+            {
                 startingLoc = new Location(flightPlan.Segments[currentSegmentNum - 1].Latitude,
                     flightPlan.Segments[currentSegmentNum - 1].Longitude);
             }
             latLonToMove = flightPlan.Segments[currentSegmentNum].MovementForSec(startingLoc.Lat, startingLoc.Lon);
-            Latitude = flightPlan.Segments[currentSegmentNum - 1].Latitude + (secGap - currentSegment.SecTillSegment) * latLonToMove.Lat;
-            Longitude = flightPlan.Segments[currentSegmentNum - 1].Longitude + (secGap - currentSegment.SecTillSegment) * latLonToMove.Lon;
+            Latitude = startingLoc.Lat + (secGap - currentSegment.SecTillSegment) * latLonToMove.Lat;
+            Longitude = startingLoc.Lon + (secGap - currentSegment.SecTillSegment) * latLonToMove.Lon;
             return "Success";
         }
 
@@ -110,11 +119,12 @@ namespace FlightControlWeb.Models
             int segmentNum = 0;
             DateTime startingTime = DateTime.Parse(DateTimee);
             double secGap = (relativeTo - startingTime).TotalSeconds;
-            for (segmentNum =0; segmentNum < flightPlan.Segments.Count; segmentNum++)
+            for (segmentNum = 0; segmentNum < flightPlan.Segments.Count; segmentNum++)
             {
                 timePassed += flightPlan.Segments[segmentNum].TimeSpanSec;
                 if (secGap < timePassed)
                 {
+                    timePassed -= flightPlan.Segments[segmentNum].TimeSpanSec;
                     return new Info(segmentNum, timePassed);
                 }
             }
