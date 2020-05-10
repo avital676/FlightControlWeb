@@ -1,4 +1,7 @@
-﻿function selectFlight(flightId) {
+﻿var flightPath;
+//lost of all line on map
+var line = [];
+function selectFlight(flightId) {
     // color list:
     var list1 = document.getElementById("list1");
     var list2 = document.getElementById("list2");
@@ -71,12 +74,46 @@ function drawPath(flight) {
         flightPlanCoordinates.push({ lat: lat, lng: lng });
     }
 
-    var flightPath = new google.maps.Polyline({
+     flightPath = new google.maps.Polyline({
         path: flightPlanCoordinates,
         geodesic: true,
         strokeColor: '#FF0000',
         strokeOpacity: 1.0,
         strokeWeight: 2
-    });
+     });
+    //save all the poline - to delete them later;
+    line.push(flightPath);
     flightPath.setMap(googleMap);
+}
+function cancelClick(event) {
+
+    document.getElementById("detailes").innerHTML = "cancel"
+    //delete line on map
+    for (i = 0; i < line.length; i++) {
+        line[i].setMap(null); //or line[i].setVisible(false);
+    }
+    //delete details
+    if (document.getElementById("listD").rows.length > 1) {
+        document.getElementById("listD").deleteRow(1);
+    }
+    //cancel the color row
+    var row;
+    var tableRows = document.getElementById("list1").getElementsByTagName('tr');
+    for (var i = 1; i < tableRows.length; i++) {
+        row = tableRows[i];
+        row.style.backgroundColor = "";
+
+    }
+    var tableRows = document.getElementById("list2").getElementsByTagName('tr');
+    for (var i = 1; i < tableRows.length; i++) {
+        row = tableRows[i];
+        row.style.backgroundColor = "";
+
+    }
+
+    // animate plane: cancel the jump
+    for (var i = 0; i < markers.length; i++) {
+            markers[i].setAnimation(null);
+        
+    }
 }
