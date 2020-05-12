@@ -71,14 +71,9 @@ function deleteFlight(event) {
         }
     }
     // delete from map:
-    for (var i = 0; i < markers.length; i++) {
-        if (markers[i].id == flightId) {
-            markers[i].setMap(null);
-            markers.splice(i, 1);
-            break;
-        }
-    }
-    // delete route
+    markers[flightId].setMap(null);
+    markers.delete(flightId);
+    // delete route - NOT WORKING AFTER REFRESH
     if (selected == flightId) {
         for (i = 0; i < line.length; i++) {
             line[i].setMap(null);
@@ -94,15 +89,11 @@ function buttonClicked() {
             worker = new Worker('worker.js');
         }
         worker.onmessage = function (event) {
-            setMapOnAll(null);
-            markers = [];
             var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
             $.getJSON(flighturl, function (data) {
                 data.forEach(function (flight) {
-                    addMarker({
-                        coords: { lat: flight.latitude, lng: flight.longitude },
-                        content: flight
-                    });
+                    var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
+                    markers[flight.flightId].setPosition(myLatlng);
                 });
             });
         };

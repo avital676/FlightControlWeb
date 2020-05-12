@@ -1,5 +1,5 @@
 ﻿var googleMap;
-var markers = [];
+var markers = {};
 var inside = false;
 
 function initMap() {
@@ -28,9 +28,10 @@ function addMarker(props) {
         position: props.coords,
         map: googleMap,
         icon: icon,
-        id: props.content.flightId
+    ///    id: props.content.flightId
     });
-    markers.push(marker);
+    markers[props.content.flightId] = marker;
+   /// markers.push(marker);
     //check info window
     if (props.content) {
         //add info window

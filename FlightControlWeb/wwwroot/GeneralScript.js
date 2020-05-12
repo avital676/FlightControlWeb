@@ -11,13 +11,13 @@ function selectFlight(flightId) {
     colorList(list2, flightId);
 
     // animate plane:
-    for (var i = 0; i < markers.length; i++) {
-        if (markers[i].id == flightId) {
-            if (markers[i].getAnimation() != google.maps.Animation.BOUNCE) {
-                markers[i].setAnimation(google.maps.Animation.BOUNCE);
+    for (var key in markers) {
+        if (key == flightId) {
+            if (markers[key].getAnimation() != google.maps.Animation.BOUNCE) {
+                markers[key].setAnimation(google.maps.Animation.BOUNCE);
             }
         } else {
-            markers[i].setAnimation(null);
+            markers[key].setAnimation(null);
         }
     }
 
@@ -118,8 +118,8 @@ function cancelClick(event) {
         }
 
         // un-animate plane: cancel the jump
-        for (var i = 0; i < markers.length; i++) {
-            markers[i].setAnimation(null);
+        for (var key in markers) {
+            markers[key].setAnimation(null);
         }
     }
     inside = false;
