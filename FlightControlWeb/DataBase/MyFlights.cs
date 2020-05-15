@@ -32,10 +32,10 @@ namespace FlightControlWeb.DataBase
         private static List<Flight> myFlights = new List<Flight>();
         public static List<Segment> allSegments = new List<Segment>()
         {
-            new Segment{  Longitude=45, Latitude = 45,  TimeSpanSec = 10 },
-            new Segment{  Longitude=30, Latitude = 30,  TimeSpanSec = 10 },
-            new Segment{  Longitude=20, Latitude = 20,  TimeSpanSec = 10 },
-            new Segment{  Longitude=10, Latitude = 10,  TimeSpanSec = 10 },
+            new Segment{  Longitude=45, Latitude = 45,  Timespan_seconds = 10 },
+            new Segment{  Longitude=30, Latitude = 30,  Timespan_seconds = 10 },
+            new Segment{  Longitude=20, Latitude = 20,  Timespan_seconds = 10 },
+            new Segment{  Longitude=10, Latitude = 10,  Timespan_seconds = 10 },
 
         };
 
@@ -106,20 +106,20 @@ namespace FlightControlWeb.DataBase
 
         public static List<Segment> indiaSeg = new List<Segment>()
         {
-            new Segment{  Longitude=13.948911, Latitude = 41.749457,  TimeSpanSec = 25 },
-            new Segment{  Longitude=78.962883, Latitude = 20.593683,  TimeSpanSec = 25 }
+            new Segment{  Longitude=13.948911, Latitude = 41.749457,  Timespan_seconds = 25 },
+            new Segment{  Longitude=78.962883, Latitude = 20.593683,  Timespan_seconds = 25 }
         };
 
         public static List<Segment> nySeg = new List<Segment>()
         {
-            new Segment{  Longitude=-80.289, Latitude = 25.6968,  TimeSpanSec = 25 },
-            new Segment{  Longitude=-58.455, Latitude = -34.75,  TimeSpanSec = 25 }
+            new Segment{  Longitude=-80.289, Latitude = 25.6968,  Timespan_seconds = 25 },
+            new Segment{  Longitude=-58.455, Latitude = -34.75,  Timespan_seconds = 25 }
         };
 
         public static List<Segment> londonSeg = new List<Segment>()
         {
-            new Segment{  Longitude=4.895, Latitude = 52.37,  TimeSpanSec = 25 },
-            new Segment{  Longitude=-102.55, Latitude = 23.634,  TimeSpanSec = 25 }
+            new Segment{  Longitude=4.895, Latitude = 52.37,  Timespan_seconds = 25 },
+            new Segment{  Longitude=-102.55, Latitude = 23.634,  Timespan_seconds = 25 }
         };
 
         private int i = 0;

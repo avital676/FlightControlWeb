@@ -66,8 +66,19 @@ namespace FlightControlWeb.Models
 
         private String CreateID()
         {
-            //return System.Guid.NewGuid().ToString().Substring(0, 6);
-            StringBuilder _builder = new StringBuilder();
+            string id = "";
+            Random random = new Random();
+            string[] Alphabet = new string[26] { "A", "B", "C", "D", "E", "F", "G",
+                "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+                "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            for (int i = 0; i < 3; i++)
+            {
+                int randomNum = random.Next(0, 99);
+                int randomChar = random.Next(0, 25);
+                id += randomNum.ToString() + Alphabet[randomChar];
+            }
+            return id;
+            /**StringBuilder _builder = new StringBuilder();
             Enumerable
                 .Range(65, 26)
                 .Select(e => ((char)e).ToString())
@@ -76,7 +87,7 @@ namespace FlightControlWeb.Models
                 .OrderBy(e => Guid.NewGuid())
                 .Take(9)
                 .ToList().ForEach(e => _builder.Append(e));
-            return _builder.ToString();
+            return _builder.ToString();*/
         }
         public FlightPlan getFlightPlan()
         {
@@ -121,10 +132,10 @@ namespace FlightControlWeb.Models
             double secGap = (relativeTo - startingTime).TotalSeconds;
             for (segmentNum = 0; segmentNum < flightPlan.Segments.Count; segmentNum++)
             {
-                timePassed += flightPlan.Segments[segmentNum].TimeSpanSec;
+                timePassed += flightPlan.Segments[segmentNum].Timespan_seconds;
                 if (secGap < timePassed)
                 {
-                    timePassed -= flightPlan.Segments[segmentNum].TimeSpanSec;
+                    timePassed -= flightPlan.Segments[segmentNum].Timespan_seconds;
                     return new Info(segmentNum, timePassed);
                 }
             }

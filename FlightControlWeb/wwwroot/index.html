@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- Google Maps script -->
     <script src="MapScript.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -55,8 +55,8 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)" ondragleave="onDragLeave(event)">
+            </div><!-- ondragleave="onDragLeave(event)"-->
+            <div class="col-sm" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)">
                 <div class="jumbotron" id="listsArea" style="background:#E6F2FF !important">
                     <h1 class="display-4">My Flights</h1>
                     <div class="table-wrapper-scroll-y my-custom-scrollbar">

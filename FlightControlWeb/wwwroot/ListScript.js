@@ -8,6 +8,14 @@ function allowDrop(ev) {
     document.getElementById("detailes").innerHTML = "drag";
 }
 
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
 function onDrop(ev) {
     ev.preventDefault();
     document.getElementById("detailes").innerHTML = "drropppopopo";
@@ -21,7 +29,39 @@ function onDrop(ev) {
         xhr.open("POST", flighturl, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
+        sleep(50);
+        updateList();
     }
+}
+
+function updateList() {
+    var row;
+    var compId;
+    var list = document.getElementById("list1");
+    var tableRows = list.getElementsByTagName('tr');
+    $.getJSON(flighturl, function (data) {
+        data.forEach(function (flight) {
+            var exist = false;
+            for (var i = 1; i < tableRows.length; i++) {
+                row = tableRows[i];
+                compId = row.cells[0].innerHTML;
+                if (flight.flightId == compId) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist == false) {
+                $("#list1").append(`<tr onclick=flightClick(event)><td id=${flight.flightId}>${flight.flightId}</td> 
+            <td id=${flight.flightId}>${flight.companyName}</td>
+            <td><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
+                id=${flight.flightId}>X</button></td></tr>`);
+                addMarker({
+                    coords: { lat: flight.latitude, lng: flight.longitude },
+                    content: flight
+                });
+            }
+        });
+    });
 }
 
 function flightClick(ev) {
