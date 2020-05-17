@@ -13,6 +13,11 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
+        private IFlightManeger flightMan;
+        public FlightsController(IFlightManeger f)
+        {
+            flightMan = f;
+        }
         // GET: api/Flights
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights(string relative_to)
@@ -20,12 +25,14 @@ namespace FlightControlWeb.Controllers
             if (relative_to.Contains("sync_all"))
             {
                 //returns myflight , servers flights
-                MyFlights.Instance.AddRandomFlights();
-                return MyFlights.Instance.getAllFlights(relative_to);
+                flightMan.AddRandomFlights();
+                return flightMan.getAllFlights(relative_to);
+                //MyFlights.Instance.AddRandomFlights();
+                //return MyFlights.Instance.getAllFlights(relative_to);
             } else
             {
-                MyFlights.Instance.AddRandomFlights();
-                return MyFlights.Instance.getAllFlights(relative_to);
+                flightMan.AddRandomFlights();
+                return flightMan.getAllFlights(relative_to);
             }
             //return MyFlights.Instance.getAllFlights();
         }
@@ -34,7 +41,7 @@ namespace FlightControlWeb.Controllers
         [HttpPost]
         public FlightPlan Post(FlightPlan value)
         {
-            MyFlights.Instance.addFlight(value);
+            flightMan.addFlight(value);
             return value;
         }
 
@@ -42,7 +49,7 @@ namespace FlightControlWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            MyFlights.Instance.DeleteFlight(id);
+            flightMan.DeleteFlight(id);
         }
     }
 }

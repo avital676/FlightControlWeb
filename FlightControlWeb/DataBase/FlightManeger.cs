@@ -1,35 +1,16 @@
-using FlightControlWeb.Models;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using FlightControlWeb.Models;
 
 namespace FlightControlWeb.DataBase
 {
-    public sealed class MyFlights
+    public class FlightManeger : IFlightManeger
     {
-        private static MyFlights instance = null;
-        private static readonly object padlock = new object();
-
-        MyFlights() { }
-
-        public static MyFlights Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new MyFlights();
-                    }
-                }
-                return instance;
-            }
-        }
-
-        private static List<Flight> myFlights = new List<Flight>();
+        private ConcurrentDictionary<string, Flight> myFlights = new ConcurrentDictionary<string, Flight>();
+        // ConcurrentDictionary<>
         public static List<Segment> allSegments = new List<Segment>()
         {
             new Segment{  Longitude=45, Latitude = 45,  Timespan_seconds = 10 },
@@ -38,23 +19,35 @@ namespace FlightControlWeb.DataBase
             new Segment{  Longitude=10, Latitude = 10,  Timespan_seconds = 10 },
 
         };
-
-        
         public void addFlight(FlightPlan flightPlan)
         {
             Flight flight = new Flight(flightPlan);
-            myFlights.Add(flight);
+            myFlights.TryAdd(flight.FlightId, flight);
         }
 
         public void addFlight(Flight flight)
         {
-            myFlights.Add(flight);
+            myFlights.TryAdd(flight.FlightId, flight);
+        }
+
+        public void DeleteFlight(string id)
+        {
+            Flight flight = myFlights[id];
+            if (flight == null)
+                throw new Exception("Flight not found");
+            myFlights.TryRemove(id, out flight);
         }
 
         public IEnumerable<Flight> getAllFlights()
         {
-            //getAllFlights("2020-12-26T23:56:41Z");
-            return myFlights;
+            List<Flight> temp = new List<Flight>();
+            foreach (KeyValuePair<string, Flight> entry in myFlights)
+            {
+                temp.Add(entry.Value);
+                // do something with entry.Value or entry.Key
+            }
+            return temp;
+            // return myFlights;
         }
 
         public IEnumerable<Flight> getAllFlights(string relativeTo)
@@ -64,12 +57,20 @@ namespace FlightControlWeb.DataBase
             return GetRelevantFlights(clientDT);
         }
 
+        public Flight GetFlightById(string id)
+        {
+            Flight flight = myFlights[id];
+            if (flight == null)
+                throw new Exception("Flight not found");
+            return flight;
+        }
+
         public IEnumerable<Flight> GetRelevantFlights(DateTime relativeTo)
         {
             List<Flight> relevantFlights = new List<Flight>();
-            for (int i = 0; i < myFlights.Count; i++)
+            foreach (KeyValuePair<string, Flight> entry in myFlights)
             {
-                Flight flight = myFlights[i];
+                Flight flight = entry.Value;
                 if (DateTime.Compare(relativeTo, DateTime.Parse(flight.DateTimee)) < 0)
                 {
                     //Flight didnt start yet
@@ -77,7 +78,8 @@ namespace FlightControlWeb.DataBase
                 }
                 else if (String.Compare(flight.UpdateLocation(relativeTo), "Ended") == 0)
                 {
-                    myFlights.Remove(flight);
+                    myFlights.TryRemove(flight.FlightId, out flight);
+                    // myFlights.Remove(flight);
                 }
                 else
                 {
@@ -87,22 +89,8 @@ namespace FlightControlWeb.DataBase
             return relevantFlights;
         }
 
-        public void DeleteFlight(string id)
-        {
-            Flight flight = myFlights.Where(x => x.FlightId == id).FirstOrDefault();
-            if (flight == null)
-                throw new Exception("Flight not found");
-            myFlights.Remove(flight);
-        }
 
 
-        public Flight GetFlightById(string id)
-        {
-            Flight flight = getAllFlights().Where(x => x.FlightId == id).FirstOrDefault();
-            if (flight == null)
-                throw new Exception("Flight not found");
-            return flight;
-        }
 
         public static List<Segment> indiaSeg = new List<Segment>()
         {
@@ -130,18 +118,20 @@ namespace FlightControlWeb.DataBase
                 myFlights.Clear();
                 InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, Date_Time = "2020-12-26T23:56:03Z" };
                 Flight flight1 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "New York Airlines", Initial_Location = loc1, Segments = nySeg });
-                myFlights.Add(flight1);
+                myFlights.TryAdd(flight1.FlightId, flight1);
 
                 InitialLocation loc2 = new InitialLocation { Latitude = 51.507, Longitude = -0.127, Date_Time = "2020-12-26T23:56:03Z" };
                 Flight flight2 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "British Airways", Initial_Location = loc2, Segments = londonSeg });
-                myFlights.Add(flight2);
+                myFlights.TryAdd(flight2.FlightId, flight2);
 
                 InitialLocation loc5 = new InitialLocation { Latitude = 31.912154, Longitude = 35.114953, Date_Time = "2020-12-26T23:56:03Z" };
                 Flight flight5 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Air India", Initial_Location = loc5, Segments = indiaSeg });
-                myFlights.Add(flight5);
+                myFlights.TryAdd(flight5.FlightId, flight5);
 
                 i++;
             }
         }
     }
 }
+   
+
