@@ -1,0 +1,21 @@
+{
+  "passengers": 200,
+  "company_name": "Brazil Airlines",
+  "initial_location": {
+    "longitude": -51.925282,
+    "latitude": -14.235004,
+    "date_time": "2020-12-26T23:56:03Z"
+  },
+  "segments": [
+    {
+      "longitude": -81.515755,
+      "latitude": 27.664827,
+      "timespan_seconds": 30
+    }, 
+    {
+      "longitude": 2.213749,
+      "latitude": 46.227638,
+      "timespan_seconds": 30
+    }
+  ]
+}

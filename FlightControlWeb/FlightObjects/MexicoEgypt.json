@@ -1,0 +1,21 @@
+{
+  "passengers": 216,
+  "company_name": "Mexico Airlines",
+  "initial_location": {
+    "longitude": -102.552788,
+    "latitude": 23.634501,
+    "date_time": "2020-12-26T23:56:03Z"
+  },
+  "segments": [
+    {
+      "longitude": 30.802498,
+      "latitude": 26.820553,
+      "timespan_seconds": 30
+    }, 
+    {
+      "longitude": -58.455190,
+      "latitude": -34.758115,
+      "timespan_seconds": 30
+    }
+  ]
+}

@@ -30,9 +30,14 @@ function onDrop(ev) {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
         sleep(50);
-        updateList();
+        
     }
 }
+
+/**function onDragLeave(event) {
+    $("#listsArea").show();
+    $("#dragAndDrop").hide();
+}*/
 
 function endDrag(event) {
     $("#listsArea").show();
@@ -44,6 +49,7 @@ function updateList() {
     var compId;
     var list = document.getElementById("list1");
     var tableRows = list.getElementsByTagName('tr');
+    var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
             var exist = false;
@@ -135,6 +141,7 @@ function buttonClicked() {
             worker = new Worker('worker.js');
         }
         worker.onmessage = function (event) {
+            updateList();
             var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
             $.getJSON(flighturl, function (data) {
                 data.forEach(function (flight) {

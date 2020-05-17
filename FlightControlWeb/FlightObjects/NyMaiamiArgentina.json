@@ -1,0 +1,21 @@
+{
+  "passengers": 216,
+  "company_name": "NewYork",
+  "initial_location": {
+    "longitude": -73.946668,
+    "latitude": 40.761138,
+    "date_time": "2020-12-26T23:56:01Z"
+  },
+  "segments": [
+    {
+      "longitude": -80.289217,
+      "latitude": 25.696839,
+      "timespan_seconds": 650
+    }, 
+    {
+      "longitude": -58.455190,
+      "latitude": -34.758115,
+      "timespan_seconds": 650
+    }
+  ]
+}
