@@ -13,8 +13,8 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        private IFlightManeger flightMan;
-        public FlightsController(IFlightManeger f)
+        private IFlightManager flightMan;
+        public FlightsController(IFlightManager f)
         {
             flightMan = f;
         }

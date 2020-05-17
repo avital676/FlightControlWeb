@@ -13,7 +13,6 @@ function initMap() {
     $("#dragAndDrop").hide();
     //creating new map
     googleMap = new google.maps.Map(document.getElementById('map'), options);
-    //showLine(37, -122, 41.4668, 153.027);
 }
 
 function addMarker(props) {
@@ -28,10 +27,8 @@ function addMarker(props) {
         position: props.coords,
         map: googleMap,
         icon: icon,
-    ///    id: props.content.flightId
     });
     markers[props.content.flightId] = marker;
-   /// markers.push(marker);
     //check info window
     if (props.content) {
         //add info window
@@ -64,7 +61,7 @@ function showLine(a, b, c, d) {
     flightPath.setMap(googleMap);
 }
 
-// Removes the markers from the map, but keeps them in the array.
 function clearMarkers() {
+    // Removes the markers from the map, but keeps them in the array.
     setMapOnAll(null);
 }

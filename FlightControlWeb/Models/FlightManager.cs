@@ -7,18 +7,18 @@ using FlightControlWeb.Models;
 
 namespace FlightControlWeb.DataBase
 {
-    public class FlightManeger : IFlightManeger
+    public class FlightManager : IFlightManager
     {
         private ConcurrentDictionary<string, Flight> myFlights = new ConcurrentDictionary<string, Flight>();
-        // ConcurrentDictionary<>
+
         public static List<Segment> allSegments = new List<Segment>()
         {
             new Segment{  Longitude=45, Latitude = 45,  Timespan_seconds = 10 },
             new Segment{  Longitude=30, Latitude = 30,  Timespan_seconds = 10 },
             new Segment{  Longitude=20, Latitude = 20,  Timespan_seconds = 10 },
             new Segment{  Longitude=10, Latitude = 10,  Timespan_seconds = 10 },
-
         };
+
         public void addFlight(FlightPlan flightPlan)
         {
             Flight flight = new Flight(flightPlan);
@@ -44,15 +44,12 @@ namespace FlightControlWeb.DataBase
             foreach (KeyValuePair<string, Flight> entry in myFlights)
             {
                 temp.Add(entry.Value);
-                // do something with entry.Value or entry.Key
             }
             return temp;
-            // return myFlights;
         }
 
         public IEnumerable<Flight> getAllFlights(string relativeTo)
         {
-
             DateTime clientDT = DateTime.Parse(relativeTo);
             return GetRelevantFlights(clientDT);
         }
@@ -88,9 +85,6 @@ namespace FlightControlWeb.DataBase
             }
             return relevantFlights;
         }
-
-
-
 
         public static List<Segment> indiaSeg = new List<Segment>()
         {

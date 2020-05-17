@@ -34,6 +34,11 @@ function onDrop(ev) {
     }
 }
 
+function endDrag(event) {
+    $("#listsArea").show();
+    $("#dragAndDrop").hide();
+}
+
 function updateList() {
     var row;
     var compId;
@@ -112,12 +117,13 @@ function deleteFlight(event) {
     }
     // delete from map:
     markers[flightId].setMap(null);
-    markers.delete(flightId);
-    // delete route - NOT WORKING AFTER REFRESH
+    delete markers[flightId];
+    // delete route and details table:
     if (selected == flightId) {
         for (i = 0; i < line.length; i++) {
             line[i].setMap(null);
         }
+        document.getElementById("listD").deleteRow(1);
     }
 }
 
@@ -143,7 +149,7 @@ function buttonClicked() {
     }
 }
 
-// Sets the map on all markers in the array.
+// Set the map on all markers in the array:
 function setMapOnAll(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);

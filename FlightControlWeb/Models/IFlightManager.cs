@@ -6,12 +6,12 @@ using FlightControlWeb.Models;
 
 namespace FlightControlWeb.DataBase
 {
-    public interface IFlightManeger 
+    public interface IFlightManager 
     {
-
         public void addFlight(FlightPlan flightPlan);
 
         public void addFlight(Flight flight);
+
         public IEnumerable<Flight> getAllFlights();
 
         public IEnumerable<Flight> getAllFlights(string relativeTo);
@@ -20,8 +20,8 @@ namespace FlightControlWeb.DataBase
 
         public void DeleteFlight(string id);
 
-
         public Flight GetFlightById(string id);
+
         public void AddRandomFlights();
 
     }

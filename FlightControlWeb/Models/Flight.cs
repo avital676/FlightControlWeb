@@ -28,10 +28,10 @@ namespace FlightControlWeb.Models
         public Flight(FlightPlan flightPlan)
         {
             this.flightPlan = flightPlan;
-            this.Longitude = flightPlan.Initial_Location.Longitude;
-            this.Latitude = flightPlan.Initial_Location.Latitude;
+            Longitude = flightPlan.Initial_Location.Longitude;
+            Latitude = flightPlan.Initial_Location.Latitude;
             IsExternal = false;
-            this.FlightId = CreateID();
+            FlightId = CreateID();
         }
         public string FlightId { get; set; }
         public double Longitude { get; set; }

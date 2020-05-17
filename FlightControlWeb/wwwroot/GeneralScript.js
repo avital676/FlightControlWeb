@@ -27,7 +27,6 @@ function selectFlight(flightId) {
         document.getElementById("listD").deleteRow(1);
     }
     document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
-    // var flighturl = "../api/Flights";
     var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:21Z";
     // clear existing route from map:
     for (i = 0; i < line.length; i++) {
