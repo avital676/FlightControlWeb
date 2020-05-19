@@ -35,6 +35,10 @@ namespace FlightControlWeb.Controllers
             }
             //return MyFlights.Instance.getAllFlights();
         }
+        public void AddFilghtFromServers(Server server, string relative_to)
+        {
+
+        }
 
         // POST: api/Flights
         [HttpPost]

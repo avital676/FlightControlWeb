@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,24 +8,36 @@ namespace FlightControlWeb.Models
 {
     public class Servers
     {
-        List<Server> externalServers = new List<Server>();
-        
+        private ConcurrentDictionary<string, Server> myServers = new ConcurrentDictionary<string, Server>();
+
         public void DeleteServer(string id)
         {
-            Server server = externalServers.Where(x => x.ServerId == id).FirstOrDefault();
-            if (server == null)
+            Server ser = myServers[id];
+            if (ser == null)
                 throw new Exception("Server not found");
-            externalServers.Remove(server);
+            myServers.TryRemove(id, out ser);
         }
 
         public void AddServer(Server server) 
         {
-            this.externalServers.Add(server);
+            this.myServers.TryAdd(server.ServerId, server);
         }
 
         public List<Server> GetAllServers()
         {
-            return this.externalServers;
+            List<Server> list = new List<Server>();
+            foreach (KeyValuePair<string, Server> entry in myServers)
+            {
+                list.Add(entry.Value);
+            }
+            return list;
+        }
+        public Server GetServerById(string id)
+        {
+            Server ser = myServers[id];
+            if (ser == null)
+                throw new Exception("Server not found");
+            return ser;
         }
     }
 }
