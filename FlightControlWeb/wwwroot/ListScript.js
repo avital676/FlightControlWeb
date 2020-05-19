@@ -1,4 +1,4 @@
-﻿var deleted = false;
+﻿let deleted = false;
 
 function allowDrop(ev) {
     $("#listsArea").hide();
@@ -23,9 +23,9 @@ function onDrop(ev) {
     $("#listsArea").show();
     $("#dragAndDrop").hide();
     if (ev.dataTransfer.items[0].kind == 'file') {
-        var file = ev.dataTransfer.items[0].getAsFile();
-        var xhr = new XMLHttpRequest();
-        var flighturl = "../api/FlightPlan";
+        let file = ev.dataTransfer.items[0].getAsFile();
+        let xhr = new XMLHttpRequest();
+        let flighturl = "../api/FlightPlan";
         xhr.open("POST", flighturl, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
@@ -45,15 +45,15 @@ function endDrag(event) {
 }
 
 function updateList() {
-    var row;
-    var compId;
-    var list = document.getElementById("list1");
-    var tableRows = list.getElementsByTagName('tr');
-    var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
+    let row;
+    let compId;
+    let list = document.getElementById("list1");
+    let tableRows = list.getElementsByTagName('tr');
+    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
-            var exist = false;
-            for (var i = 1; i < tableRows.length; i++) {
+            let exist = false;
+            for (let i = 1; i < tableRows.length; i++) {
                 row = tableRows[i];
                 compId = row.cells[0].innerHTML;
                 if (flight.flightId == compId) {
@@ -84,10 +84,10 @@ function flightClick(ev) {
     selectFlight(ev.target.id);
 }
 
-var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z";
+let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z";
 $.getJSON(flighturl, function (data) {
     data.forEach(function (flight) {
-        var flightId = flight.flightId;
+        let flightId = flight.flightId;
         $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
             <td id=${flightId}>${flight.companyName}</td>
             <td><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
@@ -103,18 +103,18 @@ $.getJSON(flighturl, function (data) {
 
 function deleteFlight(event) {
     deleted = true;
-    var flightId = event.target.id;
+    let flightId = event.target.id;
     // delete from list:
-    var deleteurl = `../api/Flights/${flightId}`;
+    let deleteurl = `../api/Flights/${flightId}`;
     $.ajax({
         url: deleteurl,
         type: 'DELETE'
     });
-    var list = document.getElementById("list1");
-    var tableRows = list.getElementsByTagName('tr');
-    var row;
-    var compId;
-    for (var i = 1; i < tableRows.length; i++) {
+    let list = document.getElementById("list1");
+    let tableRows = list.getElementsByTagName('tr');
+    let row;
+    let compId;
+    for (let i = 1; i < tableRows.length; i++) {
         row = tableRows[i];
         compId = row.cells[0].innerHTML;
         if (flightId == compId) {
@@ -133,8 +133,8 @@ function deleteFlight(event) {
     }
 }
 
-var worker;
-var animatedId = null;
+let worker;
+let animatedId = null;
 function buttonClicked() {
     if (typeof (Worker) !== "undefined") {
         if (typeof (worker) == "undefined") {
@@ -158,7 +158,7 @@ function buttonClicked() {
 
 // Set the map on all markers in the array:
 function setMapOnAll(map) {
-    for (var i = 0; i < markers.length; i++) {
+    for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
 }

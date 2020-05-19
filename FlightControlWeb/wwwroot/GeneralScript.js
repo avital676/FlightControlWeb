@@ -1,38 +1,18 @@
-﻿var selected = null;
-var flightPath;
-var line = [];
+﻿let selected = null;
+let flightPath;
+let line = [];
 
 function selectFlight(flightId) {
     selected = flightId;
     // color list:
-    var list1 = document.getElementById("list1");
-    var list2 = document.getElementById("list2");
+    let list1 = document.getElementById("list1");
+    let list2 = document.getElementById("list2");
     colorList(list1, flightId);
     colorList(list2, flightId);
 
     // animate plane:
-    for (var key in markers) {
-        if (key == flightId) {
-            if (markers[key].getAnimation() != google.maps.Animation.BOUNCE) {
-                markers[key].setAnimation(google.maps.Animation.BOUNCE);
-            }
-        } else {
-            markers[key].setAnimation(null);
-        }
-    }
+    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:21Z";
 
-    // fill table:
-    // delete previous details:
-    if (document.getElementById("listD").rows.length > 1) {
-        document.getElementById("listD").deleteRow(1);
-    }
-    document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
-    var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:21Z";
-    // clear existing route from map:
-    for (i = 0; i < line.length; i++) {
-        line[i].setMap(null);
-    }
-    // add details and route:
     $.getJSON(flighturl, function (data) {
         data.forEach(function (flight) {
             if (flight.flightId == flightId) {
@@ -46,13 +26,36 @@ function selectFlight(flightId) {
             }
         });
     });
-}
 
+    selectFlightContinue(flightId);
+}
+function selectFlightContinue(flightId) {
+    for (let key in markers) {
+        if (key == flightId) {
+            if (markers[key].getAnimation() != google.maps.Animation.BOUNCE) {
+                markers[key].setAnimation(google.maps.Animation.BOUNCE);
+            }
+        } else {
+            markers[key].setAnimation(null);
+        }
+    }
+    // fill table:
+    // delete previous details:
+    if (document.getElementById("listD").rows.length > 1) {
+        document.getElementById("listD").deleteRow(1);
+    }
+    document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
+    let i;
+    // clear existing route from map:
+    for (i = 0; i < line.length; i++) {
+        line[i].setMap(null);
+    }
+}
 function colorList(list, flightId) {
-    var row;
-    var compId;
-    var tableRows = list.getElementsByTagName('tr');
-    for (var i = 1; i < tableRows.length; i++) {
+    let row;
+    let compId;
+    let tableRows = list.getElementsByTagName('tr');
+    for (let i = 1; i < tableRows.length; i++) {
         row = tableRows[i];
         compId = row.cells[0].innerHTML;
         if (flightId == compId) {
@@ -65,13 +68,13 @@ function colorList(list, flightId) {
 
 // Drawing the Flight path 
 function drawPath(flight) {
-    var flightPlanCoordinates = [];
-    var segments = flight.flightPlan.segments;
-    var lng = flight.flightPlan.initial_Location.longitude;
-    var lat = flight.flightPlan.initial_Location.latitude;
+    let flightPlanCoordinates = [];
+    let segments = flight.flightPlan.segments;
+    let lng = flight.flightPlan.initial_Location.longitude;
+    let lat = flight.flightPlan.initial_Location.latitude;
     flightPlanCoordinates.push({ lat: lat, lng: lng });
     //showLine(a, b, c, d);
-    var length = flight.flightPlan.segments.length
+    let length = flight.flightPlan.segments.length
     var i;
     for (i = 0; i < length; i++) {
         lng = segments[i].longitude;
@@ -103,21 +106,19 @@ function cancelClick(event) {
             document.getElementById("listD").deleteRow(1);
         }
         //cancel the color row
-        var row;
-        var tableRows = document.getElementById("list1").getElementsByTagName('tr');
-        for (var i = 1; i < tableRows.length; i++) {
+        let row;
+        let tableRows = document.getElementById("list1").getElementsByTagName('tr');
+        for (let i = 1; i < tableRows.length; i++) {
             row = tableRows[i];
             row.style.backgroundColor = "";
         }
-        var tableRows = document.getElementById("list2").getElementsByTagName('tr');
-        for (var i = 1; i < tableRows.length; i++) {
+         tableRows = document.getElementById("list2").getElementsByTagName('tr');
+        for (let i = 1; i < tableRows.length; i++) {
             row = tableRows[i];
             row.style.backgroundColor = "";
-
         }
-
         // un-animate plane: cancel the jump
-        for (var key in markers) {
+        for (let key in markers) {
             markers[key].setAnimation(null);
         }
     }

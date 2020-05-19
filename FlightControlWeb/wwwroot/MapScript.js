@@ -1,10 +1,10 @@
-﻿var googleMap;
-var markers = {};
-var inside = false;
+﻿let googleMap;
+let markers = {};
+let inside = false;
 
 function initMap() {
     //map options
-    var options = {
+    let options = {
         zoom: 2,
         center: { lat: 32.00683, lng: 34.88533 },
         mapTypeId: 'terrain',
@@ -16,14 +16,14 @@ function initMap() {
 }
 
 function addMarker(props) {
-    var icon = {
+    let icon = {
         url: "plane-icon.png", // url
         scaledSize: new google.maps.Size(20, 20), // scaled size
         origin: new google.maps.Point(0, 0), // origin
         anchor: new google.maps.Point(0, 0) // anchor
     };
 
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
         position: props.coords,
         map: googleMap,
         icon: icon,
@@ -36,7 +36,7 @@ function addMarker(props) {
     };
     marker.addListener('click', function () {
         inside = true;
-        var x = document.getElementById("detailes");
+        let x = document.getElementById("detailes");
         if (x.style.display === "none") {
         } else {
             selectFlight(props.content.flightId);
@@ -45,12 +45,12 @@ function addMarker(props) {
 }
 
 function showLine(a, b, c, d) {
-    var flightPlanCoordinates = [
+    let flightPlanCoordinates = [
         { lat: a, lng: b },
         { lat: c, lng: d }
     ];
 
-    var flightPath = new google.maps.Polyline({
+    let flightPath = new google.maps.Polyline({
         path: flightPlanCoordinates,
         geodesic: true,
         strokeColor: '#FF0000',
