@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using FlightControlWeb.Models;
 
@@ -70,21 +71,20 @@ namespace FlightControlWeb.Models
                 Server ser = allServers[i];
                 Task<HttpResponseMessage> response = GetFligthsOutSide(ser, relativeTo);
                 //string flightsOfServer =await response.Result.Content.ReadAsStringAsync();
-
-
             }
             return allFlights;
         }
-        async Task<HttpResponseMessage> GetFligthsOutSide(Server ser, string relativeTime)
+        private async Task<HttpResponseMessage> GetFligthsOutSide(Server ser, string relativeTime)
         {
-            var client = new HttpClient();
-            string url = ser.ServerURL + "/api/Flights?relative_to=" + relativeTime ;
-            StringContent sc = new StringContent("");
-            HttpResponseMessage response = await client.PostAsync(url, sc);
-            return response;
+            using (HttpClient client = new HttpClient())
+            {
+                string url = "http://" + "ronyut.atwebpages.com/ap2/api/Flights?relative_to=<DATE_TIME>";
+               // string url = ser.ServerURL + "/api/Flights?relative_to=" + relativeTime;
+                HttpResponseMessage response = await client.GetAsync(url);
+                return response;
+            }
         }
-
-
+      
         public Flight GetFlightById(string id)
         {
             Flight flight = myFlights[id];
