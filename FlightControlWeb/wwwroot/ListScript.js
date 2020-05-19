@@ -88,12 +88,15 @@ let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z";
 $.getJSON(flighturl, function (data) {
     data.forEach(function (flight) {
         let flightId = flight.flightId;
-        $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+        if (flight.isExternal == false) {
+            $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
             <td id=${flightId}>${flight.companyName}</td>
             <td><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
                 id=${flightId}>X</button></td></tr>`);
-        $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+        } else {
+            $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
             <td id=${flightId}>${flight.companyName}</td></tr>`);
+        }
         addMarker({
             coords: { lat: flight.latitude, lng: flight.longitude },
             content: flight
