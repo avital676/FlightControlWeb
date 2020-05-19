@@ -7,7 +7,7 @@ namespace FlightControlWeb.Models
 {
     public class Servers
     {
-        List<Server> externalServers;
+        List<Server> externalServers = new List<Server>();
         
         public void DeleteServer(string id)
         {

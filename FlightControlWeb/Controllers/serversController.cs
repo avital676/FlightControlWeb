@@ -14,9 +14,9 @@ namespace FlightControlWeb.Controllers
     public class serversController : ControllerBase
     {
         private Servers externalSer;
-        public serversController(Servers externalSer)
+        public serversController()
         {
-            this.externalSer = externalSer;
+            this.externalSer = new Servers();
         }
         // GET: api/servers
         [HttpGet]
