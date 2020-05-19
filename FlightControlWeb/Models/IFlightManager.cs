@@ -15,6 +15,8 @@ namespace FlightControlWeb.Models
 
         public IEnumerable<Flight> getAllFlights(string relativeTo);
 
+        public IEnumerable<Flight> getAllFlightsSync(string relativeTo);
+
         public IEnumerable<Flight> GetRelevantFlights(DateTime relativeTo);
 
         public void DeleteFlight(string id);

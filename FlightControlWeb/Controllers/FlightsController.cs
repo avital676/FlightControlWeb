@@ -25,7 +25,7 @@ namespace FlightControlWeb.Controllers
             {
                 //returns myflight , servers flights
                 flightMan.AddRandomFlights();
-                return flightMan.getAllFlights(relative_to);
+                return flightMan.getAllFlightsSync(relative_to);
                 //MyFlights.Instance.AddRandomFlights();
                 //return MyFlights.Instance.getAllFlights(relative_to);
             } else
@@ -35,11 +35,6 @@ namespace FlightControlWeb.Controllers
             }
             //return MyFlights.Instance.getAllFlights();
         }
-        public void AddFilghtFromServers(Server server, string relative_to)
-        {
-
-        }
-
         // POST: api/Flights
         [HttpPost]
         public FlightPlan Post(FlightPlan value)

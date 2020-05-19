@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FlightControlWeb.Models;
 
@@ -10,6 +11,7 @@ namespace FlightControlWeb.Models
     public class FlightManager : IFlightManager
     {
         private ConcurrentDictionary<string, Flight> myFlights = new ConcurrentDictionary<string, Flight>();
+        Servers servers = new Servers();
 
         public static List<Segment> allSegments = new List<Segment>()
         {
@@ -53,6 +55,35 @@ namespace FlightControlWeb.Models
             DateTime clientDT = DateTime.Parse(relativeTo);
             return GetRelevantFlights(clientDT);
         }
+        public IEnumerable<Flight> getAllFlightsSync(string relativeTo)
+        {
+           IEnumerable<Flight> allFlights = new List<Flight>();
+            DateTime clientDT = DateTime.Parse(relativeTo);
+            allFlights = GetRelevantFlights(clientDT);
+            List<Server> allServers = this.servers.GetAllServers();
+            if(allServers.Count == 0)
+            {
+                return allFlights;
+            }
+            for(int i=0; i<allServers.Count; i++)
+            {
+                Server ser = allServers[i];
+                Task<HttpResponseMessage> response = GetFligthsOutSide(ser, relativeTo);
+                //string flightsOfServer =await response.Result.Content.ReadAsStringAsync();
+
+
+            }
+            return allFlights;
+        }
+        async Task<HttpResponseMessage> GetFligthsOutSide(Server ser, string relativeTime)
+        {
+            var client = new HttpClient();
+            string url = ser.ServerURL + "/api/Flights?relative_to=" + relativeTime ;
+            StringContent sc = new StringContent("");
+            HttpResponseMessage response = await client.PostAsync(url, sc);
+            return response;
+        }
+
 
         public Flight GetFlightById(string id)
         {
