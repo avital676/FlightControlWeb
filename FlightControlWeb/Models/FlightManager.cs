@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlightControlWeb.Models;
 
-namespace FlightControlWeb.DataBase
+namespace FlightControlWeb.Models
 {
     public class FlightManager : IFlightManager
     {
