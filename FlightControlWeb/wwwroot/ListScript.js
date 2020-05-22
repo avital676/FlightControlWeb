@@ -30,7 +30,7 @@ function onDrop(ev) {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
         sleep(50);
-        
+        updateList();
     }
 }
 
