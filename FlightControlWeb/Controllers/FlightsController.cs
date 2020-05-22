@@ -13,10 +13,12 @@ namespace FlightControlWeb.Controllers
     public class FlightsController : ControllerBase
     {
         private IFlightManager flightMan;
+
         public FlightsController(IFlightManager f)
         {
             flightMan = f;
         }
+
         // GET: api/Flights
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights(string relative_to)
@@ -26,15 +28,13 @@ namespace FlightControlWeb.Controllers
                 //returns myflight , servers flights
                 flightMan.AddRandomFlights();
                 return flightMan.getAllFlightsSync(relative_to);
-                //MyFlights.Instance.AddRandomFlights();
-                //return MyFlights.Instance.getAllFlights(relative_to);
             } else
             {
                 flightMan.AddRandomFlights();
                 return flightMan.getAllFlights(relative_to);
             }
-            //return MyFlights.Instance.getAllFlights();
         }
+
         // POST: api/Flights
         [HttpPost]
         public FlightPlan Post(FlightPlan value)

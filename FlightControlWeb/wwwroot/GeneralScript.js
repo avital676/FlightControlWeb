@@ -4,32 +4,41 @@ let line = [];
 
 function selectFlight(flightId) {
     selected = flightId;
-    // color list:
+    // color selected flight in list:
     let list1 = document.getElementById("list1");
     let list2 = document.getElementById("list2");
     colorList(list1, flightId);
     colorList(list2, flightId);
-
-    // animate plane:
-    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:21Z";
-
-    $.getJSON(flighturl, function (data) {
-        data.forEach(function (flight) {
-            if (flight.flightId == flightId) {
-                $("#listD").append("<tr><td>" + flight.flightId + "</td>" +
-                    "<td>" + flight.longitude + "</td>" +
-                    "<td>" + flight.latitude + "</td>" +
-                    "<td>" + flight.passengers + "</td>" +
-                    "<td>" + flight.companyName + "</td>" +
-                    "<td>" + flight.dateTimee + "</tr></td>");
-                drawPath(flight);
-            }
-        });
+    // delete previous details from details table:
+    if (document.getElementById("listD").rows.length > 1) {
+        document.getElementById("listD").deleteRow(1);
+    }
+    // fill details table:
+    let flighturl = `../api/FlightPlan/${ flightId }`;
+    $.getJSON(flighturl, function (fp) {
+        let lastSegment = fp.segments[fp.segments.length - 1];
+        $("#listD").append(`<tr><td>${ flightId }</td>` +
+            `<td>${ fp.initial_Location.date_Time }</td>` +
+            `<td>${ fp.initial_Location.longitude.toFixed(2) },
+                ${ fp.initial_Location.latitude.toFixed(2) }</td>` +
+            `<td>${lastSegment.longitude.toFixed(2)},
+                ${ lastSegment.latitude.toFixed(2)}</td>` +
+            `<td>${ fp.passengers }</td>` +
+            `<td>${ fp.company_Name }</td>`);
+        // draw the flight path:
+        drawPath(fp);
     });
-
-    selectFlightContinue(flightId);
+    // animate selected plane:
+    animatePlane(flightId);
+    let i;
+    // clear existing route from map:
+    for (i = 0; i < line.length; i++) {
+        line[i].setMap(null);
+    }
 }
-function selectFlightContinue(flightId) {
+
+// Animate the plane of the given id:
+function animatePlane(flightId) {
     for (let key in markers) {
         if (key == flightId) {
             if (markers[key].getAnimation() != google.maps.Animation.BOUNCE) {
@@ -39,18 +48,8 @@ function selectFlightContinue(flightId) {
             markers[key].setAnimation(null);
         }
     }
-    // fill table:
-    // delete previous details:
-    if (document.getElementById("listD").rows.length > 1) {
-        document.getElementById("listD").deleteRow(1);
-    }
-    document.getElementById("detailes").innerHTML = document.getElementById("listD").rows.length;
-    let i;
-    // clear existing route from map:
-    for (i = 0; i < line.length; i++) {
-        line[i].setMap(null);
-    }
 }
+
 function colorList(list, flightId) {
     let row;
     let compId;
@@ -66,15 +65,14 @@ function colorList(list, flightId) {
     }
 }
 
-// Drawing the Flight path 
-function drawPath(flight) {
+// Draw the flight path 
+function drawPath(fp) {
     let flightPlanCoordinates = [];
-    let segments = flight.flightPlan.segments;
-    let lng = flight.flightPlan.initial_Location.longitude;
-    let lat = flight.flightPlan.initial_Location.latitude;
+    let segments = fp.segments;
+    let lng = fp.initial_Location.longitude;
+    let lat = fp.initial_Location.latitude;
     flightPlanCoordinates.push({ lat: lat, lng: lng });
-    //showLine(a, b, c, d);
-    let length = flight.flightPlan.segments.length
+    let length = fp.segments.length
     var i;
     for (i = 0; i < length; i++) {
         lng = segments[i].longitude;
@@ -96,10 +94,9 @@ function drawPath(flight) {
 
 function cancelClick(event) {
     if (inside != true) {
-        //document.getElementById("detailes").innerHTML = "cancel"
         //delete line on map
         for (i = 0; i < line.length; i++) {
-            line[i].setMap(null); //or line[i].setVisible(false);
+            line[i].setMap(null);
         }
         //delete details
         if (document.getElementById("listD").rows.length > 1) {
@@ -112,7 +109,7 @@ function cancelClick(event) {
             row = tableRows[i];
             row.style.backgroundColor = "";
         }
-         tableRows = document.getElementById("list2").getElementsByTagName('tr');
+        tableRows = document.getElementById("list2").getElementsByTagName('tr');
         for (let i = 1; i < tableRows.length; i++) {
             row = tableRows[i];
             row.style.backgroundColor = "";

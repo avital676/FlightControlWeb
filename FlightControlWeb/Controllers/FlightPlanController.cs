@@ -13,6 +13,7 @@ namespace FlightControlWeb.Controllers
     public class FlightPlanController : ControllerBase
     {
         private IFlightManager flightMan;
+
         public FlightPlanController(IFlightManager f)
         {
             flightMan = f;

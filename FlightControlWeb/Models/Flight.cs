@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 
-
 namespace FlightControlWeb.Models
 {
     public struct Info
@@ -41,26 +40,19 @@ namespace FlightControlWeb.Models
         public string DateTimee
         {
             get { return flightPlan.Initial_Location.Date_Time; }
-            set
-            {
-                flightPlan.Initial_Location.Date_Time = value;
-            }
+            set { flightPlan.Initial_Location.Date_Time = value; }
         }
+
         public int Passengers
         {
             get { return flightPlan.Passengers; }
-            set
-            {
-                flightPlan.Passengers = value;
-            }
+            set { flightPlan.Passengers = value; }
         }
+
         public string CompanyName
         {
             get { return flightPlan.Company_Name; }
-            set
-            {
-                flightPlan.Company_Name = value;
-            }
+            set { flightPlan.Company_Name = value; }
         }
 
         private String CreateID()
@@ -72,7 +64,7 @@ namespace FlightControlWeb.Models
                 "S", "T", "U", "V", "W", "X", "Y", "Z" };
             for (int i = 0; i < 3; i++)
             {
-                int randomNum = random.Next(0, 99);
+                int randomNum = random.Next(10, 99);
                 int randomChar = random.Next(0, 25);
                 id += randomNum.ToString() + Alphabet[randomChar];
             }
@@ -88,6 +80,7 @@ namespace FlightControlWeb.Models
                 .ToList().ForEach(e => _builder.Append(e));
             return _builder.ToString();*/
         }
+
         public FlightPlan getFlightPlan()
         {
             return this.flightPlan;

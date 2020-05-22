@@ -62,10 +62,7 @@ function updateList() {
                 }
             }
             if (exist == false) {
-                $("#list1").append(`<tr onclick=flightClick(event)><td id=${flight.flightId}>${flight.flightId}</td> 
-            <td id=${flight.flightId}>${flight.companyName}</td>
-            <td><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
-                id=${flight.flightId}>X</button></td></tr>`);
+                appendInternalFlight(flight);
                 addMarker({
                     coords: { lat: flight.latitude, lng: flight.longitude },
                     content: flight
@@ -75,25 +72,34 @@ function updateList() {
     });
 }
 
+function appendInternalFlight(flight) {
+    let flightId = flight.flightId;
+    $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+        <td id=${flightId}>${flight.companyName}</td>
+        <td id=${flightId}><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
+            id=${flightId} data-toggle="tooltip" data-placement="top" title="delete flight">X</button>
+            </td></tr>`);
+}
+
 function flightClick(ev) {
     if (deleted) {
         deleted = false;
         return;
     }
-    document.getElementById("detailes").innerHTML = ev.target.innerHTML;
+  ///  document.getElementById("detailes").innerHTML = ev.target.innerHTML;
     selectFlight(ev.target.id);
 }
 
+// Initialize flights lists:
 let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z";
 $.getJSON(flighturl, function (data) {
     data.forEach(function (flight) {
         let flightId = flight.flightId;
-        if (flight.isExternal == false) {
-            $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-            <td id=${flightId}>${flight.companyName}</td>
-            <td><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
-                id=${flightId}>X</button></td></tr>`);
+        if (!flight.isExternal) {
+            // internal flight:
+            appendInternalFlight(flight);
         } else {
+            // external flight:
             $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
             <td id=${flightId}>${flight.companyName}</td></tr>`);
         }
