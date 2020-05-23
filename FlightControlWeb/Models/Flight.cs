@@ -22,38 +22,30 @@ namespace FlightControlWeb.Models
     public class Flight
     {
         public FlightPlan flightPlan { get; set; }
+        public Flight()
+        {
+
+        }
 
         public Flight(FlightPlan flightPlan)
         {
             this.flightPlan = flightPlan;
             Longitude = flightPlan.Initial_Location.Longitude;
             Latitude = flightPlan.Initial_Location.Latitude;
+            Passengers = flightPlan.Passengers;
+            DateTimee = flightPlan.Initial_Location.Date_Time;
+            Company_Name = flightPlan.Company_Name;
             IsExternal = false;
-            FlightId = CreateID();
+            Flight_Id = CreateID();
         }
-        public string FlightId { get; set; }
+        public string Flight_Id { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public bool IsExternal { get; set; }
         //public FlightPlan flightPlan { get; set; }
-
-        public string DateTimee
-        {
-            get { return flightPlan.Initial_Location.Date_Time; }
-            set { flightPlan.Initial_Location.Date_Time = value; }
-        }
-
-        public int Passengers
-        {
-            get { return flightPlan.Passengers; }
-            set { flightPlan.Passengers = value; }
-        }
-
-        public string CompanyName
-        {
-            get { return flightPlan.Company_Name; }
-            set { flightPlan.Company_Name = value; }
-        }
+        public string DateTimee { get; set; }
+        public int Passengers { get; set; }
+        public string Company_Name { get; set; }
 
         private String CreateID()
         {

@@ -28,12 +28,12 @@ namespace FlightControlWeb.Models
         public void addFlight(FlightPlan flightPlan)
         {
             Flight flight = new Flight(flightPlan);
-            myFlights.TryAdd(flight.FlightId, flight);
+            myFlights.TryAdd(flight.Flight_Id, flight);
         }
 
         public void addFlight(Flight flight)
         {
-            myFlights.TryAdd(flight.FlightId, flight);
+            myFlights.TryAdd(flight.Flight_Id, flight);
         }
 
         public void DeleteFlight(string id)
@@ -59,6 +59,7 @@ namespace FlightControlWeb.Models
             DateTime clientDT = DateTime.Parse(relativeTo);
             return GetRelevantFlights(clientDT);
         }
+        /**
         public IEnumerable<Flight> getAllFlightsSync(string relativeTo)
         {
            IEnumerable<Flight> allFlights = new List<Flight>();
@@ -69,7 +70,7 @@ namespace FlightControlWeb.Models
             {
                 return allFlights;
             }
-                Server ser = allServers[i];
+               // Server ser = allServers[i];
                 string url = "http://" + "ronyut2.atwebpages.com/ap2/";
                Task<FlightPlan> Taskflight = GetFlightURLID(url, "YIZI34");
                 FlightPlan flightp = Taskflight.Result;
@@ -95,6 +96,53 @@ namespace FlightControlWeb.Models
                 strRead.Close();
             }
             return fpAsJs;
+        }*/
+
+        public IEnumerable<Flight> getAllFlightsSync(string relativeTo)
+        {
+            List<Flight> allFlights = new List<Flight>();
+            DateTime clientDT = DateTime.Parse(relativeTo);
+            allFlights = (List<Flight>) GetRelevantFlights(clientDT);
+            List<Server> allServers = this.servers.GetAllServers();
+            /**if (allServers.Count == 0)
+            {
+                return allFlights;
+            }*/
+            //Server ser = allServers[i];
+            string url = "http://" + "ronyut2.atwebpages.com/ap2/";
+            Task<List<Flight>> taskflights = GetFlightURLID(url, relativeTo);
+            List<Flight> externalFlights = taskflights.Result;
+            SetAsExternal(externalFlights);
+            allFlights.AddRange(externalFlights);
+            return allFlights;
+        }
+
+        private async Task<List<Flight>> GetFlightURLID(string url, string relativeTo)
+        {
+            string URL = String.Format(url + "api/Flights?relative_to=" + relativeTo);
+            WebRequest req = WebRequest.Create(URL);
+            req.Method = "GET";
+            HttpWebResponse resp = null;
+            resp = (HttpWebResponse)(await req.GetResponseAsync());
+            string result = null;
+            List<Flight> externalFlights;
+            using (Stream str = resp.GetResponseStream())
+            {
+                StreamReader strRead = new StreamReader(str);
+                result = strRead.ReadToEnd();
+                externalFlights = JsonConvert.DeserializeObject<List<Flight>>(result);
+                strRead.Close();
+            }
+            return externalFlights;
+        }
+
+        public void SetAsExternal(List<Flight> flights)
+        {
+            int i;
+            for (i = 0; i < flights.Count; i++)
+            {
+                flights[i].IsExternal = true;
+            }
         }
       
         public Flight GetFlightById(string id)
@@ -118,7 +166,7 @@ namespace FlightControlWeb.Models
                 }
                 else if (String.Compare(flight.UpdateLocation(relativeTo), "Ended") == 0)
                 {
-                    myFlights.TryRemove(flight.FlightId, out flight);
+                    myFlights.TryRemove(flight.Flight_Id, out flight);
                     // myFlights.Remove(flight);
                 }
                 else
@@ -155,15 +203,15 @@ namespace FlightControlWeb.Models
                 myFlights.Clear();
                 InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, Date_Time = "2020-12-26T23:56:03Z" };
                 Flight flight1 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "New York Airlines", Initial_Location = loc1, Segments = nySeg });
-                myFlights.TryAdd(flight1.FlightId, flight1);
+                myFlights.TryAdd(flight1.Flight_Id, flight1);
 
                 InitialLocation loc2 = new InitialLocation { Latitude = 51.507, Longitude = -0.127, Date_Time = "2020-12-26T23:56:03Z" };
                 Flight flight2 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "British Airways", Initial_Location = loc2, Segments = londonSeg });
-                myFlights.TryAdd(flight2.FlightId, flight2);
+                myFlights.TryAdd(flight2.Flight_Id, flight2);
 
                 InitialLocation loc5 = new InitialLocation { Latitude = 31.912154, Longitude = 35.114953, Date_Time = "2020-12-26T23:56:03Z" };
                 Flight flight5 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Air India", Initial_Location = loc5, Segments = indiaSeg });
-                myFlights.TryAdd(flight5.FlightId, flight5);
+                myFlights.TryAdd(flight5.Flight_Id, flight5);
 
                 i++;
             }

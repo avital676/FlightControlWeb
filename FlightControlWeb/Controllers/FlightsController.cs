@@ -23,15 +23,15 @@ namespace FlightControlWeb.Controllers
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights(string relative_to)
         {
-            if (relative_to.Contains("sync_all"))
+            flightMan.AddRandomFlights();
+            var syncAll = Request.Query["sync_all"].ToList();
+            if (syncAll.Count != 0)
             {
                 //returns myflight , servers flights
-                flightMan.AddRandomFlights();
-                return flightMan.getAllFlightsSync(relative_to);
+                IEnumerable <Flight> flights = flightMan.getAllFlightsSync("2020-12-26T23:56:03Z");
+                return flights;
             } else
             {
-                flightMan.AddRandomFlights();
-                flightMan.getAllFlightsSync("1111");
                 return flightMan.getAllFlights(relative_to);
             }
         }

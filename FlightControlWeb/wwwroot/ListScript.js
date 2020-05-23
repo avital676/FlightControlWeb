@@ -72,6 +72,29 @@ function updateList() {
     });
 }
 
+function deleteEndedFlight() {
+    let row;
+    let compId;
+    let list = document.getElementById("list1");
+    let tableRows = list.getElementsByTagName('tr');
+    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z&sync_all";
+    for (let i = 1; i < tableRows.length; i++) {
+        let exist = true;
+        $.getJSON(flighturl, function (data) {
+            data.forEach(function (flight) {
+                if (exist == false) {
+                    appendInternalFlight(flight);
+                    addMarker({
+                        coords: { lat: flight.latitude, lng: flight.longitude },
+                        content: flight
+                    });
+                }
+            });
+        });
+       
+    }
+}
+
 function appendInternalFlight(flight) {
     let flightId = flight.flightId;
     $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
@@ -91,7 +114,7 @@ function flightClick(ev) {
 }
 
 // Initialize flights lists:
-let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z";
+let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all";
 $.getJSON(flighturl, function (data) {
     data.forEach(function (flight) {
         let flightId = flight.flightId;
