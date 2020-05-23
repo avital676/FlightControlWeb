@@ -56,7 +56,7 @@ function updateList() {
             for (let i = 1; i < tableRows.length; i++) {
                 row = tableRows[i];
                 compId = row.cells[0].innerHTML;
-                if (flight.flightId == compId) {
+                if (flight.flight_Id == compId) {
                     exist = true;
                     break;
                 }
@@ -96,9 +96,9 @@ function deleteEndedFlight() {
 }
 
 function appendInternalFlight(flight) {
-    let flightId = flight.flightId;
+    let flightId = flight.flight_Id;
     $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-        <td id=${flightId}>${flight.companyName}</td>
+        <td id=${flightId}>${flight.company_Name}</td>
         <td id=${flightId}><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
             id=${flightId} data-toggle="tooltip" data-placement="top" title="delete flight">X</button>
             </td></tr>`);
@@ -117,14 +117,14 @@ function flightClick(ev) {
 let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all";
 $.getJSON(flighturl, function (data) {
     data.forEach(function (flight) {
-        let flightId = flight.flightId;
+        let flightId = flight.flight_Id;
         if (!flight.isExternal) {
             // internal flight:
             appendInternalFlight(flight);
         } else {
             // external flight:
             $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-            <td id=${flightId}>${flight.companyName}</td></tr>`);
+            <td id=${flightId}>${flight.company_Name}</td></tr>`);
         }
         addMarker({
             coords: { lat: flight.latitude, lng: flight.longitude },
@@ -178,7 +178,7 @@ function buttonClicked() {
             $.getJSON(flighturl, function (data) {
                 data.forEach(function (flight) {
                     var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
-                    markers[flight.flightId].setPosition(myLatlng);
+                    markers[flight.flight_Id].setPosition(myLatlng);
                 });
             });
         };
