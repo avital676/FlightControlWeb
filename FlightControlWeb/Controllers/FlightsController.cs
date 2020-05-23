@@ -21,19 +21,28 @@ namespace FlightControlWeb.Controllers
 
         // GET: api/Flights
         [HttpGet]
-        public IEnumerable<Flight> GetAllFlights(string relative_to)
+        public JsonResult GetAllFlights(string relative_to)
         {
             flightManager.AddRandomFlights();
-            var syncAll = Request.Query["sync_all"].ToList();
-            if (syncAll.Count != 0)
+            try
             {
-                //returns myflight , servers flights
-                IEnumerable <Flight> flights = flightManager.getAllFlightsSync("2020-12-26T23:56:03Z");
-                return flights;
-            } else
+                var syncAll = Request.Query["sync_all"].ToList();
+                if (syncAll.Count != 0)
+                {
+                    //returns myflight , servers flights
+                    IEnumerable <Flight> flights = flightManager.getAllFlightsSync("2020-12-26T23:56:03Z");
+                    return new JsonResult(flights);
+                } else
+                {
+                    return new JsonResult(flightManager.getAllFlights(relative_to));
+                }
+            } catch (Exception)
             {
-                return flightManager.getAllFlights(relative_to);
+                // Response.StatusCode = 500;
+                Response.WriteAsync("Couldn't get Flights list");
+                return null;
             }
+
         }
 
         // POST: api/Flights

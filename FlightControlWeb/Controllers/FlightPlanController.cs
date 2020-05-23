@@ -21,16 +21,26 @@ namespace FlightControlWeb.Controllers
 
         //GET: api/FlightPlan/5
         [HttpGet("{id}", Name = "Get")]
-        public FlightPlan Plan(string id)
+        public JsonResult Plan(string id)
         {
-            // return the flight with this id
-            return flightMan.GetFlightById(id).getFlightPlan();
+            try
+            {
+                // return the flight plan with this id:
+                return new JsonResult(flightMan.GetFlightById(id).getFlightPlan());
+            } catch (Exception)
+            {
+               // Response.StatusCode = 500;
+                Response.WriteAsync("Couldn't get FlightPlan");
+                return null;
+            }
+            //return flightMan.GetFlightById(id).getFlightPlan();
         }
-    
+
         // POST: api/FlightPlan
         [HttpPost]
         public void Post([FromBody] FlightPlan value)
         {
+            // WHAT HAPPENS IF VALUE ISNT A FLIGHT PLAN?????????
             flightMan.addFlight(value);
         }
     }

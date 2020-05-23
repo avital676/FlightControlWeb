@@ -16,6 +16,7 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
+////// CHECK CODE FOR XHR FAILURE
 function onDrop(ev) {
     ev.preventDefault();
     document.getElementById("detailes").innerHTML = "drropppopopo";
@@ -29,6 +30,11 @@ function onDrop(ev) {
         xhr.open("POST", flighturl, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
+        // HOW TO CHECK IF THIS WORKS??????????????????????????????????????????????
+        xhr.onerror = function () { //the request failed
+            document.getElementById("detailes").innerHTML = "failed sending file to server";
+        };
+        // END OF CODE TO BE CHECKED
         sleep(50);
         updateList();
     }
@@ -50,26 +56,31 @@ function updateList() {
     let list = document.getElementById("list1");
     let tableRows = list.getElementsByTagName('tr');
     let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
-    $.getJSON(flighturl, function (data) {
-        data.forEach(function (flight) {
-            let exist = false;
-            for (let i = 1; i < tableRows.length; i++) {
-                row = tableRows[i];
-                compId = row.cells[0].innerHTML;
-                if (flight.flight_Id == compId) {
-                    exist = true;
-                    break;
+    $.getJSON(flighturl)
+        .done(function (flights) {
+            flights.forEach(function (flight) {
+                let exist = false;
+                for (let i = 1; i < tableRows.length; i++) {
+                    row = tableRows[i];
+                    compId = row.cells[0].innerHTML;
+                    if (flight.flight_Id == compId) {
+                        exist = true;
+                        break;
+                    }
                 }
-            }
-            if (exist == false) {
-                appendInternalFlight(flight);
-                addMarker({
-                    coords: { lat: flight.latitude, lng: flight.longitude },
-                    content: flight
-                });
-            }
+                if (exist == false) {
+                    appendInternalFlight(flight);
+                    addMarker({
+                        coords: { lat: flight.latitude, lng: flight.longitude },
+                        content: flight
+                    });
+                }
+            });
+        })
+        .fail(function (response) {
+            // code response from controller:
+            document.getElementById("detailes").innerHTML = response.responseText;
         });
-    });
 }
 
 function deleteEndedFlight() {
@@ -115,23 +126,28 @@ function flightClick(ev) {
 
 // Initialize flights lists:
 let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all";
-$.getJSON(flighturl, function (data) {
-    data.forEach(function (flight) {
-        let flightId = flight.flight_Id;
-        if (!flight.isExternal) {
-            // internal flight:
-            appendInternalFlight(flight);
-        } else {
-            // external flight:
-            $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-            <td id=${flightId}>${flight.company_Name}</td></tr>`);
-        }
-        addMarker({
-            coords: { lat: flight.latitude, lng: flight.longitude },
-            content: flight
+$.getJSON(flighturl)
+    .done(function (data) {
+        data.forEach(function (flight) {
+            let flightId = flight.flight_Id;
+            if (!flight.isExternal) {
+                // internal flight:
+                appendInternalFlight(flight);
+            } else {
+                // external flight:
+                $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+                <td id=${flightId}>${flight.company_Name}</td></tr>`);
+            }
+            addMarker({
+                coords: { lat: flight.latitude, lng: flight.longitude },
+                content: flight
+            });
         });
+    })
+    .fail(function (response) {
+        // code response from controller:
+        document.getElementById("detailes").innerHTML = response.responseText;
     });
-});
 
 function deleteFlight(event) {
     deleted = true;

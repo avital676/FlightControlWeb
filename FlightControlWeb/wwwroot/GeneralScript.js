@@ -15,26 +15,33 @@ function selectFlight(flightId) {
     }
     // fill details table:
     let flighturl = `../api/FlightPlan/${ flightId }`;
-    $.getJSON(flighturl, function (fp) {
-        let lastSegment = fp.segments[fp.segments.length - 1];
-        $("#listD").append(`<tr><td>${ flightId }</td>` +
-            `<td>${ fp.initial_Location.date_Time }</td>` +
-            `<td>${ fp.initial_Location.longitude.toFixed(2) },
-                ${ fp.initial_Location.latitude.toFixed(2) }</td>` +
-            `<td>${lastSegment.longitude.toFixed(2)},
-                ${ lastSegment.latitude.toFixed(2)}</td>` +
-            `<td>${ fp.passengers }</td>` +
-            `<td>${ fp.company_Name }</td>`);
-        // draw the flight path:
-        drawPath(fp);
-    });
-    // animate selected plane:
-    animatePlane(flightId);
-    let i;
-    // clear existing route from map:
-    for (i = 0; i < line.length; i++) {
-        line[i].setMap(null);
-    }
+    $.getJSON(flighturl)
+        // json request secceeded:
+        .done(function (fp) {
+            let lastSegment = fp.segments[fp.segments.length - 1];
+            $("#listD").append(`<tr><td>${flightId}</td>` +
+                `<td>${fp.initial_Location.date_Time}</td>` +
+                `<td>${fp.initial_Location.longitude.toFixed(2)},
+                    ${ fp.initial_Location.latitude.toFixed(2)}</td>` +
+                `<td>${lastSegment.longitude.toFixed(2)},
+                    ${ lastSegment.latitude.toFixed(2)}</td>` +
+                `<td>${fp.passengers}</td>` +
+                `<td>${fp.company_Name}</td>`);
+            // draw the flight path:
+            drawPath(fp);
+            // animate selected plane:
+            animatePlane(flightId);
+            let i;
+            // clear existing route from map:
+            for (i = 0; i < line.length; i++) {
+                line[i].setMap(null);
+            }
+        })
+        // json request failed:
+        .fail(function (response) {
+            // code response from controller:
+            document.getElementById("detailes").innerHTML = response.responseText;
+        });
 }
 
 // Animate the plane of the given id:
