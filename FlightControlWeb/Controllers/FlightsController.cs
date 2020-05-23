@@ -31,6 +31,7 @@ namespace FlightControlWeb.Controllers
             } else
             {
                 flightMan.AddRandomFlights();
+                flightMan.getAllFlightsSync("1111");
                 return flightMan.getAllFlights(relative_to);
             }
         }

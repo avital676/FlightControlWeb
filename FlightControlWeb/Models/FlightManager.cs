@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using FlightControlWeb.Models;
+using Newtonsoft.Json;
 
 namespace FlightControlWeb.Models
 {
@@ -66,23 +69,32 @@ namespace FlightControlWeb.Models
             {
                 return allFlights;
             }
-            for(int i=0; i<allServers.Count; i++)
-            {
                 Server ser = allServers[i];
-                Task<HttpResponseMessage> response = GetFligthsOutSide(ser, relativeTo);
+                string url = "http://" + "ronyut2.atwebpages.com/ap2/";
+               Task<FlightPlan> Taskflight = GetFlightURLID(url, "YIZI34");
+                FlightPlan flightp = Taskflight.Result;
+                myFlights.TryAdd("YIZI34", new Flight(flightp));
+                
                 //string flightsOfServer =await response.Result.Content.ReadAsStringAsync();
-            }
             return allFlights;
         }
-        private async Task<HttpResponseMessage> GetFligthsOutSide(Server ser, string relativeTime)
+        private async Task<FlightPlan> GetFlightURLID(string url, string id)
         {
-            using (HttpClient client = new HttpClient())
+            string URL = String.Format(url + "/api/FlightPlan/" + id);
+            WebRequest req = WebRequest.Create(URL);
+            req.Method = "GET";
+            HttpWebResponse resp = null;
+            resp = (HttpWebResponse)(await req.GetResponseAsync());
+            string result = null;
+            FlightPlan fpAsJs;
+            using(Stream str = resp.GetResponseStream())
             {
-                string url = "http://" + "ronyut.atwebpages.com/ap2/api/Flights?relative_to=<DATE_TIME>";
-               // string url = ser.ServerURL + "/api/Flights?relative_to=" + relativeTime;
-                HttpResponseMessage response = await client.GetAsync(url);
-                return response;
+                StreamReader strRead = new StreamReader(str);
+                result = strRead.ReadToEnd();
+                fpAsJs = JsonConvert.DeserializeObject<FlightPlan>(result);
+                strRead.Close();
             }
+            return fpAsJs;
         }
       
         public Flight GetFlightById(string id)
