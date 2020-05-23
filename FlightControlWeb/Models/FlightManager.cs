@@ -104,16 +104,18 @@ namespace FlightControlWeb.Models
             DateTime clientDT = DateTime.Parse(relativeTo);
             allFlights = (List<Flight>) GetRelevantFlights(clientDT);
             List<Server> allServers = this.servers.GetAllServers();
-            /**if (allServers.Count == 0)
+            if (allServers.Count == 0)
             {
                 return allFlights;
-            }*/
-            //Server ser = allServers[i];
-            string url = "http://" + "ronyut2.atwebpages.com/ap2/";
-            Task<List<Flight>> taskflights = GetFlightURLID(url, relativeTo);
-            List<Flight> externalFlights = taskflights.Result;
-            SetAsExternal(externalFlights);
-            allFlights.AddRange(externalFlights);
+            }
+            for (int i = 0; i < servers.GetAllServers().Count; i++)
+            {
+                Server ser = allServers[i];
+                Task<List<Flight>> taskflights = GetFlightURLID(ser.ServerURL, relativeTo);
+                List<Flight> externalFlights = taskflights.Result;
+                SetAsExternal(externalFlights);
+                allFlights.AddRange(externalFlights);
+            }
             return allFlights;
         }
 

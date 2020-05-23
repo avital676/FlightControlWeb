@@ -12,27 +12,27 @@ namespace FlightControlWeb.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        private IFlightManager flightMan;
+        private IFlightManager flightManager;
 
-        public FlightsController(IFlightManager f)
+        public FlightsController(IFlightManager flightManager)
         {
-            flightMan = f;
+            this.flightManager = flightManager;
         }
 
         // GET: api/Flights
         [HttpGet]
         public IEnumerable<Flight> GetAllFlights(string relative_to)
         {
-            flightMan.AddRandomFlights();
+            flightManager.AddRandomFlights();
             var syncAll = Request.Query["sync_all"].ToList();
             if (syncAll.Count != 0)
             {
                 //returns myflight , servers flights
-                IEnumerable <Flight> flights = flightMan.getAllFlightsSync("2020-12-26T23:56:03Z");
+                IEnumerable <Flight> flights = flightManager.getAllFlightsSync("2020-12-26T23:56:03Z");
                 return flights;
             } else
             {
-                return flightMan.getAllFlights(relative_to);
+                return flightManager.getAllFlights(relative_to);
             }
         }
 
@@ -40,7 +40,7 @@ namespace FlightControlWeb.Controllers
         [HttpPost]
         public FlightPlan Post(FlightPlan value)
         {
-            flightMan.addFlight(value);
+            flightManager.addFlight(value);
             return value;
         }
 
@@ -48,7 +48,7 @@ namespace FlightControlWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            flightMan.DeleteFlight(id);
+            flightManager.DeleteFlight(id);
         }
     }
 }
