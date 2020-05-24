@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -14,17 +14,13 @@ namespace FlightControlWeb.Models
 {
     public class FlightManager : IFlightManager
     {
-        private ConcurrentDictionary<string, Flight> myFlights = new ConcurrentDictionary<string, Flight>();
-        Servers servers = new Servers();
-
-        public static List<Segment> allSegments = new List<Segment>()
+        private ConcurrentDictionary<string, Flight> myFlights;
+        private Servers servers;
+        public FlightManager()
         {
-            new Segment{  Longitude=45, Latitude = 45,  Timespan_seconds = 10 },
-            new Segment{  Longitude=30, Latitude = 30,  Timespan_seconds = 10 },
-            new Segment{  Longitude=20, Latitude = 20,  Timespan_seconds = 10 },
-            new Segment{  Longitude=10, Latitude = 10,  Timespan_seconds = 10 },
-        };
-
+            this.myFlights = new ConcurrentDictionary<string, Flight>();
+            this.servers = new Servers();
+        }
         public void addFlight(FlightPlan flightPlan)
         {
             Flight flight = new Flight(flightPlan);
@@ -46,12 +42,12 @@ namespace FlightControlWeb.Models
 
         public IEnumerable<Flight> getAllFlights()
         {
-            List<Flight> temp = new List<Flight>();
+            List<Flight> internalFlights = new List<Flight>();
             foreach (KeyValuePair<string, Flight> entry in myFlights)
             {
-                temp.Add(entry.Value);
+                internalFlights.Add(entry.Value);
             }
-            return temp;
+            return internalFlights;
         }
 
         public IEnumerable<Flight> getAllFlights(string relativeTo)
@@ -59,45 +55,7 @@ namespace FlightControlWeb.Models
             DateTime clientDT = DateTime.Parse(relativeTo);
             return GetRelevantFlights(clientDT);
         }
-        /**
-        public IEnumerable<Flight> getAllFlightsSync(string relativeTo)
-        {
-           IEnumerable<Flight> allFlights = new List<Flight>();
-            DateTime clientDT = DateTime.Parse(relativeTo);
-            allFlights = GetRelevantFlights(clientDT);
-            List<Server> allServers = this.servers.GetAllServers();
-            if(allServers.Count == 0)
-            {
-                return allFlights;
-            }
-               // Server ser = allServers[i];
-                string url = "http://" + "ronyut2.atwebpages.com/ap2/";
-               Task<FlightPlan> Taskflight = GetFlightURLID(url, "YIZI34");
-                FlightPlan flightp = Taskflight.Result;
-                myFlights.TryAdd("YIZI34", new Flight(flightp));
-                
-                //string flightsOfServer =await response.Result.Content.ReadAsStringAsync();
-            return allFlights;
-        }
-        private async Task<FlightPlan> GetFlightURLID(string url, string id)
-        {
-            string URL = String.Format(url + "/api/FlightPlan/" + id);
-            WebRequest req = WebRequest.Create(URL);
-            req.Method = "GET";
-            HttpWebResponse resp = null;
-            resp = (HttpWebResponse)(await req.GetResponseAsync());
-            string result = null;
-            FlightPlan fpAsJs;
-            using(Stream str = resp.GetResponseStream())
-            {
-                StreamReader strRead = new StreamReader(str);
-                result = strRead.ReadToEnd();
-                fpAsJs = JsonConvert.DeserializeObject<FlightPlan>(result);
-                strRead.Close();
-            }
-            return fpAsJs;
-        }*/
-
+        
         public IEnumerable<Flight> getAllFlightsSync(string relativeTo)
         {
             List<Flight> allFlights = new List<Flight>();
@@ -121,7 +79,7 @@ namespace FlightControlWeb.Models
 
         private async Task<List<Flight>> GetFlightURLID(string url, string relativeTo)
         {
-            string URL = String.Format(url + "api/Flights?relative_to=" + relativeTo);
+            string URL = String.Format(url + "/api/Flights?relative_to=" + relativeTo);
             WebRequest req = WebRequest.Create(URL);
             req.Method = "GET";
             HttpWebResponse resp = null;
@@ -169,7 +127,6 @@ namespace FlightControlWeb.Models
                 else if (String.Compare(flight.UpdateLocation(relativeTo), "Ended") == 0)
                 {
                     myFlights.TryRemove(flight.Flight_Id, out flight);
-                    // myFlights.Remove(flight);
                 }
                 else
                 {
@@ -179,6 +136,10 @@ namespace FlightControlWeb.Models
             return relevantFlights;
         }
 
+        public Servers GetServers()
+        {
+            return this.servers;
+        }
         public static List<Segment> indiaSeg = new List<Segment>()
         {
             new Segment{  Longitude=13.948911, Latitude = 41.749457,  Timespan_seconds = 25 },
@@ -197,10 +158,10 @@ namespace FlightControlWeb.Models
             new Segment{  Longitude=-102.55, Latitude = 23.634,  Timespan_seconds = 25 }
         };
 
-        private int i = 0;
+        private int k = 0;
         public void AddRandomFlights()
         {
-            if (i == 0)
+            if (k == 0)
             {
                 myFlights.Clear();
                 InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, Date_Time = "2020-12-26T23:56:03Z" };
@@ -215,10 +176,9 @@ namespace FlightControlWeb.Models
                 Flight flight5 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Air India", Initial_Location = loc5, Segments = indiaSeg });
                 myFlights.TryAdd(flight5.Flight_Id, flight5);
 
-                i++;
+                k++;
             }
         }
     }
 }
-   
 
