@@ -20,7 +20,7 @@ function addMarker(props) {
         url: "plane-icon.png", // url
         scaledSize: new google.maps.Size(20, 20), // scaled size
         origin: new google.maps.Point(0, 0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
+        anchor: new google.maps.Point(0, 0), // anchor
     };
 
     let marker = new google.maps.Marker({
@@ -42,26 +42,4 @@ function addMarker(props) {
             selectFlight(props.content.flight_Id);
         }
     });
-}
-
-function showLine(a, b, c, d) {
-    let flightPlanCoordinates = [
-        { lat: a, lng: b },
-        { lat: c, lng: d }
-    ];
-
-    let flightPath = new google.maps.Polyline({
-        path: flightPlanCoordinates,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2
-    });
-
-    flightPath.setMap(googleMap);
-}
-
-function clearMarkers() {
-    // Removes the markers from the map, but keeps them in the array.
-    setMapOnAll(null);
 }

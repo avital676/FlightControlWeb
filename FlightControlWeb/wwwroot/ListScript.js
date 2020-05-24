@@ -1,5 +1,10 @@
-﻿let deleted = false;
+﻿window.onload = function () {
+    this.initFlightsLists();
+    sleep(100);
+    this.asyncUpdates();
+};
 
+let deleted = false;
 function allowDrop(ev) {
     $("#listsArea").hide();
     $("#dragAndDrop").show();
@@ -135,31 +140,33 @@ function flightClick(ev) {
 }
 
 // Initialize flights lists:
-let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all";
-$.getJSON(flighturl)
-    .done(function (data) {
-        data.forEach(function (flight) {
-            let flightId = flight.flight_Id;
-            if (!flight.isExternal) {
-                // internal flight:
-                appendInternalFlight(flight);
-            } else {
-                // external flight:
-                $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+function initFlightsLists() {
+    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all";
+    $.getJSON(flighturl)
+        .done(function (data) {
+            data.forEach(function (flight) {
+                let flightId = flight.flight_Id;
+                if (!flight.isExternal) {
+                    // internal flight:
+                    appendInternalFlight(flight);
+                } else {
+                    // external flight:
+                    $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
                 <td id=${flightId}>${flight.company_Name}</td></tr>`);
-            }
-            addMarker({
-                coords: { lat: flight.latitude, lng: flight.longitude },
-                content: flight
+                }
+                addMarker({
+                    coords: { lat: flight.latitude, lng: flight.longitude },
+                    content: flight
+                });
             });
+        })
+        .fail(function (response) {
+            // code response from controller:
+            showMsg(response.responseText);
         });
-    })
-    .fail(function (response) {
-        // code response from controller:
-        showMsg(response.responseText);
-    });
-// hide message alert:
-$("success-alert").hide();
+    // hide message alert:
+    $("success-alert").hide();
+}
 
 function deleteFlight(event) {
     deleted = true;
@@ -199,9 +206,7 @@ function deleteFlight(event) {
     }
 }
 
-let worker; // ???
-let animatedId = null; // ???
-async function buttonClicked() {
+async function asyncUpdates() {
     while (true) {
         await updateMarkers();
     }
@@ -216,6 +221,7 @@ function updateMarkers() {
                 data.forEach(function (flight) {
                     var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
                     markers[flight.flight_Id].setPosition(myLatlng);
+                    //markers[flight.flight_Id]
                 });
             })
             .fail(function () {
@@ -223,13 +229,4 @@ function updateMarkers() {
             });
         setTimeout(() => resolve("Success"), 2000);
     });
-}
-
-
-
-// Set the map on all markers in the array:
-function setMapOnAll(map) {
-    for (let i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-    }
 }
