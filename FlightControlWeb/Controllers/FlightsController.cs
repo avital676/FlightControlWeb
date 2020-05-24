@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,20 +17,20 @@ namespace FlightControlWeb.Controllers
         public FlightsController(IFlightManager flightManager)
         {
             this.flightManager = flightManager;
+            flightManager.AddRandomFlights();
         }
 
         // GET: api/Flights
         [HttpGet]
         public JsonResult GetAllFlights(string relative_to)
         {
-            flightManager.AddRandomFlights();
             try
             {
                 var syncAll = Request.Query["sync_all"].ToList();
                 if (syncAll.Count != 0)
                 {
                     //returns myflight , servers flights
-                    IEnumerable <Flight> flights = flightManager.getAllFlightsSync("2020-12-26T23:56:03Z");
+                    IEnumerable <Flight> flights = flightManager.getAllFlightsSync(relative_to);
                     return new JsonResult(flights);
                 } else
                 {

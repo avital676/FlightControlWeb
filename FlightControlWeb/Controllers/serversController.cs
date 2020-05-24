@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +14,9 @@ namespace FlightControlWeb.Controllers
     public class serversController : ControllerBase
     {
         private Servers externalSer;
-        public serversController()
+        public serversController(IFlightManager flightManager)
         {
-            this.externalSer = new Servers();
+            this.externalSer = flightManager.GetServers();
         }
 
         // GET: api/servers
@@ -44,7 +44,7 @@ namespace FlightControlWeb.Controllers
                 externalSer.AddServer(value);
                 // return 200 OK:
                 Response.StatusCode = 200;
-                Response.WriteAsync("FlightPlan added");
+                Response.WriteAsync("Server added");
                 return new JsonResult("OK");
             }
             catch (Exception)
