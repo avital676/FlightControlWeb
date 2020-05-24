@@ -16,7 +16,6 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
-////// CHECK CODE FOR XHR FAILURE
 function onDrop(ev) {
     ev.preventDefault();
     document.getElementById("detailes").innerHTML = "drropppopopo";
@@ -30,11 +29,20 @@ function onDrop(ev) {
         xhr.open("POST", flighturl, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
-        // HOW TO CHECK IF THIS WORKS??????????????????????????????????????????????
         xhr.onerror = function () { //the request failed
             document.getElementById("detailes").innerHTML = "failed sending file to server";
         };
-        // END OF CODE TO BE CHECKED
+        xhr.onload = function () {
+            if (xhr.readyState === xhr.DONE) {
+                if (xhr.status === 200) {
+                    // succeeded:
+                    document.getElementById("detailes").innerHTML = xhr.responseText;
+                } else {
+                    // failed:
+                    document.getElementById("detailes").innerHTML = "Couldn't add FlightPlan";
+                }
+            }
+        };
         sleep(50);
         updateList();
     }
@@ -50,6 +58,7 @@ function endDrag(event) {
     $("#dragAndDrop").hide();
 }
 
+// TOO MUCH KINUNIM - REPLACE FOR&IF TO getFlightPlan request- SUCCESS=EXIST, FAIL=DOESNT EXIST????
 function updateList() {
     let row;
     let compId;
@@ -84,25 +93,27 @@ function updateList() {
 }
 
 function deleteEndedFlight() {
-    let row;
-    let compId;
     let list = document.getElementById("list1");
     let tableRows = list.getElementsByTagName('tr');
     let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z&sync_all";
     for (let i = 1; i < tableRows.length; i++) {
         let exist = true;
-        $.getJSON(flighturl, function (data) {
-            data.forEach(function (flight) {
-                if (exist == false) {
-                    appendInternalFlight(flight);
-                    addMarker({
-                        coords: { lat: flight.latitude, lng: flight.longitude },
-                        content: flight
-                    });
-                }
+        $.getJSON(flighturl)
+            .done(function (data) {
+                data.forEach(function (flight) {
+                    if (exist == false) {
+                        appendInternalFlight(flight);
+                        addMarker({
+                            coords: { lat: flight.latitude, lng: flight.longitude },
+                            content: flight
+                        });
+                    }
+                });
+            })
+            .fail(function (response) {
+                // failed:
+                document.getElementById("detailes").innerHTML = "Failed deleting ended flights";
             });
-        });
-       
     }
 }
 
@@ -156,8 +167,14 @@ function deleteFlight(event) {
     let deleteurl = `../api/Flights/${flightId}`;
     $.ajax({
         url: deleteurl,
-        type: 'DELETE'
-    });
+        type: 'DELETE',
+        success: function (data, textStatus) {
+            alert('request successful');
+        },
+        error: function (response) {
+            document.getElementById("detailes").innerHTML = response.responseText;
+            return;
+        }});
     let list = document.getElementById("list1");
     let tableRows = list.getElementsByTagName('tr');
     let row;

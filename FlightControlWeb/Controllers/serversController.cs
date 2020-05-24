@@ -18,6 +18,7 @@ namespace FlightControlWeb.Controllers
         {
             this.externalSer = new Servers();
         }
+
         // GET: api/servers
         [HttpGet]
         public IEnumerable<Server> Get()

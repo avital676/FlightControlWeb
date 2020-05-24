@@ -38,10 +38,23 @@ namespace FlightControlWeb.Controllers
 
         // POST: api/FlightPlan
         [HttpPost]
-        public void Post([FromBody] FlightPlan value)
+        public JsonResult Post([FromBody] FlightPlan value)
         {
-            // WHAT HAPPENS IF VALUE ISNT A FLIGHT PLAN?????????
-            flightMan.addFlight(value);
+            try
+            {
+                // add flight plan to flight manager:
+                flightMan.addFlight(value);
+                // return 200 OK:
+                Response.StatusCode = 200;
+                Response.WriteAsync("FlightPlan added");
+                return new JsonResult("OK");
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 400;
+                Response.WriteAsync("Couldn't add FlightPlan");
+                return null;
+            }
         }
     }
 }
