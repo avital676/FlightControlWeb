@@ -27,8 +27,7 @@ function selectFlight(flightId) {
                     ${ lastSegment.latitude.toFixed(2)}</td>` +
                 `<td>${fp.passengers}</td>` +
                 `<td>${fp.company_Name}</td>`);
-            // draw the flight path:
-            drawPath(fp);
+
             // animate selected plane:
             animatePlane(flightId);
             let i;
@@ -36,6 +35,8 @@ function selectFlight(flightId) {
             for (i = 0; i < line.length; i++) {
                 line[i].setMap(null);
             }
+            // draw the flight path:
+            drawPath(fp);
         })
         // json request failed:
         .fail(function (response) {
