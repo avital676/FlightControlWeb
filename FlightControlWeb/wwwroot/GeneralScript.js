@@ -40,8 +40,7 @@ function selectFlight(flightId) {
         })
         // json request failed:
         .fail(function (response) {
-            // code response from controller:
-            document.getElementById("detailes").innerHTML = response.responseText;
+            showMsg(response.responseText);
         });
 }
 
@@ -128,4 +127,11 @@ function cancelClick(event) {
         }
     }
     inside = false;
+}
+
+function showMsg(msg) {
+    document.getElementById("msg").innerHTML = msg;
+    $("#success-alert").fadeTo(10000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+    });
 }

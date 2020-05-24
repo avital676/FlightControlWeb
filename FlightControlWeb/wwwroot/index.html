@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- Google Maps script -->
     <script src="MapScript.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -17,7 +17,15 @@
     <script src="GeneralScript.js"></script>
     <script src="worker.js"></script>
     <title></title>
+    <style>
+        .droptarget {
+            float: right;
+            width: 440px;
+            height: 35px;
+        }
+    </style>
 </head>
+
 <body>
     <!--
     <form action="/action_page.php">
@@ -28,6 +36,9 @@
         <input type="submit" value="Submit">
     </form>
          -->
+    <div class="alert alert-danger float-left ml-2" id="success-alert">
+        <strong id="msg"></strong>
+    </div>
     <input type="button" onclick="buttonClicked()" value="Refresh" />
     <div class="container-fluid">
         <div class="row">
@@ -35,13 +46,13 @@
                 <h1 class="display-5">Flights Controler</h1>
                 <div class="row justify-content-center">
                     <div id="map" onclick="cancelClick(event)">
-                        <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
+                        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap"></script>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <h1 class="display-5">Flight Details</h1>
                     <div class="display-5" id="detailes">
-                        here is flight details
+                        details
                     </div>
                     <table class="table" id="listD">
                         <thead>
@@ -59,7 +70,7 @@
                     </table>
                 </div>
             </div><!-- ondragleave="onDragLeave(event)"-->
-            <div class="col-md justify-content-center" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)">
+            <div class="droptarget" id="dropArea" ondrop="onDrop(event)" ondragover="allowDrop(event)" endDrag="endDrag(event) " ondragleave="onDragLeave(event)">
                 <div class="jumbotron" id="listsArea" style="background:#E6F2FF !important">
                     <h1 class="display-4">My Flights</h1>
                     <div class="table-wrapper-scroll-y my-custom-scrollbar">

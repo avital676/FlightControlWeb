@@ -32,6 +32,7 @@ namespace FlightControlWeb.Models
             }
             return list;
         }
+
         public Server GetServerById(string id)
         {
             Server ser = myServers[id];

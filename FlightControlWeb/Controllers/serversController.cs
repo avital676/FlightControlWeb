@@ -21,24 +21,58 @@ namespace FlightControlWeb.Controllers
 
         // GET: api/servers
         [HttpGet]
-        public IEnumerable<Server> Get()
+        public JsonResult Get()
         {
-            return externalSer.GetAllServers();
+            try
+            {
+                return new JsonResult(externalSer.GetAllServers());
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 404;
+                Response.WriteAsync("Error getting servers");
+                return null;
+            }          
         }
 
         // POST: api/servers
         [HttpPost]
-        public Server Post(Server value)
+        public JsonResult Post(Server value)
         {
-            externalSer.AddServer(value);
-            return value;
+            try
+            {
+                externalSer.AddServer(value);
+                // return 200 OK:
+                Response.StatusCode = 200;
+                Response.WriteAsync("FlightPlan added");
+                return new JsonResult("OK");
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 400;
+                Response.WriteAsync("Couldn't add server");
+                return null;
+            }
         }
 
         // Delete: api/servers/5
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public JsonResult Delete(string id)
         {
-            externalSer.DeleteServer(id);
+            try
+            {
+                externalSer.DeleteServer(id);
+                // return 200 OK:
+                Response.StatusCode = 200;
+                Response.WriteAsync("Server deleted");
+                return new JsonResult("OK");
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 400;
+                Response.WriteAsync(e.Message);
+                return null;
+            }
         }
     }
 }

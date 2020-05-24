@@ -30,16 +30,16 @@ function onDrop(ev) {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(file);
         xhr.onerror = function () { //the request failed
-            document.getElementById("detailes").innerHTML = "failed sending file to server";
+            showMsg("failed sending file to server");
         };
         xhr.onload = function () {
             if (xhr.readyState === xhr.DONE) {
                 if (xhr.status === 200) {
                     // succeeded:
-                    document.getElementById("detailes").innerHTML = xhr.responseText;
+                    showMsg(xhr.responseText);
                 } else {
                     // failed:
-                    document.getElementById("detailes").innerHTML = "Couldn't add FlightPlan";
+                    showMsg("Couldn't add FlightPlan");
                 }
             }
         };
@@ -58,7 +58,7 @@ function endDrag(event) {
     $("#dragAndDrop").hide();
 }
 
-// TOO MUCH KINUNIM - REPLACE FOR&IF TO getFlightPlan request- SUCCESS=EXIST, FAIL=DOESNT EXIST????
+// TOO MUCH KINUNIM
 function updateList() {
     let row;
     let compId;
@@ -87,8 +87,7 @@ function updateList() {
             });
         })
         .fail(function (response) {
-            // code response from controller:
-            document.getElementById("detailes").innerHTML = response.responseText;
+            showMsg(response.responseText);
         });
 }
 
@@ -112,7 +111,7 @@ function deleteEndedFlight() {
             })
             .fail(function (response) {
                 // failed:
-                document.getElementById("detailes").innerHTML = "Failed deleting ended flights";
+                showMsg("Failed deleting ended flights");
             });
     }
 }
@@ -157,8 +156,10 @@ $.getJSON(flighturl)
     })
     .fail(function (response) {
         // code response from controller:
-        document.getElementById("detailes").innerHTML = response.responseText;
+        showMsg(response.responseText);
     });
+// hide message alert:
+$("success-alert").hide();
 
 function deleteFlight(event) {
     deleted = true;
@@ -172,7 +173,7 @@ function deleteFlight(event) {
             alert('request successful');
         },
         error: function (response) {
-            document.getElementById("detailes").innerHTML = response.responseText;
+            showMsg(response.responseText);
             return;
         }});
     let list = document.getElementById("list1");
@@ -198,28 +199,33 @@ function deleteFlight(event) {
     }
 }
 
-let worker;
-let animatedId = null;
-function buttonClicked() {
-    if (typeof (Worker) !== "undefined") {
-        if (typeof (worker) == "undefined") {
-            worker = new Worker('worker.js');
-        }
-        worker.onmessage = function (event) {
-            updateList();
-            var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
-            $.getJSON(flighturl, function (data) {
+let worker; // ???
+let animatedId = null; // ???
+async function buttonClicked() {
+    while (true) {
+        await updateMarkers();
+    }
+}
+
+function updateMarkers() {
+    return new Promise(function (resolve, reject) {
+        // Usually, this would be an IO operation like an HTTP request   // ??????? what is this
+        var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
+        $.getJSON(flighturl)
+            .done(function (data) {
                 data.forEach(function (flight) {
                     var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
                     markers[flight.flight_Id].setPosition(myLatlng);
                 });
+            })
+            .fail(function () {
+                showMsg("Couldn't update markers on map");
             });
-        };
-        worker.postMessage([]);
-    } else {
-        document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
-    }
+        setTimeout(() => resolve("Success"), 2000);
+    });
 }
+
+
 
 // Set the map on all markers in the array:
 function setMapOnAll(map) {
