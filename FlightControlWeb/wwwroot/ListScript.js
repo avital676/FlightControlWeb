@@ -1,7 +1,16 @@
-﻿window.onload = function () {
+﻿let running;
+window.onload = function () {
+    running = true;
+    this.showMsg(`WELCOME! 
+        Add flights by dragging json FlightPlan files to list,
+        or display flight details by clicking it!`);
     this.initFlightsLists();
     sleep(100);
     this.asyncUpdates();
+};
+
+window.onclose = function () {
+    running = false;
 };
 
 let deleted = false;
@@ -9,8 +18,7 @@ function allowDrop(ev) {
     $("#listsArea").hide();
     $("#dragAndDrop").show();
     ev.preventDefault();
-    event.dataTransfer.setData("text/plain", event.target.id)
-    document.getElementById("detailes").innerHTML = "drag";
+    event.dataTransfer.setData("text/plain", event.target.id);
 }
 
 function sleep(milliseconds) {
@@ -21,13 +29,12 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
+// TOO MUCH KINUNIM :(
 function onDrop(ev) {
     ev.preventDefault();
-    document.getElementById("detailes").innerHTML = "drropppopopo";
-    //document.getElementById("dragAndDrop").style.display = "none";
     $("#listsArea").show();
     $("#dragAndDrop").hide();
-    if (ev.dataTransfer.items[0].kind == 'file') {
+    if (ev.dataTransfer.items[0].kind === 'file') {
         let file = ev.dataTransfer.items[0].getAsFile();
         let xhr = new XMLHttpRequest();
         let flighturl = "../api/FlightPlan";
@@ -49,9 +56,10 @@ function onDrop(ev) {
             }
         };
         sleep(50);
-        updateList();
+        //updateList();
     }
 }
+
 
 /**function onDragLeave(event) {
     $("#listsArea").show();
@@ -65,48 +73,17 @@ function endDrag(event) {
 
 // TOO MUCH KINUNIM
 function updateList() {
-    let row;
-    let compId;
-    let list = document.getElementById("list1");
-    let tableRows = list.getElementsByTagName('tr');
-    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
-    $.getJSON(flighturl)
-        .done(function (flights) {
-            flights.forEach(function (flight) {
-                let exist = false;
-                for (let i = 1; i < tableRows.length; i++) {
-                    row = tableRows[i];
-                    compId = row.cells[0].innerHTML;
-                    if (flight.flight_Id == compId) {
-                        exist = true;
-                        break;
-                    }
-                }
-                if (exist == false) {
-                    appendInternalFlight(flight);
-                    addMarker({
-                        coords: { lat: flight.latitude, lng: flight.longitude },
-                        content: flight
-                    });
-                }
-            });
-        })
-        .fail(function (response) {
-            showMsg(response.responseText);
-        });
-}
-
-function deleteEndedFlight() {
-    let list = document.getElementById("list1");
-    let tableRows = list.getElementsByTagName('tr');
-    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z&sync_all";
-    for (let i = 1; i < tableRows.length; i++) {
-        let exist = true;
+    return new Promise(function (resolve, reject) {
+        let row;
+        let compId;
+        let list = document.getElementById("list1");
+        let tableRows = list.getElementsByTagName('tr');
+        let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z&sync_all";
         $.getJSON(flighturl)
-            .done(function (data) {
-                data.forEach(function (flight) {
-                    if (exist == false) {
-                        appendInternalFlight(flight);
+            .done(function (flights) {
+                flights.forEach(function (flight) {
+                    if (!checkIfFlightExist(flight.flight_Id)) {
+                        appendFlight(flight);
                         addMarker({
                             coords: { lat: flight.latitude, lng: flight.longitude },
                             content: flight
@@ -115,19 +92,58 @@ function deleteEndedFlight() {
                 });
             })
             .fail(function (response) {
-                // failed:
-                showMsg("Failed deleting ended flights");
+                showMsg(response.responseText);
             });
+        setTimeout(() => resolve("Success"), 1000);
+    });
+}
+
+function checkIfFlightExist(flightId) {
+    if (markers[flightId] !== null) {
+        return true;
+    }
+    return false;
+}
+
+
+// TOO MUCH KINUNIM
+function deleteEndedFlight() {
+    let list = document.getElementById("list1");
+    let tableRows = list.getElementsByTagName('tr');
+    let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z&sync_all";
+    for (let i = 1; i < tableRows.length; i++) {
+        let exist = true;
+        $.getJSON(flighturl)
+        .done(function (data) {
+            data.forEach(function (flight) {
+                if (exist === false) {
+                    appendFlight(flight);
+                    addMarker({
+                        coords: { lat: flight.latitude, lng: flight.longitude },
+                        content: flight
+                    });
+                }
+            });
+        })
+        .fail(function (response) {
+            // failed:
+            showMsg("Failed deleting ended flights");
+        });
     }
 }
 
-function appendInternalFlight(flight) {
+function appendFlight(flight) {
     let flightId = flight.flight_Id;
-    $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+    if (flight.isExternal == false) {
+        $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
         <td id=${flightId}>${flight.company_Name}</td>
         <td id=${flightId}><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
             id=${flightId} data-toggle="tooltip" data-placement="top" title="delete flight">X</button>
             </td></tr>`);
+    } else {
+        $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
+                <td id=${flightId}>${flight.company_Name}</td></tr>`);
+    }
 }
 
 function flightClick(ev) {
@@ -135,37 +151,27 @@ function flightClick(ev) {
         deleted = false;
         return;
     }
-  ///  document.getElementById("detailes").innerHTML = ev.target.innerHTML;
     selectFlight(ev.target.id);
 }
 
+// TOO MUCH KINUNIM
 // Initialize flights lists:
 function initFlightsLists() {
     let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all";
     $.getJSON(flighturl)
-        .done(function (data) {
-            data.forEach(function (flight) {
-                let flightId = flight.flight_Id;
-                if (!flight.isExternal) {
-                    // internal flight:
-                    appendInternalFlight(flight);
-                } else {
-                    // external flight:
-                    $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-                <td id=${flightId}>${flight.company_Name}</td></tr>`);
-                }
-                addMarker({
-                    coords: { lat: flight.latitude, lng: flight.longitude },
-                    content: flight
-                });
+    .done(function (data) {
+        data.forEach(function (flight) {
+            appendFlight(flight);
+            addMarker({
+                coords: { lat: flight.latitude, lng: flight.longitude },
+                content: flight
             });
-        })
-        .fail(function (response) {
-            // code response from controller:
-            showMsg(response.responseText);
         });
-    // hide message alert:
-    $("success-alert").hide();
+    })
+    .fail(function (response) {
+        // code response from controller:
+        showMsg(response.responseText);
+    });  
 }
 
 function deleteFlight(event) {
@@ -176,9 +182,6 @@ function deleteFlight(event) {
     $.ajax({
         url: deleteurl,
         type: 'DELETE',
-        success: function (data, textStatus) {
-            alert('request successful');
-        },
         error: function (response) {
             showMsg(response.responseText);
             return;
@@ -190,7 +193,7 @@ function deleteFlight(event) {
     for (let i = 1; i < tableRows.length; i++) {
         row = tableRows[i];
         compId = row.cells[0].innerHTML;
-        if (flightId == compId) {
+        if (flightId === compId) {
             document.getElementById("list1").deleteRow(i);
         }
     }
@@ -198,7 +201,7 @@ function deleteFlight(event) {
     markers[flightId].setMap(null);
     delete markers[flightId];
     // delete route and details table:
-    if (selected == flightId) {
+    if (selected === flightId) {
         for (i = 0; i < line.length; i++) {
             line[i].setMap(null);
         }
@@ -207,26 +210,28 @@ function deleteFlight(event) {
 }
 
 async function asyncUpdates() {
-    while (true) {
+    while (running) {
         await updateMarkers();
+        await updateList();
     }
 }
 
+// TOO MUCH KINUNIM
 function updateMarkers() {
     return new Promise(function (resolve, reject) {
-        // Usually, this would be an IO operation like an HTTP request   // ??????? what is this
-        var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z";
+        var flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z&async_all";
         $.getJSON(flighturl)
-            .done(function (data) {
-                data.forEach(function (flight) {
-                    var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
-                    markers[flight.flight_Id].setPosition(myLatlng);
-                    //markers[flight.flight_Id]
-                });
-            })
-            .fail(function () {
-                showMsg("Couldn't update markers on map");
+        .done(function (data) {
+            data.forEach(function (flight) {
+                var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
+                markers[flight.flight_Id].setPosition(myLatlng);
             });
+        })
+        .fail(function () {
+            showMsg("Couldn't update markers on map");
+        });
         setTimeout(() => resolve("Success"), 2000);
     });
 }
+
+
