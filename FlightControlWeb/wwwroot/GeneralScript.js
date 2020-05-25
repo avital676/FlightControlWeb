@@ -1,8 +1,26 @@
-﻿let selected = null;
+﻿// Global variables
+let selected = null;
 let flightPath;
 let line = [];
+let running;
 
-// TOO MUCH KINUNIM
+// Load window
+window.onload = function () {
+    running = true;
+    this.showMsg(`WELCOME! 
+        Add flights by dragging json FlightPlan files to list,
+        or display flight details by clicking it!`);
+    this.initFlightsLists();
+    sleep(100);
+    this.asyncUpdates();
+};
+
+// Close window
+window.onclose = function () {
+    running = false;
+};
+
+// Select flight with given id on list and map
 function selectFlight(flightId) {
     selected = flightId;
     // color selected flight in list:
@@ -45,20 +63,18 @@ function selectFlight(flightId) {
     });
 }
 
-// TOO MUCH KINUNIM
-// Animate the plane of the given id:
+// Animate the plane of the given id
 function animatePlane(flightId) {
     for (let key in markers) {
         if (key === flightId) {
-            if (markers[key].getAnimation() !== google.maps.Animation.BOUNCE) {
-                markers[key].setAnimation(google.maps.Animation.BOUNCE);
-            }
+            markers[key].setAnimation(google.maps.Animation.BOUNCE);
         } else {
             markers[key].setAnimation(null);
         }
     }
 }
 
+// Color selected flight on flights list
 function colorList(list, flightId) {
     let row;
     let compId;
@@ -74,7 +90,7 @@ function colorList(list, flightId) {
     }
 }
 
-// Draw the flight path 
+// Draw the flight route:
 function drawPath(fp) {
     let flightPlanCoordinates = [];
     let segments = fp.segments;
@@ -88,7 +104,6 @@ function drawPath(fp) {
         lat = segments[i].latitude;
         flightPlanCoordinates.push({ lat: lat, lng: lng });
     }
-
     flightPath = new google.maps.Polyline({
         path: flightPlanCoordinates,
         geodesic: true,
@@ -101,17 +116,18 @@ function drawPath(fp) {
     flightPath.setMap(googleMap);
 }
 
+// Cancle selction of flight on list and map
 function cancelClick(event) {
     if (inside !== true) {
-        //delete line on map
+        // delete line on map
         for (i = 0; i < line.length; i++) {
             line[i].setMap(null);
         }
-        //delete details
+        // delete details from details table:
         if (document.getElementById("listD").rows.length > 1) {
             document.getElementById("listD").deleteRow(1);
         }
-        //cancel the color row
+        // cancel the colored row
         let row;
         let tableRows = document.getElementById("list1").getElementsByTagName('tr');
         for (let i = 1; i < tableRows.length; i++) {
@@ -131,6 +147,7 @@ function cancelClick(event) {
     inside = false;
 }
 
+// Show alerts/messages
 function showMsg(msg) {
     $("response-alert").show();
     document.getElementById("msg").innerHTML = msg;

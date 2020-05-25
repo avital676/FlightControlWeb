@@ -16,11 +16,13 @@ namespace FlightControlWeb.Models
     {
         private ConcurrentDictionary<string, Flight> myFlights;
         private Servers servers;
+
         public FlightManager()
         {
             this.myFlights = new ConcurrentDictionary<string, Flight>();
             this.servers = new Servers();
         }
+
         public void addFlight(FlightPlan flightPlan)
         {
             Flight flight = new Flight(flightPlan);

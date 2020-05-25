@@ -1,19 +1,7 @@
-﻿let running;
-window.onload = function () {
-    running = true;
-    this.showMsg(`WELCOME! 
-        Add flights by dragging json FlightPlan files to list,
-        or display flight details by clicking it!`);
-    this.initFlightsLists();
-    sleep(100);
-    this.asyncUpdates();
-};
-
-window.onclose = function () {
-    running = false;
-};
-
+﻿// Global variables
 let deleted = false;
+
+// Allow dropping files in dragAndDrop area
 function allowDrop(ev) {
     $("#listsArea").hide();
     $("#dragAndDrop").show();
@@ -21,6 +9,7 @@ function allowDrop(ev) {
     event.dataTransfer.setData("text/plain", event.target.id);
 }
 
+// Sleep for a given amount of ms
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -30,6 +19,7 @@ function sleep(milliseconds) {
 }
 
 // TOO MUCH KINUNIM :(
+// Send dropped file to server
 function onDrop(ev) {
     ev.preventDefault();
     $("#listsArea").show();
@@ -56,16 +46,31 @@ function onDrop(ev) {
             }
         };
         sleep(50);
-        //updateList();
     }
 }
 
+
+// Act in accordance to post FlightPlan request from client:
+function loadPost(xhr) {
+    if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+            // succeeded:
+            showMsg(xhr.responseText);
+        } else {
+            // failed:
+            showMsg("Couldn't add FlightPlan");
+        }
+    }
+}
+
+/*
+// Show list after drag
 function onDragLeave(event) {
     if (event.target.id != "listsArea") {
         $("#listsArea").show();
         $("#dragAndDrop").hide();
     }
-}
+}*/
 
 function endDrag(event) {
     if (event.target.id != "listsArea") {
@@ -74,7 +79,8 @@ function endDrag(event) {
     }
 }
 
-// TOO MUCH KINUNIM
+// TOO MUCH KINUNIM ///////////////////////////////////////////////
+// Update flights lists
 function updateList() {
     return new Promise(function (resolve, reject) {
         let row;
@@ -83,33 +89,35 @@ function updateList() {
         let tableRows = list.getElementsByTagName('tr');
         let flighturl = "../api/Flights?relative_to=2020-12-26T23:56:" + time + "Z&sync_all";
         $.getJSON(flighturl)
-            .done(function (flights) {
-                flights.forEach(function (flight) {
-                    if (!checkIfFlightExist(flight.flight_Id)) {
-                        appendFlight(flight);
-                        addMarker({
-                            coords: { lat: flight.latitude, lng: flight.longitude },
-                            content: flight
-                        });
-                    }
-                });
-            })
-            .fail(function (response) {
-                showMsg(response.responseText);
+        .done(function (flights) {
+            flights.forEach(function (flight) {
+                if (!checkIfFlightExist(flight.flight_Id)) {
+                    appendFlight(flight);
+                    addMarker({
+                        coords: { lat: flight.latitude, lng: flight.longitude },
+                        content: flight
+                    });
+                }
             });
+        })
+        .fail(function (response) {
+            showMsg(response.responseText);
+        });
         setTimeout(() => resolve("Success"), 1000);
     });
 }
 
+// Check flight exsistance
 function checkIfFlightExist(flightId) {
-    if (markers[flightId] !== null) {
+    if (markers[flightId] != null) {
         return true;
     }
     return false;
 }
 
 
-// TOO MUCH KINUNIM
+// TOO MUCH KINUNIM //////////////////////////////////////////////
+// Delete flights that ended
 function deleteEndedFlight() {
     let list = document.getElementById("list1");
     let tableRows = list.getElementsByTagName('tr');
@@ -137,7 +145,7 @@ function deleteEndedFlight() {
 
 function appendFlight(flight) {
     let flightId = flight.flight_Id;
-    if (flight.isExternal == false) {
+    if (flight.isExternal === false) {
         $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
         <td id=${flightId}>${flight.company_Name}</td>
         <td id=${flightId}><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
