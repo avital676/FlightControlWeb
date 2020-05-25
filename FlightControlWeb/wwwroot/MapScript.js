@@ -29,7 +29,7 @@ function addMarker(props) {
         map: googleMap,
         icon: icon
     });
-    markers[props.content.flight_Id] = marker;
+    markers[props.content.flightId] = marker;
     // check info window
     if (props.content) {
         // add info window
@@ -37,6 +37,6 @@ function addMarker(props) {
     }
     marker.addListener('click', function () {
         inside = true;
-        selectFlight(props.content.flight_Id);
+        selectFlight(props.content.flightId);
     });
 }

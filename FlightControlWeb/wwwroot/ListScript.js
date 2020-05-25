@@ -91,7 +91,7 @@ function updateList() {
         $.getJSON(flighturl)
         .done(function (flights) {
             flights.forEach(function (flight) {
-                if (!checkIfFlightExist(flight.flight_Id)) {
+                if (!checkIfFlightExist(flight.flightId)) {
                     appendFlight(flight);
                     addMarker({
                         coords: { lat: flight.latitude, lng: flight.longitude },
@@ -144,16 +144,16 @@ function deleteEndedFlight() {
 }
 
 function appendFlight(flight) {
-    let flightId = flight.flight_Id;
+    let flightId = flight.flightId;
     if (flight.isExternal === false) {
         $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-        <td id=${flightId}>${flight.company_Name}</td>
+        <td id=${flightId}>${flight.companyName}</td>
         <td id=${flightId}><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
             id=${flightId} data-toggle="tooltip" data-placement="top" title="delete flight">X</button>
             </td></tr>`);
     } else {
         $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-                <td id=${flightId}>${flight.company_Name}</td></tr>`);
+                <td id=${flightId}>${flight.companyName}</td></tr>`);
     }
 }
 
@@ -235,7 +235,7 @@ function updateMarkers() {
         .done(function (data) {
             data.forEach(function (flight) {
                 var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
-                markers[flight.flight_Id].setPosition(myLatlng);
+                markers[flight.flightId].setPosition(myLatlng);
             });
         })
         .fail(function () {

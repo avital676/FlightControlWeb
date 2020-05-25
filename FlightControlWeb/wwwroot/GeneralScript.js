@@ -39,13 +39,13 @@ function selectFlight(flightId) {
     .done(function (fp) {
         let lastSegment = fp.segments[fp.segments.length - 1];
         $("#listD").append(`<tr><td>${flightId}</td>` +
-            `<td>${fp.initial_Location.date_Time}</td>` +
-            `<td>${fp.initial_Location.longitude.toFixed(2)},
-                ${ fp.initial_Location.latitude.toFixed(2)}</td>` +
+            `<td>${fp.initialLocation.dateTime}</td>` +
+            `<td>${fp.initialLocation.longitude.toFixed(2)},
+                ${ fp.initialLocation.latitude.toFixed(2)}</td>` +
             `<td>${lastSegment.longitude.toFixed(2)},
                 ${ lastSegment.latitude.toFixed(2)}</td>` +
             `<td>${fp.passengers}</td>` +
-            `<td>${fp.company_Name}</td>`);
+            `<td>${fp.companyName}</td>`);
 
         // animate selected plane:
         animatePlane(flightId);
@@ -94,8 +94,8 @@ function colorList(list, flightId) {
 function drawPath(fp) {
     let flightPlanCoordinates = [];
     let segments = fp.segments;
-    let lng = fp.initial_Location.longitude;
-    let lat = fp.initial_Location.latitude;
+    let lng = fp.initialLocation.longitude;
+    let lat = fp.initialLocation.latitude;
     flightPlanCoordinates.push({ lat: lat, lng: lng });
     let length = fp.segments.length;
     var i;
