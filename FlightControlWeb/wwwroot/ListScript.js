@@ -60,15 +60,18 @@ function onDrop(ev) {
     }
 }
 
-
-/**function onDragLeave(event) {
-    $("#listsArea").show();
-    $("#dragAndDrop").hide();
-}*/
+function onDragLeave(event) {
+    if (event.target.id != "listsArea") {
+        $("#listsArea").show();
+        $("#dragAndDrop").hide();
+    }
+}
 
 function endDrag(event) {
-    $("#listsArea").show();
-    $("#dragAndDrop").hide();
+    if (event.target.id != "listsArea") {
+        $("#listsArea").show();
+        $("#dragAndDrop").hide();
+    }
 }
 
 // TOO MUCH KINUNIM
