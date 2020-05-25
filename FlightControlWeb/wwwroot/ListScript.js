@@ -6,7 +6,7 @@ function allowDrop(ev) {
     $("#listsArea").hide();
     $("#dragAndDrop").show();
     ev.preventDefault();
-    event.dataTransfer.setData("text/plain", event.target.id);
+    ev.dataTransfer.setData("text/plain", ev.target.id);
 }
 
 // Sleep for a given amount of ms
@@ -35,21 +35,19 @@ function onDrop(ev) {
             showMsg("failed sending file to server");
         };
         xhr.onload = function () {
-            if (xhr.readyState === xhr.DONE) {
-                if (xhr.status === 200) {
-                    // succeeded:
-                    showMsg(xhr.responseText);
-                } else {
-                    // failed:
-                    showMsg("Couldn't add FlightPlan");
-                }
+            if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+                // succeeded:
+                showMsg(xhr.responseText);
+            } else {
+                // failed:
+                showMsg("Couldn't add FlightPlan");
             }
         };
         sleep(50);
     }
 }
 
-
+/*
 // Act in accordance to post FlightPlan request from client:
 function loadPost(xhr) {
     if (xhr.readyState === xhr.DONE) {
@@ -62,6 +60,7 @@ function loadPost(xhr) {
         }
     }
 }
+*/
 
 /*
 // Show list after drag
@@ -91,7 +90,7 @@ function updateList() {
         $.getJSON(flighturl)
         .done(function (flights) {
             flights.forEach(function (flight) {
-                if (!checkIfFlightExist(flight.flightId)) {
+                if (!checkIfFlightExist(flight.flight_Id)) {
                     appendFlight(flight);
                     addMarker({
                         coords: { lat: flight.latitude, lng: flight.longitude },
@@ -106,6 +105,8 @@ function updateList() {
         setTimeout(() => resolve("Success"), 1000);
     });
 }
+
+
 
 // Check flight exsistance
 function checkIfFlightExist(flightId) {
@@ -144,16 +145,16 @@ function deleteEndedFlight() {
 }
 
 function appendFlight(flight) {
-    let flightId = flight.flightId;
+    let flightId = flight.flight_Id;
     if (flight.isExternal === false) {
         $("#list1").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-        <td id=${flightId}>${flight.companyName}</td>
+        <td id=${flightId}>${flight.company_Name}</td>
         <td id=${flightId}><button type="button" class="btn btn-outline-primary" onclick=deleteFlight(event)
             id=${flightId} data-toggle="tooltip" data-placement="top" title="delete flight">X</button>
             </td></tr>`);
     } else {
         $("#list2").append(`<tr onclick=flightClick(event)><td id=${flightId}>${flightId}</td> 
-                <td id=${flightId}>${flight.companyName}</td></tr>`);
+                <td id=${flightId}>${flight.company_Name}</td></tr>`);
     }
 }
 
@@ -235,7 +236,7 @@ function updateMarkers() {
         .done(function (data) {
             data.forEach(function (flight) {
                 var myLatlng = new google.maps.LatLng(flight.latitude, flight.longitude);
-                markers[flight.flightId].setPosition(myLatlng);
+                markers[flight.flight_Id].setPosition(myLatlng);
             });
         })
         .fail(function () {

@@ -67,17 +67,17 @@ namespace FlightControlWeb.Models
             if (i == 0)
             {
                 myFlights.Clear();
-                InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, DateTime = "2020-12-26T23:56:03Z" };
-                Flight flight1 = new Flight(new FlightPlan { Passengers = 420, CompanyName = "New York Airlines", InitialLocation = loc1, Segments = nySeg });
-                myFlights.TryAdd(flight1.FlightId, flight1);
+                InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, Date_Time = "2020-12-26T23:56:03Z" };
+                Flight flight1 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "New York Airlines", Initial_Location = loc1, Segments = nySeg });
+                myFlights.TryAdd(flight1.Flight_Id, flight1);
 
-                InitialLocation loc2 = new InitialLocation { Latitude = 51.507, Longitude = -0.127, DateTime = "2020-12-26T23:56:03Z" };
-                Flight flight2 = new Flight(new FlightPlan { Passengers = 420, CompanyName = "British Airways", InitialLocation = loc2, Segments = londonSeg });
-                myFlights.TryAdd(flight2.FlightId, flight2);
+                InitialLocation loc2 = new InitialLocation { Latitude = 51.507, Longitude = -0.127, Date_Time = "2020-12-26T23:56:03Z" };
+                Flight flight2 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "British Airways", Initial_Location = loc2, Segments = londonSeg });
+                myFlights.TryAdd(flight2.Flight_Id, flight2);
 
-                InitialLocation loc5 = new InitialLocation { Latitude = 31.912154, Longitude = 35.114953, DateTime = "2020-12-26T23:56:03Z" };
-                Flight flight5 = new Flight(new FlightPlan { Passengers = 200, CompanyName = "Air India", InitialLocation = loc5, Segments = indiaSeg });
-                myFlights.TryAdd(flight5.FlightId, flight5);
+                InitialLocation loc5 = new InitialLocation { Latitude = 31.912154, Longitude = 35.114953, Date_Time = "2020-12-26T23:56:03Z" };
+                Flight flight5 = new Flight(new FlightPlan { Passengers = 200, Company_Name = "Air India", Initial_Location = loc5, Segments = indiaSeg });
+                myFlights.TryAdd(flight5.Flight_Id, flight5);
 
                 i++;
             }
