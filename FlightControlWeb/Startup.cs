@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using FlightControlWeb.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FlightControlWeb
 {
@@ -37,6 +38,11 @@ namespace FlightControlWeb
             {
                 app.UseDeveloperExceptionPage();
             }
+           /* app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Worker Process Name : "
+                    + System.Diagnostics.Process.GetCurrentProcess().ProcessName);
+            });*/
 
             app.UseHttpsRedirection();
 
