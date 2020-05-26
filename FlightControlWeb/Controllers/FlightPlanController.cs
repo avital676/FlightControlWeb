@@ -25,6 +25,7 @@ namespace FlightControlWeb.Controllers
         {
             try
             {
+                FlightPlan fp= flightMan.GetFlightById(id).getFlightPlan();
                 // return the flight plan with this id:
                 return new JsonResult(flightMan.GetFlightById(id).getFlightPlan());
             } catch (Exception)

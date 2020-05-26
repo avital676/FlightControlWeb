@@ -17,7 +17,6 @@ namespace FlightControlWeb.Controllers
         public FlightsController(IFlightManager flightManager)
         {
             this.flightManager = flightManager;
-            flightManager.AddRandomFlights();
         }
 
         // GET: api/Flights

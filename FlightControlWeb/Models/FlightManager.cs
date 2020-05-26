@@ -15,12 +15,15 @@ namespace FlightControlWeb.Models
     public class FlightManager : IFlightManager
     {
         private ConcurrentDictionary<string, Flight> myFlights;
+        private List<Flight> externalFlights;
         private Servers servers;
 
         public FlightManager()
         {
             this.myFlights = new ConcurrentDictionary<string, Flight>();
             this.servers = new Servers();
+            this.externalFlights = new List<Flight>();
+            AddRandomFlights();
         }
 
         public void addFlight(FlightPlan flightPlan)
@@ -76,6 +79,7 @@ namespace FlightControlWeb.Models
         
         public IEnumerable<Flight> getAllFlightsSync(string relativeTo)
         {
+            //externalFlights.Clear();
             List<Flight> allFlights = new List<Flight>();
             DateTime clientDT = DateTime.Parse(relativeTo);
             allFlights = (List<Flight>) GetRelevantFlights(clientDT);
@@ -88,9 +92,10 @@ namespace FlightControlWeb.Models
             {
                 Server ser = allServers[i];
                 Task<List<Flight>> taskflights = GetFlightURLID(ser.ServerURL, relativeTo);
-                List<Flight> externalFlights = taskflights.Result;
-                SetAsExternal(externalFlights);
-                allFlights.AddRange(externalFlights);
+                List<Flight> exFlights = taskflights.Result;
+                SetAsExternal(exFlights, ser.ServerURL);
+                //externalFlights.AddRange(exFlights);
+                allFlights.AddRange(exFlights);
             }
             return allFlights;
         }
@@ -114,20 +119,61 @@ namespace FlightControlWeb.Models
             return externalFlights;
         }
 
-        public void SetAsExternal(List<Flight> flights)
+        private async Task<FlightPlan> getFlightPlanExternalServer(string url, string id)
         {
+            string URL = String.Format(url + "/api/FlightPlan/" + id);
+            WebRequest req = WebRequest.Create(URL);
+            req.Method = "GET";
+            HttpWebResponse resp = null;
+            resp = (HttpWebResponse)(await req.GetResponseAsync());
+            string result = null;
+            FlightPlan flightPlan;
+            using (Stream str = resp.GetResponseStream())
+            {
+                StreamReader strRead = new StreamReader(str);
+                result = strRead.ReadToEnd();
+                flightPlan = JsonConvert.DeserializeObject<FlightPlan>(result);
+                strRead.Close();
+            }
+            return flightPlan;
+        }
+
+        private void SetAsExternal(List<Flight> flights, string url)
+        {
+            FlightPlan flightPlan;
             int i;
             for (i = 0; i < flights.Count; i++)
             {
                 flights[i].IsExternal = true;
+                Task<FlightPlan> task = getFlightPlanExternalServer(url, flights[i].FlightId);
+                flightPlan = task.Result;
+                Flight flight = new Flight(flightPlan);
+                flight.FlightId = flights[i].FlightId;
+                if (externalFlights.Where(x => x.FlightId == flight.FlightId).FirstOrDefault() == null)
+                {
+                    this.externalFlights.Add(flight);
+                }
             }
         }
       
         public Flight GetFlightById(string id)
         {
-            Flight flight = myFlights[id];
-            if (flight == null)
-                throw new Exception("Flight not found");
+            Flight flight;
+            try
+            {
+                flight = myFlights[id];
+            } catch (Exception)
+            {
+                flight = externalFlights.Where(x => x.FlightId == id).FirstOrDefault();
+                if (flight == null)
+                    throw new Exception("Flight not found");
+            }
+            /**if (flight == null)
+            {
+                flight = externalFlights.Where(x => x.FlightId == id).FirstOrDefault();
+                if (flight == null)
+                    throw new Exception("Flight not found");
+            }*/
             return flight;
         }
 

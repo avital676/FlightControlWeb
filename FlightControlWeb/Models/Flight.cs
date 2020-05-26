@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Globalization;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace FlightControlWeb.Models
 {
@@ -36,13 +37,17 @@ namespace FlightControlWeb.Models
             IsExternal = false;
             FlightId = CreateID();
         }
+        [JsonProperty(PropertyName = "flight_id")]
         public string FlightId { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
+        [JsonProperty(PropertyName = "is_external")]
         public bool IsExternal { get; set; }
         //public FlightPlan flightPlan { get; set; }
+        [JsonProperty(PropertyName = "date_time")]
         public string DateTimee { get; set; }
         public int Passengers { get; set; }
+        [JsonProperty(PropertyName = "company_name")]
         public string CompanyName { get; set; }
 
         private String CreateID()

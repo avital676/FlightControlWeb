@@ -25,7 +25,7 @@ namespace FlightControlWeb.Models
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         [JsonPropertyName("timespan_seconds")]
-
+        [JsonProperty(PropertyName = "timespan_seconds")]
         public double Timespanseconds { get; set; }
 
         public int SegmentPartsNum { get; set; }

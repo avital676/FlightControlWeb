@@ -209,9 +209,9 @@ function deleteFlight(event) {
 
 // Upadte markers and list async
 async function asyncUpdates() {
-  while (running) {
-    await updateMarkers();
+    while (running) {
     await updateList();
+    await updateMarkers();
   }
 }
 
