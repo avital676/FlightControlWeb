@@ -91,11 +91,17 @@ namespace FlightControlWeb.Models
             for (int i = 0; i < servers.GetAllServers().Count; i++)
             {
                 Server ser = allServers[i];
-                Task<List<Flight>> taskflights = GetFlightURLID(ser.ServerURL, relativeTo);
-                List<Flight> exFlights = taskflights.Result;
-                SetAsExternal(exFlights, ser.ServerURL);
-                //externalFlights.AddRange(exFlights);
-                allFlights.AddRange(exFlights);
+                try
+                {
+                    Task<List<Flight>> taskflights = GetFlightURLID(ser.ServerURL, relativeTo);
+                    List<Flight> exFlights = taskflights.Result;
+                    SetAsExternal(exFlights, ser.ServerURL);
+                    //externalFlights.AddRange(exFlights);
+                    allFlights.AddRange(exFlights);
+                } catch (Exception e)
+                {
+                    continue;
+                }
             }
             return allFlights;
         }
