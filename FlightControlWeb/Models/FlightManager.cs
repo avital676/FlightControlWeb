@@ -26,12 +26,12 @@ namespace FlightControlWeb.Models
         public void addFlight(FlightPlan flightPlan)
         {
             Flight flight = new Flight(flightPlan);
-            myFlights.TryAdd(flight.Flight_Id, flight);
+            myFlights.TryAdd(flight.FlightId, flight);
         }
 
         public void addFlight(Flight flight)
         {
-            myFlights.TryAdd(flight.Flight_Id, flight);
+            myFlights.TryAdd(flight.FlightId, flight);
         }
 
         public void DeleteFlight(string id)
@@ -128,7 +128,7 @@ namespace FlightControlWeb.Models
                 }
                 else if (String.Compare(flight.UpdateLocation(relativeTo), "Ended") == 0)
                 {
-                    myFlights.TryRemove(flight.Flight_Id, out flight);
+                    myFlights.TryRemove(flight.FlightId, out flight);
                 }
                 else
                 {
@@ -144,20 +144,20 @@ namespace FlightControlWeb.Models
         }
         public static List<Segment> indiaSeg = new List<Segment>()
         {
-            new Segment{  Longitude=13.948911, Latitude = 41.749457,  Timespan_seconds = 25 },
-            new Segment{  Longitude=78.962883, Latitude = 20.593683,  Timespan_seconds = 25 }
+            new Segment{  Longitude=13.948911, Latitude = 41.749457,  Timespanseconds = 25 },
+            new Segment{  Longitude=78.962883, Latitude = 20.593683,  Timespanseconds = 25 }
         };
 
         public static List<Segment> nySeg = new List<Segment>()
         {
-            new Segment{  Longitude=-80.289, Latitude = 25.6968,  Timespan_seconds = 25 },
-            new Segment{  Longitude=-58.455, Latitude = -34.75,  Timespan_seconds = 25 }
+            new Segment{  Longitude=-80.289, Latitude = 25.6968,  Timespanseconds = 25 },
+            new Segment{  Longitude=-58.455, Latitude = -34.75,  Timespanseconds = 25 }
         };
 
         public static List<Segment> londonSeg = new List<Segment>()
         {
-            new Segment{  Longitude=4.895, Latitude = 52.37,  Timespan_seconds = 25 },
-            new Segment{  Longitude=-102.55, Latitude = 23.634,  Timespan_seconds = 25 }
+            new Segment{  Longitude=4.895, Latitude = 52.37,  Timespanseconds = 25 },
+            new Segment{  Longitude=-102.55, Latitude = 23.634,  Timespanseconds = 25 }
         };
 
         private int k = 0;
@@ -166,17 +166,17 @@ namespace FlightControlWeb.Models
             if (k == 0)
             {
                 myFlights.Clear();
-                InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, Date_Time = "2020-12-26T23:56:03Z" };
-                Flight flight1 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "New York Airlines", Initial_Location = loc1, Segments = nySeg });
-                myFlights.TryAdd(flight1.Flight_Id, flight1);
+                InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, DateTime = "2020-12-26T23:56:03Z" };
+                Flight flight1 = new Flight(new FlightPlan { Passengers = 420, CompanyName = "New York Airlines", InitialLocation = loc1, Segments = nySeg });
+                myFlights.TryAdd(flight1.FlightId, flight1);
 
-                InitialLocation loc2 = new InitialLocation { Latitude = 51.507, Longitude = -0.127, Date_Time = "2020-12-26T23:56:03Z" };
-                Flight flight2 = new Flight(new FlightPlan { Passengers = 420, Company_Name = "British Airways", Initial_Location = loc2, Segments = londonSeg });
-                myFlights.TryAdd(flight2.Flight_Id, flight2);
+                InitialLocation loc2 = new InitialLocation { Latitude = 51.507, Longitude = -0.127, DateTime = "2020-12-26T23:56:03Z" };
+                Flight flight2 = new Flight(new FlightPlan { Passengers = 420, CompanyName = "British Airways", InitialLocation = loc2, Segments = londonSeg });
+                myFlights.TryAdd(flight2.FlightId, flight2);
 
-                InitialLocation loc5 = new InitialLocation { Latitude = 31.912154, Longitude = 35.114953, Date_Time = "2020-12-26T23:56:03Z" };
-                Flight flight5 = new Flight(new FlightPlan { Passengers = 220, Company_Name = "Air India", Initial_Location = loc5, Segments = indiaSeg });
-                myFlights.TryAdd(flight5.Flight_Id, flight5);
+                InitialLocation loc5 = new InitialLocation { Latitude = 31.912154, Longitude = 35.114953, DateTime = "2020-12-26T23:56:03Z" };
+                Flight flight5 = new Flight(new FlightPlan { Passengers = 220, CompanyName = "Air India", InitialLocation = loc5, Segments = indiaSeg });
+                myFlights.TryAdd(flight5.FlightId, flight5);
 
                 k++;
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace FlightControlWeb.Models
 {
@@ -22,14 +23,16 @@ namespace FlightControlWeb.Models
     {
         public double Longitude { get; set; }
         public double Latitude { get; set; }
-        public double Timespan_seconds { get; set; }
+        [JsonProperty(propertyName: "Timespan_seconds")]
+
+        public double Timespanseconds { get; set; }
 
         public int SegmentPartsNum { get; set; }
 
         public Location MovementForSec(double startLat, double startLon)
         {
-            double latDistanceForSec = (Latitude - startLat) / Timespan_seconds;
-            double lonDistanceForSec = (Longitude - startLon) / Timespan_seconds;
+            double latDistanceForSec = (Latitude - startLat) / Timespanseconds;
+            double lonDistanceForSec = (Longitude - startLon) / Timespanseconds;
             Location loc = new Location(latDistanceForSec, lonDistanceForSec);
             return loc;
         }

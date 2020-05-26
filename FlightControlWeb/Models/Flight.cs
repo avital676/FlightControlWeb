@@ -30,22 +30,22 @@ namespace FlightControlWeb.Models
         public Flight(FlightPlan flightPlan)
         {
             this.flightPlan = flightPlan;
-            Longitude = flightPlan.Initial_Location.Longitude;
-            Latitude = flightPlan.Initial_Location.Latitude;
+            Longitude = flightPlan.InitialLocation.Longitude;
+            Latitude = flightPlan.InitialLocation.Latitude;
             Passengers = flightPlan.Passengers;
-            DateTimee = flightPlan.Initial_Location.Date_Time;
-            Company_Name = flightPlan.Company_Name;
+            DateTimee = flightPlan.InitialLocation.DateTime;
+            CompanyName = flightPlan.CompanyName;
             IsExternal = false;
-            Flight_Id = CreateID();
+            FlightId = CreateID();
         }
-        public string Flight_Id { get; set; }
+        public string FlightId { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public bool IsExternal { get; set; }
         //public FlightPlan flightPlan { get; set; }
         public string DateTimee { get; set; }
         public int Passengers { get; set; }
-        public string Company_Name { get; set; }
+        public string CompanyName { get; set; }
 
         private String CreateID()
         {
@@ -92,7 +92,7 @@ namespace FlightControlWeb.Models
             }
             else if (currentSegmentNum == 0)
             {
-                startingLoc = new Location(flightPlan.Initial_Location.Latitude, flightPlan.Initial_Location.Longitude);
+                startingLoc = new Location(flightPlan.InitialLocation.Latitude, flightPlan.InitialLocation.Longitude);
                 latLonToMove = flightPlan.Segments[currentSegmentNum].MovementForSec(startingLoc.Lat, startingLoc.Lon);
                 //Latitude = startingLoc.Lat + secGap * latLonToMove.Lat;
                 //Longitude = startingLoc.Lon + secGap * latLonToMove.Lon;
@@ -116,10 +116,10 @@ namespace FlightControlWeb.Models
             double secGap = (relativeTo - startingTime).TotalSeconds;
             for (segmentNum = 0; segmentNum < flightPlan.Segments.Count; segmentNum++)
             {
-                timePassed += flightPlan.Segments[segmentNum].Timespan_seconds;
+                timePassed += flightPlan.Segments[segmentNum].Timespanseconds;
                 if (secGap < timePassed)
                 {
-                    timePassed -= flightPlan.Segments[segmentNum].Timespan_seconds;
+                    timePassed -= flightPlan.Segments[segmentNum].Timespanseconds;
                     return new Info(segmentNum, timePassed);
                 }
             }
