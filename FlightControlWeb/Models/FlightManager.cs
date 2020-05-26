@@ -25,13 +25,29 @@ namespace FlightControlWeb.Models
 
         public void addFlight(FlightPlan flightPlan)
         {
-            Flight flight = new Flight(flightPlan);
-            myFlights.TryAdd(flight.FlightId, flight);
+            if (FPValidation.validate(flightPlan))
+            {
+                // flight plan parameters are valid, add flight:
+                Flight flight = new Flight(flightPlan);
+                myFlights.TryAdd(flight.FlightId, flight);
+            } else
+            {
+                throw new Exception();
+            }
+            
         }
 
         public void addFlight(Flight flight)
         {
-            myFlights.TryAdd(flight.FlightId, flight);
+            if (FPValidation.validate(flight.flightPlan))
+            {
+                // flight plan parameters are valid, add flight:
+                myFlights.TryAdd(flight.FlightId, flight);
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public void DeleteFlight(string id)
@@ -142,6 +158,7 @@ namespace FlightControlWeb.Models
         {
             return this.servers;
         }
+
         public static List<Segment> indiaSeg = new List<Segment>()
         {
             new Segment{  Longitude=13.948911, Latitude = 41.749457,  Timespanseconds = 25 },

@@ -22,10 +22,8 @@ namespace FlightControlWeb.Models
     public class Flight
     {
         public FlightPlan flightPlan { get; set; }
-        public Flight()
-        {
 
-        }
+        public Flight() { }
 
         public Flight(FlightPlan flightPlan)
         {
@@ -61,16 +59,6 @@ namespace FlightControlWeb.Models
                 id += randomNum.ToString() + Alphabet[randomChar];
             }
             return id;
-            /**StringBuilder _builder = new StringBuilder();
-            Enumerable
-                .Range(65, 26)
-                .Select(e => ((char)e).ToString())
-                .Concat(Enumerable.Range(97, 26).Select(e => ((char)e).ToString()))
-                .Concat(Enumerable.Range(0, 10).Select(e => e.ToString()))
-                .OrderBy(e => Guid.NewGuid())
-                .Take(9)
-                .ToList().ForEach(e => _builder.Append(e));
-            return _builder.ToString();*/
         }
 
         public FlightPlan getFlightPlan()

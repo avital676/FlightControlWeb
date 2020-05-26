@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -23,7 +24,7 @@ namespace FlightControlWeb.Models
     {
         public double Longitude { get; set; }
         public double Latitude { get; set; }
-        [JsonProperty(propertyName: "Timespan_seconds")]
+        [JsonPropertyName("timespan_seconds")]
 
         public double Timespanseconds { get; set; }
 
@@ -38,5 +39,3 @@ namespace FlightControlWeb.Models
         }
     }
 }
-
-

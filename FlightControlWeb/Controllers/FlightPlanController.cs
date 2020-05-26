@@ -29,11 +29,9 @@ namespace FlightControlWeb.Controllers
                 return new JsonResult(flightMan.GetFlightById(id).getFlightPlan());
             } catch (Exception)
             {
-               // Response.StatusCode = 500;
-                Response.WriteAsync("Couldn't get FlightPlan");
+                Response.WriteAsync("Flight Plan not found");
                 return null;
             }
-            //return flightMan.GetFlightById(id).getFlightPlan();
         }
 
         // POST: api/FlightPlan
