@@ -85,7 +85,7 @@ function updateList() {
         .fail(function(response) {
           showMsg(response.responseText);
         });
-    setTimeout(() => resolve('Success'), 1000);
+    setTimeout(() => resolve('Success'), 0);
   });
 }
 
@@ -99,29 +99,35 @@ function checkIfFlightExist(flightId) {
 
 // Delete flights that ended
 function deleteEndedFlight() {
-  let list = document.getElementById('list1');
-  let tableRows = list.getElementsByTagName('tr');
-  const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:' +
-    time + 'Z&sync_all';
-  for (let i = 1; i < tableRows.length; i++) {
-    let exist = true;
+    return new Promise(function (resolve, reject) {
+        let list = document.getElementById('list1');
+        let tableRows = list.getElementsByTagName('tr');
+        let row;
+        let id;
+        for (let i = 1; i < tableRows.length; i++) {
+            row = tableRows[i];
+            id = row.cells[0].innerHTML;
+            checkExistInServer(id);
+        }
+        setTimeout(() => resolve('Success'), 0);
+    });
+}
+
+let exist;
+function checkExistInServer(id) {
+    const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:' +
+        time + 'Z&sync_all';
+    exist = false;
     $.getJSON(flighturl)
-        .done(function(data) {
-          data.forEach(function(flight) {
-            if (exist === false) {
-              appendFlight(flight);
-              addMarker({
-                coords: {lat: flight.latitude, lng: flight.longitude},
-                content: flight,
-              });
-            }
-          });
-        })
-        .fail(function(response) {
-        // failed:
-          showMsg('Failed deleting ended flights');
+        .done(function (data) {
+            data.forEach(function (flight) {
+                if (id == flight.flightId) {
+                    exist = true;
+                }
+            });
+            if (exist == false)
+                deleteFlight(id, 'list1');
         });
-  }
 }
 
 // Add flight to list
@@ -132,7 +138,7 @@ function appendFlight(flight) {
         <td id=${flightId}>${flightId}</td>
         <td id=${flightId}>${flight.companyName}</td>
         <td id=${flightId}><button type="button" 
-          class="btn btn-outline-primary" onclick=deleteFlight(event)
+          class="btn btn-outline-primary" onclick=deleteFlightEvent(event)
           id=${flightId} data-toggle="tooltip" data-placement="top" 
           title="delete flight">X</button>
         </td></tr>`);
@@ -172,46 +178,52 @@ function initFlightsLists() {
 }
 
 // Delete flight
-function deleteFlight(event) {
+function deleteFlightEvent(event) {
   deleted = true;
-  let flightId = event.target.id;
-  // delete from list:
-  const deleteurl = `../api/Flights/${flightId}`;
-  $.ajax({
-    url: deleteurl,
-    type: 'DELETE',
-    error: function(response) {
-      showMsg(response.responseText);
-      return;
-    }});
-  let list = document.getElementById('list1');
-  let tableRows = list.getElementsByTagName('tr');
-  let row;
-  let compId;
-  for (let i = 1; i < tableRows.length; i++) {
-    row = tableRows[i];
-    compId = row.cells[0].innerHTML;
-    if (flightId === compId) {
-      document.getElementById('list1').deleteRow(i);
+    let flightId = event.target.id;
+    const deleteurl = `../api/Flights/${flightId}`;
+    $.ajax({
+        url: deleteurl,
+        type: 'DELETE',
+        error: function (response) {
+            showMsg(response.responseText);
+            return;
+        }
+    });
+    deleteFlight(flightId, 'list1');
+}
+
+function deleteFlight(flightId, listId) {
+    // delete from list:
+    let list = document.getElementById(listId);
+    let tableRows = list.getElementsByTagName('tr');
+    let row;
+    let compId;
+    for (let i = 1; i < tableRows.length; i++) {
+        row = tableRows[i];
+        compId = row.cells[0].innerHTML;
+        if (flightId === compId) {
+            document.getElementById(listId).deleteRow(i);
+        }
     }
-  }
-  // delete from map:
-  markers[flightId].setMap(null);
-  delete markers[flightId];
-  // delete route and details table:
-  if (selected === flightId) {
-    for (i = 0; i < line.length; i++) {
-      line[i].setMap(null);
+    // delete from map:
+    markers[flightId].setMap(null);
+    delete markers[flightId];
+    // delete route and details table:
+    if (selected === flightId) {
+        for (i = 0; i < line.length; i++) {
+            line[i].setMap(null);
+        }
+        document.getElementById('listD').deleteRow(1);
     }
-    document.getElementById('listD').deleteRow(1);
-  }
 }
 
 // Upadte markers and list async
 async function asyncUpdates() {
     while (running) {
     await updateList();
-    await updateMarkers();
+        await updateMarkers();
+        await deleteEndedFlight();
   }
 }
 

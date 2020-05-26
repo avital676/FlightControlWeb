@@ -168,12 +168,6 @@ namespace FlightControlWeb.Models
                 if (flight == null)
                     throw new Exception("Flight not found");
             }
-            /**if (flight == null)
-            {
-                flight = externalFlights.Where(x => x.FlightId == id).FirstOrDefault();
-                if (flight == null)
-                    throw new Exception("Flight not found");
-            }*/
             return flight;
         }
 
@@ -190,7 +184,8 @@ namespace FlightControlWeb.Models
                 }
                 else if (String.Compare(flight.UpdateLocation(relativeTo), "Ended") == 0)
                 {
-                    myFlights.TryRemove(flight.FlightId, out flight);
+                    //myFlights.TryRemove(flight.FlightId, out flight);
+                    continue;
                 }
                 else
                 {
@@ -207,8 +202,8 @@ namespace FlightControlWeb.Models
 
         public static List<Segment> indiaSeg = new List<Segment>()
         {
-            new Segment{  Longitude=13.948911, Latitude = 41.749457,  Timespanseconds = 25 },
-            new Segment{  Longitude=78.962883, Latitude = 20.593683,  Timespanseconds = 25 }
+            new Segment{  Longitude=13.948911, Latitude = 41.749457,  Timespanseconds = 5 },
+            new Segment{  Longitude=78.962883, Latitude = 20.593683,  Timespanseconds = 13 }
         };
 
         public static List<Segment> nySeg = new List<Segment>()

@@ -11,7 +11,8 @@ window.onload = function load() {
         Add flights by dragging json FlightPlan files to list,
         or display flight details by clicking it!`);
   this.initFlightsLists();
-  sleep(100);
+    sleep(100);
+    this.deleteEndedFlight();
   this.asyncUpdates();
 };
 
