@@ -1,12 +1,17 @@
 ﻿// Global variables
 let deleted = false;
+let counter = 0;
+let counter2 = 0;
 
 // Allow dropping files in dragAndDrop area
 function allowDrop(ev) {
-  $('#listsArea').hide();
-  $('#dragAndDrop').show();
-  ev.preventDefault();
-  ev.dataTransfer.setData('text/plain', ev.target.id);
+    counter++;
+    if ((ev.target.id == "listsArea") || (ev.target.id == "dragAndDrop")) {
+        $('#listsArea').hide();
+        $('#dragAndDrop').show();
+        ev.preventDefault();
+        ev.dataTransfer.setData('text/plain', ev.target.id);
+    }
 }
 
 // Sleep for a given amount of ms
@@ -20,42 +25,43 @@ function sleep(milliseconds) {
 
 // Send dropped file to server
 function onDrop(ev) {
-  ev.preventDefault();
-  $('#listsArea').show();
-  $('#dragAndDrop').hide();
-  if (ev.dataTransfer.items[0].kind === 'file') {
-    let file = ev.dataTransfer.items[0].getAsFile();
-    let xhr = new XMLHttpRequest();
-    const flighturl = '../api/FlightPlan';
-    xhr.open('POST', flighturl, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(file);
-    xhr.onerror = function() { // the request failed
-      showMsg('failed sending file to server');
-    };
-    xhr.onload = function() {
-      if (xhr.readyState == xhr.DONE) {
-        if (xhr.status == 200) {
-          // succeeded:
-          showMsg(xhr.responseText);
-        } else {
-          // failed:
-          showMsg(`Couldn't add FlightPlan`);
+    ev.preventDefault();
+    $('#listsArea').show();
+    $('#dragAndDrop').hide();
+        if (ev.dataTransfer.items[0].kind === 'file') {
+            let file = ev.dataTransfer.items[0].getAsFile();
+            let xhr = new XMLHttpRequest();
+            const flighturl = '../api/FlightPlan';
+            xhr.open('POST', flighturl, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(file);
+            xhr.onerror = function () { // the request failed
+                showMsg('failed sending file to server');
+            };
+            xhr.onload = function () {
+                if (xhr.readyState == xhr.DONE) {
+                    if (xhr.status == 200) {
+                        // succeeded:
+                        showMsg(xhr.responseText);
+                    } else {
+                        // failed:
+                        showMsg(`Couldn't add FlightPlan`);
+                    }
+                }
+            };
+            sleep(50);
         }
-      }
-    };
-    sleep(50);
-  }
 }
 
-/*
+
 // Show list after drag
 function onDragLeave(event) {
+    counter2++;
     if (event.target.id != "listsArea") {
         $("#listsArea").show();
         $("#dragAndDrop").hide();
     }
-} */
+} 
 
 // End of drag
 function endDrag(event) {
