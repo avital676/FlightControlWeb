@@ -7,8 +7,8 @@ namespace FlightControlWeb.Models
 {
     public class FPValidation
     {
-         public static bool validate(FlightPlan f)
-         {
+        public static bool validate(FlightPlan f)
+        {
             //// check all isnt null
             ///
 
@@ -19,9 +19,13 @@ namespace FlightControlWeb.Models
                 return false;
             if (f.InitialLocation.Latitude > 90 || f.InitialLocation.Latitude < -90)
                 return false;
-           ////// // CHECK DATETIME INITIAL LOCATION
-            //////////if (f.InitialLocation.DateTime)
+            ////// // CHECK DATETIME INITIAL LOCATION
             ///
+            bool check = CheckTime(f.InitialLocation.DateTime);
+            if (!check)
+            {
+                return false;
+            }
             // no segments in flight plan:
             if (f.Segments.Count == 0)
                 return false;
@@ -38,6 +42,39 @@ namespace FlightControlWeb.Models
             }
             // all parameters are valid:
             return true;
-         }
+        }
+
+        private static bool CheckTime(string dateTime)
+        {
+            //hour is no bigger then 24
+            if ((dateTime[12] > 4) && (dateTime[11] >= 2))
+            {
+                return false;
+            }
+            //minute is no bigger then 60
+            if ((dateTime[15] > 6) && (dateTime[16] > 0))
+            {
+                return false;
+            }
+            if (dateTime[4] != '-')
+            {
+                return false;
+            }
+            if (dateTime[7] != '-')
+            {
+                return false;
+            }
+            if (dateTime[10] != 'T')
+            {
+                return false;
+            }
+            if (dateTime[18] != 'Z')
+            {
+                return false;
+            }
+            return true;
+
+        }
+
     }
 }
