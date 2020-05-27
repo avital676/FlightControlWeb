@@ -98,7 +98,7 @@ namespace FlightControlWeb.Models
                     SetAsExternal(exFlights, ser.ServerURL);
                     //externalFlights.AddRange(exFlights);
                     allFlights.AddRange(exFlights);
-                } catch (Exception e)
+                } catch (Exception)
                 {
                     continue;
                 }
@@ -111,6 +111,7 @@ namespace FlightControlWeb.Models
             string URL = String.Format(url + "/api/Flights?relative_to=" + relativeTo);
             WebRequest req = WebRequest.Create(URL);
             req.Method = "GET";
+            req.Timeout = 3000;
             HttpWebResponse resp = null;
             resp = (HttpWebResponse)(await req.GetResponseAsync());
             string result = null;
@@ -130,6 +131,7 @@ namespace FlightControlWeb.Models
             string URL = String.Format(url + "/api/FlightPlan/" + id);
             WebRequest req = WebRequest.Create(URL);
             req.Method = "GET";
+            req.Timeout = 3000;
             HttpWebResponse resp = null;
             resp = (HttpWebResponse)(await req.GetResponseAsync());
             string result = null;
@@ -152,6 +154,10 @@ namespace FlightControlWeb.Models
             {
                 flights[i].IsExternal = true;
                 Task<FlightPlan> task = getFlightPlanExternalServer(url, flights[i].FlightId);
+                if (task == null)
+                {
+                    throw new Exception("Can't get flightplan from server");
+                }
                 flightPlan = task.Result;
                 Flight flight = new Flight(flightPlan);
                 flight.FlightId = flights[i].FlightId;
