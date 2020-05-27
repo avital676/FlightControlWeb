@@ -1,11 +1,9 @@
 ﻿// Global variables
 let deleted = false;
-let counter = 0;
-let counter2 = 0;
+
 
 // Allow dropping files in dragAndDrop area
 function allowDrop(ev) {
-    counter++;
     if ((ev.target.id == "listsArea") || (ev.target.id == "dragAndDrop")) {
         $('#listsArea').hide();
         $('#dragAndDrop').show();
@@ -56,7 +54,6 @@ function onDrop(ev) {
 
 // Show list after drag
 function onDragLeave(event) {
-    counter2++;
     if (event.target.id != "listsArea") {
         $("#listsArea").show();
         $("#dragAndDrop").hide();
