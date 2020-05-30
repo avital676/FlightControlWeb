@@ -4,13 +4,19 @@ body {
 }
 
 #map {
-    height: 400px;
     width: 800px;
+    height: 400px;
 }
 
 #dragAndDrop {
-    width: 350px;
+    width: 395px;
     height: 600px;
+}
+
+#response-alert {
+    width: auto;
+    text-align: center;
+    display: none;
 }
 
 h1 {
@@ -20,6 +26,7 @@ h1 {
     color: black;
     font-size: 35px;
 }
+
 .my-custom-scrollbar {
     position: relative;
     height: 200px;
