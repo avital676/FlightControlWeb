@@ -45,8 +45,8 @@ function addMarker(props) {
 // Update markers position on map
 function updateMarkers() {
   return new Promise(function (resolve, reject) {
-    const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:' +
-      time + 'Z&async_all';
+    let date = new Date().toISOString();
+    const flighturl = `../api/Flights?relative_to=${date}&sync_all`;
     $.getJSON(flighturl)
         .done(function(data) {
           moveMarkers(data);

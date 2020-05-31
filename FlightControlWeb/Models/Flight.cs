@@ -93,8 +93,6 @@ namespace FlightControlWeb.Models
             {
                 startingLoc = new Location(flightPlan.InitialLocation.Latitude, flightPlan.InitialLocation.Longitude);
                 latLonToMove = flightPlan.Segments[currentSegmentNum].MovementForSec(startingLoc.Lat, startingLoc.Lon);
-                //Latitude = startingLoc.Lat + secGap * latLonToMove.Lat;
-                //Longitude = startingLoc.Lon + secGap * latLonToMove.Lon;
             }
             else
             {

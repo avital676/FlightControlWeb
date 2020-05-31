@@ -74,9 +74,9 @@ function endDrag(event) {
 
 // Update flights lists
 function updateList() {
-  return new Promise(function(resolve, reject) {
-    const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:' +
-      time + 'Z&sync_all';
+  return new Promise(function (resolve, reject) {
+    let date = new Date().toISOString();
+    const flighturl = `../api/Flights?relative_to=${date}&sync_all`;
     $.getJSON(flighturl)
         .done(function(flights) {
           addFlightsFromServer(flights);
@@ -127,8 +127,8 @@ function deleteEndedFlight() {
 
 // Check if flight exists in server:
 function checkExistInServer(id) {
-  const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:' +
-    time + 'Z&sync_all';
+  let date = new Date().toISOString();
+  const flighturl = `../api/Flights?relative_to=${date}&sync_all`;
   exist = false;
   $.getJSON(flighturl)
       .done(function(data) {
@@ -173,7 +173,8 @@ function flightClick(ev) {
 
 // Initialize flights lists
 function initFlightsLists() {
-  const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all';
+  let date = new Date().toISOString();
+  const flighturl = `../api/Flights?relative_to=${date}&sync_all`;
   $.getJSON(flighturl)
       .done(function(data) {
         data.forEach(function(flight) {

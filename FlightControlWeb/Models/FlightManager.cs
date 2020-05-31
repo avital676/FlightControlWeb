@@ -23,7 +23,6 @@ namespace FlightControlWeb.Models
             this.myFlights = new ConcurrentDictionary<string, Flight>();
             this.servers = new Servers();
             this.externalFlights = new List<Flight>();
-            AddRandomFlights();
         }
 
         public void addFlight(FlightPlan flightPlan)
@@ -95,7 +94,6 @@ namespace FlightControlWeb.Models
                     Task<List<Flight>> taskflights = GetFlightURLID(ser.ServerURL, relativeTo);
                     List<Flight> exFlights = taskflights.Result;
                     SetAsExternal(exFlights, ser.ServerURL);
-                    //externalFlights.AddRange(exFlights);
                     allFlights.AddRange(exFlights);
                 } catch (Exception)
                 {
@@ -190,12 +188,11 @@ namespace FlightControlWeb.Models
                 Flight flight = entry.Value;
                 if (DateTime.Compare(relativeTo, DateTime.Parse(flight.DateTimee)) < 0)
                 {
-                    //Flight didnt start yet
+                    // Flight didnt start yet
                     continue;
                 }
                 else if (String.Compare(flight.UpdateLocation(relativeTo), "Ended") == 0)
                 {
-                    //myFlights.TryRemove(flight.FlightId, out flight);
                     continue;
                 }
                 else
