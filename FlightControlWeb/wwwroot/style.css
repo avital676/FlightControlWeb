@@ -3,6 +3,12 @@ body {
     background-image: url('back.jpg');
 }
 
+.droptarget {
+    float: right;
+    width: 395px;
+    height: 35px;
+}
+
 #map {
     width: 800px;
     height: 400px;

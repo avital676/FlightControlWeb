@@ -16,14 +16,18 @@ namespace FlightControlWeb.Models
         }
 
         public double Lat { get; }
+
         public double Lon { get; }
 
         public override string ToString() => $"({Lat}, {Lon})";
     }
+
     public class Segment
     {
         public double Longitude { get; set; }
+
         public double Latitude { get; set; }
+
         [JsonPropertyName("timespan_seconds")]
         [JsonProperty(PropertyName = "timespan_seconds")]
         public double Timespanseconds { get; set; }

@@ -12,7 +12,6 @@ function initMap() {
     mapTypeId: 'terrain',
     id: 'googleMap',
   };
-  $('#dragAndDrop').hide();
   // creat new map
   googleMap = new google.maps.Map(document.getElementById('map'), options);
 }

@@ -79,7 +79,6 @@ namespace FlightControlWeb.Models
         
         public IEnumerable<Flight> getAllFlightsSync(string relativeTo)
         {
-            //externalFlights.Clear();
             List<Flight> allFlights = new List<Flight>();
             DateTime clientDT = DateTime.Parse(relativeTo);
             allFlights = (List<Flight>) GetRelevantFlights(clientDT);

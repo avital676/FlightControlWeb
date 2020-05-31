@@ -6,6 +6,7 @@ let running;
 
 // Load window
 window.onload = function load() {
+  $('#dragAndDrop').hide();
   running = true;
   this.showMsg(`WELCOME! 
     Add flights by dragging json FlightPlan files to list,

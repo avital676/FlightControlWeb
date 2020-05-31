@@ -37,16 +37,22 @@ namespace FlightControlWeb.Models
             IsExternal = false;
             FlightId = CreateID();
         }
+
         [JsonProperty(PropertyName = "flight_id")]
         public string FlightId { get; set; }
+
         public double Longitude { get; set; }
+
         public double Latitude { get; set; }
+
         [JsonProperty(PropertyName = "is_external")]
         public bool IsExternal { get; set; }
-        //public FlightPlan flightPlan { get; set; }
+
         [JsonProperty(PropertyName = "date_time")]
         public string DateTimee { get; set; }
+
         public int Passengers { get; set; }
+
         [JsonProperty(PropertyName = "company_name")]
         public string CompanyName { get; set; }
 

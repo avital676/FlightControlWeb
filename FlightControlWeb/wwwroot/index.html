@@ -6,10 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- Google Maps script -->
     <script src="MapScript.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" async defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" async defer></script>
     <!-- Stylesheets. -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css" type="text/css">
@@ -17,25 +16,9 @@
     <script src="GeneralScript.js"></script>
     <script src="worker.js"></script>
     <title></title>
-    <style>
-        .droptarget {
-            float: right;
-            width: 395px;
-            height: 35px;
-        }
-    </style>
 </head>
 
 <body>
-    <!--
-    <form action="/action_page.php">
-        <label for="port">First name:</label>
-        <input type="number" id="port" name="port"><br><br>
-        <label for="ip">Last name:</label>
-        <input type="number" id="ip" name="ip"><br><br>
-        <input type="submit" value="Submit">
-    </form>
-         -->
     <div class="row justify-content-md-center">
         <div class="alert alert-info" id="response-alert">
             <strong id="msg"></strong>
@@ -47,7 +30,7 @@
                 <h1 class="display-5">Flights Controler</h1>
                 <div class="row justify-content-center">
                     <div id="map" onclick="cancelClick(event)">
-                        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap"></script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdVb29k3wpngcjKvuu1E9miq3DtHafJvo&callback=initMap" async defer></script>
                     </div>
                 </div>
                 <div class="row justify-content-center">
