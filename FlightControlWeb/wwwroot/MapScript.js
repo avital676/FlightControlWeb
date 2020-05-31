@@ -49,20 +49,20 @@ function updateMarkers() {
     const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:' +
       time + 'Z&async_all';
     $.getJSON(flighturl)
-      .done(function (data) {
-        moveMarkers(data);
-      })
-      .fail(function () {
-        showMsg(`Couldn't update markers on map`);
-      });
-   setTimeout(() => resolve('Success'), 2000);
+        .done(function(data) {
+          moveMarkers(data);
+        })
+        .fail(function () {
+          showMsg(`Couldn't update markers on map`);
+        });
+    setTimeout(() => resolve('Success'), 2000);
   });
 }
 
 // Move marker on map
 function moveMarkers(flights) {
   for (const flight of flights) {
-    let pos = new google.maps.LatLng(flight.latitude, flight.longitude);
+    const pos = new google.maps.LatLng(flight.latitude, flight.longitude);
     markers[flight.flightId].setPosition(pos);
-  } 
+  }
 }

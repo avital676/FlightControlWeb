@@ -11,8 +11,8 @@ window.onload = function load() {
     Add flights by dragging json FlightPlan files to list,
     or display flight details by clicking it!`);
   this.initFlightsLists();
-    sleep(100);
-    this.deleteEndedFlight();
+  sleep(100);
+  this.deleteEndedFlight();
   this.asyncUpdates();
 };
 
@@ -36,10 +36,10 @@ function selectFlight(flightId) {
   // fill details table:
   const flighturl = `../api/FlightPlan/${flightId}`;
   $.getJSON(flighturl)
-    // json request secceeded:
-    .done(function(fp) {
-      const lastSegment = fp.segments[fp.segments.length - 1];
-      $('#listD').append(`<tr><td>${flightId}</td>` +
+      // json request secceeded:
+      .done(function(fp) {
+        const lastSegment = fp.segments[fp.segments.length - 1];
+        $('#listD').append(`<tr><td>${flightId}</td>` +
         `<td>${fp.initial_location.date_time}</td>` +
         `<td>${fp.initial_location.longitude.toFixed(2)},
           ${ fp.initial_location.latitude.toFixed(2)}</td>` +
@@ -57,10 +57,10 @@ function selectFlight(flightId) {
         // draw the flight path:
         drawPath(fp);
       })
-    // json request failed:
-    .fail(function(response) {
-      showMsg(response.responseText);
-    });
+      // json request failed:
+      .fail(function(response) {
+        showMsg(response.responseText);
+      });
 }
 
 // Animate the plane of the given id

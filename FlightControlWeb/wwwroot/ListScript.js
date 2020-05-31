@@ -4,7 +4,7 @@ let exist;
 
 // Allow dropping files in dragAndDrop area
 function allowDrop(ev) {
-  if ((ev.target.id == "listsArea") || (ev.target.id == "dragAndDrop")) {
+  if ((ev.target.id == 'listsArea') || (ev.target.id == 'dragAndDrop')) {
     $('#listsArea').hide();
     $('#dragAndDrop').show();
     ev.preventDefault();
@@ -36,7 +36,7 @@ function onDrop(ev) {
     xhr.onerror = function () { // the request failed
       showMsg('failed sending file to server');
     };
-    xhr.onload = function () {
+    xhr.onload = function() {
       handleRes(xhr);
     };
     sleep(50);
@@ -58,11 +58,11 @@ function handleRes(xhr) {
 
 // Show list after drag
 function onDragLeave(event) {
-  if (event.target.id != "listsArea") {
-    $("#listsArea").show();
-    $("#dragAndDrop").hide();
+  if (event.target.id != 'listsArea') {
+    $('#listsArea').show();
+    $('#dragAndDrop').hide();
   }
-} 
+}
 
 // End of drag
 function endDrag(event) {
@@ -78,18 +78,18 @@ function updateList() {
     const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:' +
       time + 'Z&sync_all';
     $.getJSON(flighturl)
-      .done(function(flights) {
-        AddFlightsFromServer(flights);
-      })
-      .fail(function(response) {
-        showMsg(response.responseText);
-      });
+        .done(function(flights) {
+          addFlightsFromServer(flights);
+        })
+        .fail(function(response) {
+          showMsg(response.responseText);
+        });
     setTimeout(() => resolve('Success'), 0);
   });
 }
 
 // Add flights that aren't on list,map
-function AddFlightsFromServer(flights) {
+function addFlightsFromServer(flights) {
   for (const flight of flights) {
     if (!checkIfFlightExist(flight.flightId)) {
       appendFlight(flight);
@@ -111,7 +111,7 @@ function checkIfFlightExist(flightId) {
 
 // Delete flights that ended
 function deleteEndedFlight() {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     let list = document.getElementById('list1');
     let tableRows = list.getElementsByTagName('tr');
     let row;
@@ -131,20 +131,21 @@ function checkExistInServer(id) {
     time + 'Z&sync_all';
   exist = false;
   $.getJSON(flighturl)
-    .done(function (data) {
-      data.forEach(function (flight) {
-        if (id == flight.flightId) {
-          exist = true;
+      .done(function(data) {
+        data.forEach(function(flight) {
+          if (id == flight.flightId) {
+            exist = true;
+          }
+        });
+        if (exist == false) {
+          deleteFlight(id, 'list1');
         }
       });
-    if (exist == false)
-      deleteFlight(id, 'list1');
-    });
 }
 
 // Add flight to list
 function appendFlight(flight) {
-  let flightId = flight.flightId;
+  const flightId = flight.flightId;
   if (flight.isExternal === false) {
     $('#list1').append(`<tr onclick=flightClick(event)>
       <td id=${flightId}>${flightId}</td>
@@ -174,33 +175,33 @@ function flightClick(ev) {
 function initFlightsLists() {
   const flighturl = '../api/Flights?relative_to=2020-12-26T23:56:03Z&sync_all';
   $.getJSON(flighturl)
-    .done(function(data) {
-      data.forEach(function(flight) {
-        appendFlight(flight);
-        addMarker({
-          coords: {lat: flight.latitude, lng: flight.longitude},
-          content: flight,
+      .done(function(data) {
+        data.forEach(function(flight) {
+          appendFlight(flight);
+          addMarker({
+            coords: {lat: flight.latitude, lng: flight.longitude},
+            content: flight,
+          });
         });
+      })
+      .fail(function(response) {
+        // code response from controller:
+        showMsg(response.responseText);
       });
-    })
-    .fail(function(response) {
-    // code response from controller:
-      showMsg(response.responseText);
-    });
 }
 
 // Delete flight request event
 function deleteFlightEvent(event) {
   deleted = true;
-  let flightId = event.target.id;
+  const flightId = event.target.id;
   const deleteurl = `../api/Flights/${flightId}`;
   $.ajax({
     url: deleteurl,
     type: 'DELETE',
-    error: function (response) {
+    error: function(response) {
       showMsg(response.responseText);
       return;
-    }
+    },
   });
   deleteFlight(flightId, 'list1');
 }
