@@ -28,7 +28,7 @@ namespace FlightControlWeb.Controllers
                 var syncAll = Request.Query["sync_all"].ToList();
                 if (syncAll.Count != 0)
                 {
-                    //returns myflight , servers flights
+                    // return myflight, servers flights
                     IEnumerable <Flight> flights = flightManager.getAllFlightsSync(relative_to);
                     return new JsonResult(flights);
                 } else
