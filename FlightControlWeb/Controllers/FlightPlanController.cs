@@ -30,7 +30,6 @@ namespace FlightControlWeb.Controllers
                 return new JsonResult(flightMan.GetFlightById(id).getFlightPlan());
             } catch (Exception)
             {
-                Response.WriteAsync("Flight Plan not found");
                 return null;
             }
         }
@@ -43,15 +42,10 @@ namespace FlightControlWeb.Controllers
             {
                 // add flight plan to flight manager:
                 flightMan.addFlight(value);
-                // return 200 OK:
-                Response.StatusCode = 200;
-                Response.WriteAsync("FlightPlan added");
-                return new JsonResult("OK");
+                return new JsonResult("FlightPlan added");
             }
             catch (Exception)
             {
-                Response.StatusCode = 400;
-                Response.WriteAsync("Couldn't add FlightPlan");
                 return null;
             }
         }

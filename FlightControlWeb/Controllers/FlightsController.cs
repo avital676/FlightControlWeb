@@ -37,11 +37,8 @@ namespace FlightControlWeb.Controllers
                 }
             } catch (Exception)
             {
-                Response.StatusCode = 404;
-                Response.WriteAsync("Couldn't get Flights list");
                 return null;
             }
-
         }
 
         // DELETE: api/Flights/5
@@ -51,14 +48,9 @@ namespace FlightControlWeb.Controllers
             try
             {
                 flightManager.DeleteFlight(id);
-                // return 200 OK:
-                Response.StatusCode = 200;
-                Response.WriteAsync("Flight deleted");
-                return new JsonResult("OK");
+                return new JsonResult("Flight deleted");
             } catch (Exception)
             {
-                Response.StatusCode = 400;
-                Response.WriteAsync("Couldn't delete Flight");
                 return null;
             }
         }

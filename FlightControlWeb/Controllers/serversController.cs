@@ -29,8 +29,6 @@ namespace FlightControlWeb.Controllers
             }
             catch (Exception)
             {
-                Response.StatusCode = 404;
-                Response.WriteAsync("Error getting servers");
                 return null;
             }          
         }
@@ -42,15 +40,10 @@ namespace FlightControlWeb.Controllers
             try
             {
                 externalSer.AddServer(value);
-                // return 200 OK:
-                Response.StatusCode = 200;
-                Response.WriteAsync("Server added");
-                return new JsonResult("OK");
+                return new JsonResult("Server added");
             }
             catch (Exception)
             {
-                Response.StatusCode = 400;
-                Response.WriteAsync("Couldn't add server");
                 return null;
             }
         }
@@ -62,15 +55,10 @@ namespace FlightControlWeb.Controllers
             try
             {
                 externalSer.DeleteServer(id);
-                // return 200 OK:
-                Response.StatusCode = 200;
-                Response.WriteAsync("Server deleted");
-                return new JsonResult("OK");
+                return new JsonResult("Server deleted");
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Response.StatusCode = 400;
-                Response.WriteAsync(e.Message);
                 return null;
             }
         }

@@ -34,7 +34,7 @@ function onDrop(ev) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(file);
     xhr.onerror = function () { // the request failed
-      showMsg('failed sending file to server');
+      showMsg('Failed sending file to server');
     };
     xhr.onload = function() {
       handleRes(xhr);
@@ -48,7 +48,7 @@ function handleRes(xhr) {
   if (xhr.readyState == xhr.DONE) {
     if (xhr.status == 200) {
       // succeeded:
-      showMsg(xhr.responseText);
+      showMsg('FlightPlan added');
     } else {
       // failed:
       showMsg(`Couldn't add FlightPlan`);
@@ -82,7 +82,7 @@ function updateList() {
           addFlightsFromServer(flights);
         })
         .fail(function(response) {
-          showMsg(response.responseText);
+            showMsg(`Couldn't get Flights list`);
         });
     setTimeout(() => resolve('Success'), 0);
   });
@@ -125,7 +125,7 @@ function deleteEndedFlight() {
   });
 }
 
-// Check if flight exists in server:
+// Check if flight exists in server and delete it if ended
 function checkExistInServer(id) {
   let date = new Date().toISOString();
   const flighturl = `../api/Flights?relative_to=${date}&sync_all`;
@@ -140,6 +140,9 @@ function checkExistInServer(id) {
         if (exist == false) {
           deleteFlight(id, 'list1');
         }
+      })
+      .fail(function (response) {
+          showMsg(`Couldn't get flights from server`);
       });
 }
 
@@ -186,8 +189,7 @@ function initFlightsLists() {
         });
       })
       .fail(function(response) {
-        // code response from controller:
-        showMsg(response.responseText);
+        showMsg(`Couldn't initialize flights lists`);
       });
 }
 
@@ -200,8 +202,11 @@ function deleteFlightEvent(event) {
     url: deleteurl,
     type: 'DELETE',
     error: function(response) {
-      showMsg(response.responseText);
+        showMsg(`Couldn't delete Flight`);
       return;
+    },
+    success: function(response) {
+      showMsg('Flight deleted');
     },
   });
   deleteFlight(flightId, 'list1');

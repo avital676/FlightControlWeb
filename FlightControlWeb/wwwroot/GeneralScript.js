@@ -60,7 +60,7 @@ function selectFlight(flightId) {
       })
       // json request failed:
       .fail(function(response) {
-        showMsg(response.responseText);
+        showMsg(`Couldn't get FlightPlan`);
       });
 }
 
