@@ -19,7 +19,12 @@ namespace FlightControlWeb.Models.Tests
             FlightManager flightManager = new FlightManager();
             FlightPlanController flightPlanController = new FlightPlanController(flightManager);
             string cuurent = Directory.GetCurrentDirectory();
-            string json = File.ReadAllText("C:/Users/shaia/Source/Repos/FlightControlWeb/FlightControlWebTests1/Resources/FlightPlanJsons.json");
+            string path = Directory.GetCurrentDirectory();
+            string[] path2 = path.Split("bin");
+            string path3 = (path2[0] + "Resources");
+            path3 = path3 + "\\";
+            path3 = path3 + "FlightPlanJsons.json";
+            string json = File.ReadAllText(path3);
             List<FlightPlan> flightPlanList = JsonConvert.DeserializeObject<List<FlightPlan>>(json);
             for (int i = 0; i < flightPlanList.Count; i++)
             {

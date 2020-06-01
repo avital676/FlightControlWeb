@@ -1,0 +1,149 @@
+[
+  {
+    "passengers": 200,
+    "company_name": "Brazil Airlines",
+    "initial_location": {
+      "longitude": -51.925282,
+      "latitude": -14.235004,
+      "date_time": "2020-12-26T23:56:03Z"
+    },
+    "segments": [
+      {
+        "longitude": -81.515755,
+        "latitude": 27.664827,
+        "timespan_seconds": 30
+      },
+      {
+        "longitude": 2.213749,
+        "latitude": 46.227638,
+        "timespan_seconds": 30
+      }
+    ]
+  },
+  {
+    "passengers": 216,
+    "company_name": "Mexico Airlines",
+    "initial_location": {
+      "longitude": -102.552788,
+      "latitude": 23.634501,
+      "date_time": "2020-12-26T23:56:03Z"
+    },
+    "segments": [
+      {
+        "longitude": 30.802498,
+        "latitude": 26.820553,
+        "timespan_seconds": 10
+      },
+      {
+        "longitude": -58.455190,
+        "latitude": -34.758115,
+        "timespan_seconds": 10
+      }
+    ]
+  },
+  {
+    "passengers": 216,
+    "company_name": "NewYork",
+    "initial_location": {
+      "longitude": -73.946668,
+      "latitude": 40.761138,
+      "date_time": "2020-12-26T23:56:01Z"
+    },
+    "segments": [
+      {
+        "longitude": -80.289217,
+        "latitude": 25.696839,
+        "timespan_seconds": 650
+      },
+      {
+        "longitude": -58.455190,
+        "latitude": -34.758115,
+        "timespan_seconds": 650
+      }
+    ]
+  },
+  {
+    "passengers": 300,
+    "company_name": "Italy",
+    "initial_location": {
+      "longitude": 10,
+      "latitude": 31.912154,
+      "date_time": "2020-12-26T23:56:01Z"
+    },
+    "segments": [
+      {
+        "longitude": 13.948911,
+        "latitude": 41.749457,
+        "timespan_seconds": 650
+      },
+      {
+        "longitude": 78.962883,
+        "latitude": 20.593683,
+        "timespan_seconds": 650
+      }
+    ]
+  },
+  {
+    "passengers": 216,
+    "company_name": "Lufthansa",
+    "initial_location": {
+      "longitude": 10,
+      "latitude": 31.912154,
+      "date_time": "2020-12-26T23:56:01Z"
+    },
+    "segments": [
+      {
+        "longitude": 13.948911,
+        "latitude": 41.749457,
+        "timespan_seconds": 650
+      },
+      {
+        "longitude": 78.962883,
+        "latitude": 20.593683,
+        "timespan_seconds": 650
+      }
+    ]
+  },
+  {
+    "passengers": 216,
+    "company_name": "ELAL",
+    "initial_location": {
+      "longitude": 10,
+      "latitude": 31.912154,
+      "date_time": "2020-12-26T23:56:01Z"
+    },
+    "segments": [
+      {
+        "longitude": 13.948911,
+        "latitude": 41.749457,
+        "timespan_seconds": 650
+      },
+      {
+        "longitude": 78.962883,
+        "latitude": 20.593683,
+        "timespan_seconds": 650
+      }
+    ]
+  },
+  {
+    "passengers": 216,
+    "company_name": "Canda Airlines",
+    "initial_location": {
+      "longitude": 10,
+      "latitude": 31.912154,
+      "date_time": "2020-12-26T23:56:01Z"
+    },
+    "segments": [
+      {
+        "longitude": 13.948911,
+        "latitude": 41.749457,
+        "timespan_seconds": 650
+      },
+      {
+        "longitude": 78.962883,
+        "latitude": 20.593683,
+        "timespan_seconds": 650
+      }
+    ]
+  }
+]
