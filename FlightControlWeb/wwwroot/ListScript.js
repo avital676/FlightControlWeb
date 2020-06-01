@@ -150,7 +150,7 @@ function checkExistInServer(id) {
 function appendFlight(flight) {
   const flightId = flight.flightId;
   if (flight.isExternal === false) {
-    $('#list1').append(`<tr onclick=flightClick(event)>
+    $('#list1').append(`<tr id=${flightId} onclick=flightClick(event)>
       <td id=${flightId}>${flightId}</td>
       <td id=${flightId}>${flight.companyName}</td>
       <td id=${flightId}><button type="button" 
@@ -215,17 +215,8 @@ function deleteFlightEvent(event) {
 // Delete flight from list and map
 function deleteFlight(flightId, listId) {
   // delete from list:
-  let list = document.getElementById(listId);
-  let tableRows = list.getElementsByTagName('tr');
-  let row;
-  let compId;
-  for (let i = 1; i < tableRows.length; i++) {
-    row = tableRows[i];
-    compId = row.cells[0].innerHTML;
-    if (flightId === compId) {
-      document.getElementById(listId).deleteRow(i);
-    }
-  }
+  let rowToDelete = document.getElementById(flightId);
+  rowToDelete.parentNode.removeChild(rowToDelete);
   // delete from map:
   markers[flightId].setMap(null);
   delete markers[flightId];
