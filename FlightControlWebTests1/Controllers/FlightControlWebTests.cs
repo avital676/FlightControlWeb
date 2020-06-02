@@ -59,10 +59,10 @@ namespace FlightControlWeb.Models.Tests
             FlightsController flightsController = new FlightsController(flightManager);
             FlightPlanController flightPlanController = new FlightPlanController(flightManager);
             List<Segment> nySeg = new List<Segment>()
-        {
-            new Segment{  Longitude=-80.289, Latitude = 25.6968,  Timespanseconds = 25 },
-            new Segment{  Longitude=-58.455, Latitude = -34.75,  Timespanseconds = 25 }
-        };
+            {
+                new Segment{  Longitude=-80.289, Latitude = 25.6968,  Timespanseconds = 25 },
+                new Segment{  Longitude=-58.455, Latitude = -34.75,  Timespanseconds = 25 }
+            };
             InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, DateTime = "1990-12-26T23:56:03Z" };
             FlightPlan flightplan = new FlightPlan { Passengers = 420, CompanyName = "New York Airlines", InitialLocation = loc1, Segments = nySeg };
             flightPlanController.Post(flightplan);
@@ -82,10 +82,10 @@ namespace FlightControlWeb.Models.Tests
             FlightsController flightsController = new FlightsController(flightManager);
             FlightPlanController flightPlanController = new FlightPlanController(flightManager);
             List<Segment> nySeg = new List<Segment>()
-        {
-            new Segment{  Longitude=-80.289, Latitude = 25.6968,  Timespanseconds = 25 },
-            new Segment{  Longitude=-58.455, Latitude = -34.75,  Timespanseconds = 25 }
-        };
+            {
+                new Segment{  Longitude=-80.289, Latitude = 25.6968,  Timespanseconds = 25 },
+                new Segment{  Longitude=-58.455, Latitude = -34.75,  Timespanseconds = 25 }
+            };
             InitialLocation loc1 = new InitialLocation { Latitude = 40.7611, Longitude = -73.946668, DateTime = "1995-12-26T23:56:03Z" };
             FlightPlan flightplan = new FlightPlan { Passengers = 420, CompanyName = "New York Airlines", InitialLocation = loc1, Segments = nySeg };
             flightPlanController.Post(flightplan);
