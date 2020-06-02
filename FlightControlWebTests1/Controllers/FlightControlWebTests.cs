@@ -91,7 +91,6 @@ namespace FlightControlWeb.Models.Tests
             flightPlanController.Post(flightplan);
             List<Flight> flights = (List<Flight>)flightManager.getAllFlights("1995-12-26T23:56:54Z");
             Assert.AreEqual(0, flights.Count);
-            
         }
     }
 }
